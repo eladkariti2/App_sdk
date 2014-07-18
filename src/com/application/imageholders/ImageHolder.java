@@ -5,23 +5,26 @@ import java.util.HashMap;
 public class ImageHolder {
 
 	private String mImageUrl;
-	String mTitle;
-	String mDescription;
-	
+	private String mTitle;
+	private String mDescription;
+	private String mID;
 	HashMap<String, String> mExtension;
 
-	public ImageHolder(String title,String url){
-		this(title,"",url);
+	public ImageHolder(String id,String title,String url){
+		this(id,title,"",url);
 	}
 	
-	public ImageHolder(String title,String description,String url){
+	public ImageHolder(String id,String title,String description,String url){
 		mImageUrl = url;
 		mTitle = title;
+		mID = id;
 		mExtension = new HashMap<String, String>();
 	}
 	
 	
-	
+	public String getID() {
+		return mID;
+	}
 	
 	public String getImageUrl() {
 		return mImageUrl;
