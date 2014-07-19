@@ -3,16 +3,25 @@ package com.application.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 
 import com.application.imageholders.ImageHolder;
+import com.application.picasoimageloader.PicasoHalper;
 import com.application.utils.OSUtil;
+import com.application.utils.StringUtil;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 public class ImageBaseAdapter extends BaseAdapter {
 
+	public static final String TAG = "ImageBaseAdapter";
+	
 	protected Context mContext;
 	protected ArrayList<ImageHolder> mData ;
 	protected Mapper mMapper;
@@ -64,8 +73,12 @@ public class ImageBaseAdapter extends BaseAdapter {
 			convertView = inflater.inflate(OSUtil.getLayoutResourceIdentifier(mMapper.itemLayoutName), parent, false);
 		}
 		
+		ImageView image = (ImageView)convertView.findViewById(mMapper.imageViewId);
 		
-		return null;
+		//Loading image with Picaso library
+		PicasoHalper.loadImage(mContext, image, holder.getImageUrl());
+		
+		return convertView;
 	}
 	
 	
