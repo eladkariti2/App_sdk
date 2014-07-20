@@ -4,98 +4,98 @@ import java.util.List;
 
 public class GenericModel {
 
-	private String mID;
-	private List<String> mAreaPoints;
-	private String mName;
-	private int mScore ;
-	private String mImage;
-	private int mLikes;
-	private int mComments;
-	private String mDescription;
-	private String mAttractionsDescription;//will be object
-	private String mParkingLot;//will be object
+	private String id;
+	private List<String> areaPoints;
+	private String name;
+	private int score ;
+	private String image;
+	private int likes;
+	private int comments;
+	private String description;
+	private String attractionsDescription;//will be object
+	private String parkingLot;//will be object
 	
 	
-	public String getmID() {
-		return mID;
+	public String getid() {
+		return id;
 	}
 	
-	public void setmID(String mID) {
-		this.mID = mID;
+	public void setid(String mID) {
+		this.id = mID;
 	}
 	
-	public List<String> getmAreaPoints() {
-		return mAreaPoints;
+	public List<String> getAreaPoints() {
+		return areaPoints;
 	}
 	
-	public void setmAreaPoints(List<String> mAreaPoints) {
-		this.mAreaPoints = mAreaPoints;
+	public void setAreaPoints(List<String> mAreaPoints) {
+		this.areaPoints = mAreaPoints;
 
 	}
 
-	public String getmName() {
-		return mName;
+	public String getName() {
+		return name;
 	}
 	
-	public void setmName(String mName) {
-		this.mName = mName;
+	public void setName(String mName) {
+		this.name = mName;
 	}
 	
-	public int getmScore() {
-		return mScore;
+	public int getScore() {
+		return score;
 	}
 
-	public void setmScore(int mScore) {
-		this.mScore = mScore;
+	public void setScore(int mScore) {
+		this.score = mScore;
 	}
 	
-	public String getmImage() {
-		return mImage;
+	public String getImage() {
+		return image;
 	}
 	
-	public void setmImage(String mImage) {
-		this.mImage = mImage;
+	public void setImage(String mImage) {
+		this.image = mImage;
 
 	}
 
-	public int getmLikes() {
-		return mLikes;
+	public int getLikes() {
+		return likes;
 	}
 	
-	public void setmLikes(int mLikes) {
-		this.mLikes = mLikes;
+	public void setLikes(int mLikes) {
+		this.likes = mLikes;
 	}
 	
-	public int getmComments() {
-		return mComments;
+	public int getComments() {
+		return comments;
 	}
 
-	public void setmComments(int mComments) {
-		this.mComments = mComments;
+	public void setComments(int mComments) {
+		this.comments = mComments;
 	}
 	
-	public String getmDescription() {
-		return mDescription;
+	public String getDescription() {
+		return description;
 	}
 	
-	public void setmDescription(String mDescription) {
-		this.mDescription = mDescription;
+	public void setDescription(String mDescription) {
+		this.description = mDescription;
 	}
 	
-	public String getmAttractionsDescription() {
-		return mAttractionsDescription;
+	public String getAttractionsDescription() {
+		return attractionsDescription;
 	}
 	
-	public void setmAttractionsDescription(String mAttractionsDescription) {
-		this.mAttractionsDescription = mAttractionsDescription;
+	public void setAttractionsDescription(String mAttractionsDescription) {
+		this.attractionsDescription = mAttractionsDescription;
 	}
 	
-	public String getmParkingLot() {
-		return mParkingLot;
+	public String getParkingLot() {
+		return parkingLot;
 	}
 	
-	public void setmParkingLot(String mParkingLot) {
-		this.mParkingLot = mParkingLot;
+	public void setParkingLot(String mParkingLot) {
+		this.parkingLot = mParkingLot;
 	}
 
 }

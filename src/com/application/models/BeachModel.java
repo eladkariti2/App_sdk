@@ -2,43 +2,43 @@ package com.application.models;
 
 public class BeachModel extends GenericModel {
 
-	private String mWhether;
-	private int mWomenNumber;
-	private int mMensNumber;
-	private double mEntryFee;
+	private String whether;
+	private int womenNumber;
+	private int mensNumber;
+	private double entryFee;
 	
-	public String getmWhether() {
-		return mWhether;
+	public String getWhether() {
+		return whether;
 	}
 	
-	public void setmWhether(String mWhether) {
-		this.mWhether = mWhether;
-	}
-
-	public int getmWomenNumber() {
-		return mWomenNumber;
-	}
-	
-	public void setmWomenNumber(int mWomenNumber) {
-		this.mWomenNumber = mWomenNumber;
-	}
-	
-	public int getmMensNumber() {
-		return mMensNumber;
+	public void setWhether(String mWhether) {
+		this.whether = mWhether;
 	}
 
-	public void setmMensNumber(int mMensNumber) {
-		this.mMensNumber = mMensNumber;
+	public int getWomenNumber() {
+		return womenNumber;
+	}
+	
+	public void setWomenNumber(int mWomenNumber) {
+		this.womenNumber = mWomenNumber;
+	}
+	
+	public int getMensNumber() {
+		return mensNumber;
+	}
+
+	public void setMensNumber(int mMensNumber) {
+		this.mensNumber = mMensNumber;
 	}
 
 	
-	public double getmEntryFee() {
-		return mEntryFee;
+	public double getEntryFee() {
+		return entryFee;
 	
 	}
 	
-	public void setmEntryFee(double mEntryFee) {
-		this.mEntryFee = mEntryFee;
+	public void setEntryFee(double mEntryFee) {
+		this.entryFee = mEntryFee;
 	}
 	
 	

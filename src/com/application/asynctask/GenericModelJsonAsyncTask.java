@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 
 import com.application.helper.StaticObjectHalper;
 import com.application.listener.AsyncTaskListener;
+import com.application.models.BeachModel;
 import com.application.models.GenericModel;
 import com.application.utils.JsonUtil;
 import com.application.utils.ServerUtil;
@@ -38,8 +39,8 @@ public class GenericModelJsonAsyncTask extends AsyncTask<String, Void, GenericMo
 		
 		//For now i dont have server so create static models.
 		if(StringUtil.isEmpty(json)){
-			List<GenericModel> models = StaticObjectHalper.createStaticBeachList();
-			json = JsonUtil.deserialize(models,GenericModel.class);
+			List<BeachModel> models = StaticObjectHalper.createStaticBeachList();
+			json = JsonUtil.deserialize(models,BeachModel.class);
 		}
 		
 		return null;

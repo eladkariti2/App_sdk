@@ -5,7 +5,7 @@ import java.util.List;
 public class AccountModel {
 	
 	private String mID;
-	private List<GenericModel> list;
+	private List<BeachModel> list;
 	
 	public String getmID() {
 		return mID;
@@ -15,11 +15,11 @@ public class AccountModel {
 		this.mID = mID;
 	}
 
-	public List<GenericModel> getList() {
+	public List<BeachModel> getList() {
 		return list;
 	}
 
-	public void setList(List<GenericModel> list) {
+	public void setList(List<BeachModel> list) {
 		this.list = list;
 	}
 
