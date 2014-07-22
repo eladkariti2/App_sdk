@@ -8,6 +8,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.application.base.BaseActivity;
 import com.application.interfaces.AccountLoadI;
 import com.application.listener.AccountLoaderListener;
 import com.application.loader.ModelLoader;
@@ -16,7 +17,7 @@ import com.application.ui.SplashLoader;
 import com.application.utils.AppData;
 import com.application.utils.OSUtil;
 
-public abstract class BaseSplashActivity extends Activity implements AccountLoadI{
+public abstract class BaseSplashActivity extends BaseActivity implements AccountLoadI{
 
 	private SplashLoader mSplashLoader; 
 	protected AccountModel mAccount;
