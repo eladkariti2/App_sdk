@@ -3,6 +3,7 @@ package com.application.facebook.asyncTask;
 import android.os.AsyncTask;
 
 import com.application.facebook.model.FbModel;
+import com.application.facebook.model.FbProfilePic;
 import com.application.listener.AsyncTaskListener;
 import com.application.utils.JsonUtil;
 import com.application.utils.ServerUtil;
@@ -33,7 +34,7 @@ public class FBModelLoaderAsynTask extends AsyncTask<String, Void, FbModel> {
 		
 		
 		
-		FbModel model = (FbModel)JsonUtil.serialize(json,mLoadedClass);
+		FbProfilePic model = (FbProfilePic)JsonUtil.serialize(json,mLoadedClass);
 		
 		return model;
 	} 

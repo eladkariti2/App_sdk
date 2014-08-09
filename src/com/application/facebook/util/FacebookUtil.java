@@ -11,6 +11,9 @@ import android.util.Log;
 
 import com.application.activities.FacebookAuthenticationActivity;
 import com.application.facebook.FacebookPermissions;
+import com.application.facebook.interfaces.FacebookLoaderI;
+import com.application.facebook.listener.FacebookLoaderListener;
+import com.application.loader.FacebookLoader;
 import com.application.text.APConstant;
 import com.application.utils.PreferenceUtil;
 import com.facebook.Session;
@@ -108,6 +111,25 @@ public class FacebookUtil {
 		}
 	}
 	
+	
+	public static void clearFBToken(Context context){
+		setFBAuthToken(context,null);
+		setFBTokenExpiration(context,0);
+		
+		Session session = Session.getActiveSession();
+		if(session!= null)	{
+			session.close();
+		}
+	}
+	
+	
+	public static void loadFacebookProfile(Context context,FacebookLoaderI listener){
+		
+		FacebookLoader.UserProfilePicLoader(context,new FacebookLoaderListener(context, listener));		
+		
+	}
+	
+	
 	public static void postLocation(Context context,String location,String description,String name,String url) {
 //		String imageURL = MapRouteUtil.getLocationStaticImageURL(location);
 //		FacebookFeed feed = new FacebookFeed(name,context.getString(R.string.fb_share_app_description),StringUtil.isEmpty(description) ? " "  :description,imageURL,url);
@@ -200,21 +222,4 @@ public class FacebookUtil {
 		}
 	}
 
-
-	public static void clearFBToken(Context context){
-		setFBAuthToken(context,null);
-		setFBTokenExpiration(context,0);
-		
-		Session session = Session.getActiveSession();
-		if(session!= null)	{
-			session.close();
-		}
-	}
-
-
-	
-
-	
-
-	
 }

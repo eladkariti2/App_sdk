@@ -3,12 +3,16 @@ package com.application.facebook.model;
 
 public class FbProfilePic extends FbModel{
 
-	protected FBPictureData data;
+	protected FBPicture picture;
 
 	public String getUrl(){
-		return data.url;
+		return picture.data.url;
 	}
 
+	protected  class FBPicture {
+		protected FBPictureData data;
+	}
+	
 	protected  class FBPictureData {
 		protected String url;
 	}

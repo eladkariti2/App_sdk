@@ -11,4 +11,17 @@
         <attr name="android:scaleType" />
     </declare-styleable>
     
+    
+      <attr name="customtypeface" format="string">
+        <enum name="regular" value="0"></enum>
+        <enum name="light" value="1"></enum>
+        <enum name="extra_light" value="2"></enum>
+        <enum name="bold" value="3"></enum>
+        <enum name="extra_bold" value="4"></enum>
+    </attr>
+
+    <declare-styleable name="CustomTextView">
+        <attr name="customtypeface" />
+    </declare-styleable>
+    
 </resources>

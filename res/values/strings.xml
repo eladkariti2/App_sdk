@@ -3,4 +3,12 @@
     <string name="app_name">AppSDK</string>
     <string name="fb_app_id"></string>
     
+    
+    
+        <!--  Font References -->    
+    <string name="font_name_regular"></string>
+    <string name="font_name_light"></string>
+    <string name="font_name_extra_light"></string>
+    <string name="font_name_bold"></string>
+    <string name="font_name_extra_bold"></string>
 </resources>

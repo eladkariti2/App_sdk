@@ -135,6 +135,9 @@ public class OSUtil {
 		return context.getPackageName();
 	}
 	
+	public static int getAttributeResourceIdentifier(String name) {
+		return getResourceIdentifier(name, "attr");
+	}
 	
 	// Find resource id at runtime
 		public static int getResourceId(String name) {
