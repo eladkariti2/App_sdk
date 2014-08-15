@@ -9,7 +9,7 @@ public class FbOpenGraphUrlFactory  {
 	public static final String OPEN_GRAPH_BASE_URL = "https://graph.facebook.com/v2.1/";
 	
 	public static String getFacebokUserBasicURL(Context context){
-		String ans = OPEN_GRAPH_BASE_URL  + "me?fields=id,name,picture&access_token=" + FacebookUtil.getFBAuthToken(context); ;
+		String ans = OPEN_GRAPH_BASE_URL  + "me?fields=id,name,picture.type(large)&access_token=" + FacebookUtil.getFBAuthToken(context); ;
 		
 		
 		return ans;
