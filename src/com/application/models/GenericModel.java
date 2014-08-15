@@ -15,6 +15,17 @@ public class GenericModel {
 	private String attractionsDescription;//will be object
 	private String parkingLot;//will be object
 	
+	String facebookAppID ;
+	
+	
+	public String getfacebookAppID() {
+		return facebookAppID;
+	}
+	
+	public void setfacebookAppID(String id) {
+		this.facebookAppID = id;
+	}
+	
 	
 	public String getid() {
 		return id;

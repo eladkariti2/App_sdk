@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.text.Html;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.WindowManager;
 
 import com.application.CustomApplication;
@@ -20,6 +21,20 @@ public class OSUtil {
 	
 	private static final String TAG = "OSUtil";
 
+	
+	
+
+	public static int convertDPToPixels(float dp) {
+		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+				CustomApplication.getAppContext().getResources()
+						.getDisplayMetrics());
+		return (int) px;
+	}
+
+	public static int convertDPToPixels(int dp) {
+		return convertDPToPixels((float) dp);
+	}
+	
 	public static void setLocale(Context context,String localString){
 		Locale locale = new Locale(localString);
 		Locale.setDefault(locale);

@@ -463,7 +463,7 @@ public class TitlePageIndicator extends View implements PageIndicator {
                 mPaintText.setFakeBoldText(currentPage && currentBold && mBoldText);
 
                 //Draw text as unselected
-                mPaintText.setColor(mColorText);
+             //   mPaintText.setColor(mColorText);
                 if(currentPage && currentSelected) {
                     //Fade out/in unselected text as the selected text fades in/out
                     mPaintText.setAlpha(colorTextAlpha - (int)(colorTextAlpha * selectedPercent));

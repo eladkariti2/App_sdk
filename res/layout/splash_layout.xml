@@ -12,8 +12,8 @@
     
     <ImageView
         android:id="@+id/splash_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+      android:layout_width="320dp"
+        android:layout_height="350dp"
         android:src="@drawable/logo"
         android:layout_centerInParent="true" />
 
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/splash_img"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/preload_progress" />
 
