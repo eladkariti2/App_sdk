@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 
+import com.application.utils.AppData;
+
 public class CustomApplication  extends Application{
 	
 	protected static Context context;
@@ -17,6 +19,7 @@ public class CustomApplication  extends Application{
 
 	public static void onCreateBehaviour(Application context) {
 		CustomApplication.context = context.getApplicationContext();
+		AppData.loadProperties(context);
 	}
 
 	@Override
