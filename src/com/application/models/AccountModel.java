@@ -23,4 +23,9 @@ public class AccountModel {
 		this.list = list;
 	}
 
+	public String getFBPageID() {
+		// TODO Auto-generated method stub
+		return "617367838335172";
+	}
+
 }

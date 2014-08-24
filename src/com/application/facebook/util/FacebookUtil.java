@@ -15,6 +15,7 @@ import com.application.facebook.interfaces.FacebookLoaderI;
 import com.application.facebook.listener.FacebookLoaderListener;
 import com.application.loader.FacebookLoader;
 import com.application.text.APConstant;
+import com.application.utils.AppData;
 import com.application.utils.PreferenceUtil;
 import com.facebook.Session;
 import com.facebook.Session.NewPermissionsRequest;
@@ -128,6 +129,14 @@ public class FacebookUtil {
 		FacebookLoader.UserProfilePicLoader(context,new FacebookLoaderListener(context, listener));		
 		
 	}
+	
+	
+	public static void loadFacebookPage(Context context,String pageID,FacebookLoaderI listener){
+		
+		FacebookLoader.FBFeedPageLoader(context,pageID, new FacebookLoaderListener(context, listener));		
+		
+	}
+	
 	
 	
 	public static void postLocation(Context context,String location,String description,String name,String url) {

@@ -34,7 +34,7 @@ public class FBModelLoaderAsynTask extends AsyncTask<String, Void, FbModel> {
 		
 		
 		
-		FbProfilePic model = (FbProfilePic)JsonUtil.serialize(json,mLoadedClass);
+		FbModel model = (FbModel)JsonUtil.serialize(json,mLoadedClass);
 		
 		return model;
 	} 
