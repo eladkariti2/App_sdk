@@ -13,6 +13,7 @@ import com.application.activities.FacebookAuthenticationActivity;
 import com.application.facebook.FacebookPermissions;
 import com.application.facebook.interfaces.FacebookLoaderI;
 import com.application.facebook.listener.FacebookLoaderListener;
+import com.application.facebook.listener.FacebookPageLoaderListener;
 import com.application.loader.FacebookLoader;
 import com.application.text.APConstant;
 import com.application.utils.AppData;
@@ -133,7 +134,7 @@ public class FacebookUtil {
 	
 	public static void loadFacebookPage(Context context,String pageID,FacebookLoaderI listener){
 		
-		FacebookLoader.FBFeedPageLoader(context,pageID, new FacebookLoaderListener(context, listener));		
+		FacebookLoader.FBFeedPageLoader(context,pageID, new FacebookPageLoaderListener(context, listener));		
 		
 	}
 	

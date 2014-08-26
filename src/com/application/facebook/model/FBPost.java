@@ -8,6 +8,7 @@ public class FBPost extends FbModel {
 	private String caption;
 	private String picture;
 	
+	private FbProfilePic from;
 	
 	public String getMessage(){
 		return message;
@@ -21,9 +22,18 @@ public class FBPost extends FbModel {
 		return caption;
 	}
 	
-	public String getPicture(){
+	public String getPostPicture(){
 		return picture;
 	}
+	
+	public String getUserName() {
+		return from.getName();
+	}
+	
+	public String getUserPicture(){
+		return from.getUrl();
+	}
+	
 	
 	protected  class FBLikes {
 		protected FBLikesSummery  summary;

@@ -7,8 +7,8 @@ import com.application.facebook.model.FbModel;
 import com.application.listener.AsyncTaskListener;
 
 public class FacebookLoaderListener implements AsyncTaskListener<FbModel> {
-	Context mContext;
-	FacebookLoaderI mListener;
+	protected Context mContext;
+	protected FacebookLoaderI mListener;
 	
 	public FacebookLoaderListener(Context context,FacebookLoaderI listener){
 		mContext = context;
