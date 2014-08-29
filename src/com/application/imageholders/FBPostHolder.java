@@ -4,6 +4,7 @@ public class FBPostHolder  extends ImageHolder {
 
 	String postId;
 	String userImage;
+	String postDate;
 	String message;
 	String pictureUrl;
 	String caption;
@@ -11,9 +12,9 @@ public class FBPostHolder  extends ImageHolder {
 	int likesNumber;
 	int commentNumber;
 	
-	public FBPostHolder(String postId,String userName,String userPic,String message,String pic,String caption,int likes,int comments){
+	public FBPostHolder(String postId,String userName,String date,String userPic,String message,String pic,String caption,int likes,int comments){
 		super(postId, "", userPic);
-		
+		this.postDate = date;
 		this.postId = postId;
 		this.userImage = userPic;
 		this.userName = userName;
@@ -27,6 +28,10 @@ public class FBPostHolder  extends ImageHolder {
 	
 	public String getPostID(){
 		return postId;
+	}
+	
+	public String getPostDate(){
+		return postDate;
 	}
 	
 	public String getUserName(){

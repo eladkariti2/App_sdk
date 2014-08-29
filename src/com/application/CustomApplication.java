@@ -1,5 +1,7 @@
 package com.application;
 
+import java.util.Locale;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -29,5 +31,17 @@ public class CustomApplication  extends Application{
 	
 	public static Context getAppContext(){
 		return context;
+	}
+	
+	public static Locale getApplicationLocale(){
+		Locale result = context.getResources().getConfiguration().locale;
+		if(result == null){
+			result = getDefaultDeviceLocale();
+		}
+		return result;
+	}
+	
+	public static Locale getDefaultDeviceLocale(){
+		return Locale.getDefault();
 	}
 }
