@@ -60,10 +60,8 @@ public class FacebookAuthenticationActivity extends BaseActivity {
 	//this is facebook session listener
 		private  class SessionStatusCallback implements Session.StatusCallback {
 
+			boolean hasPendingPublishPermissions = true;
 			
-			boolean hasPendingBasicPermissions = false;//it's false because  the app don't need more permission if we need to ask for more permission change it's to true.
-			boolean hasPendingReadPermissions = false;
-		
 			
 			@Override
 			public void call(Session session, SessionState state,Exception exception) {
@@ -79,31 +77,27 @@ public class FacebookAuthenticationActivity extends BaseActivity {
 					Log.d(TAG,"access token is " + session.getAccessToken());
 					FacebookUtil.setFBTokenExpiration(FacebookAuthenticationActivity.this,session.getExpirationDate().getTime());
 					
-					if(!hasPendingBasicPermissions && FacebookUtil.publishPermissionRequestHasChanged(session, FacebookUtil.getApplicationFBPermissions())){
-						session.requestNewPublishPermissions(new NewPermissionsRequest( FacebookAuthenticationActivity.this, FacebookUtil.BASIC_APP_PERMISSIONS));
-						hasPendingBasicPermissions = true;
-					}
-					else if(hasPendingReadPermissions && FacebookUtil.readPermissionRequestHasChanged(session, FacebookUtil.getApplicationFBPermissions())){
-						//session.requestNewReadPermissions(new NewPermissionsRequest(FacebookAuthenticationActivity.this, FacebookUtil.EXTENDED_READ_PERMISSIONS));
-						hasPendingReadPermissions = false;
+					;
+					if(hasPendingPublishPermissions && FacebookUtil.publishPermissionRequestHasChanged(session, FacebookUtil.getApplicationFBPermissions())){
+						session.requestNewPublishPermissions(new NewPermissionsRequest( FacebookAuthenticationActivity.this, FacebookUtil.PUBLISH_APP_PERMISSIONS));
+						hasPendingPublishPermissions = false;
 					}else{
 						onSuccefullyFinished();
 					}
+					
 					break;
 
 				case OPENED_TOKEN_UPDATED:
 					Log.d(TAG,"session OPENED_TOKEN_UPDATED");
-					if(!hasPendingBasicPermissions && !hasPendingReadPermissions){
+					Log.d(TAG," OPENED_TOKEN_UPDATED permissions " + session.getPermissions());
+					if( !hasPendingPublishPermissions){
 						onSuccefullyFinished();
 					}
-					else if(hasPendingBasicPermissions){
-						session.requestNewPublishPermissions(new NewPermissionsRequest(FacebookAuthenticationActivity.this, FacebookUtil.BASIC_APP_PERMISSIONS));
-						hasPendingBasicPermissions = false;
+					else if(hasPendingPublishPermissions){
+						session.requestNewPublishPermissions(new NewPermissionsRequest(FacebookAuthenticationActivity.this, FacebookUtil.PUBLISH_APP_PERMISSIONS));
+						hasPendingPublishPermissions = false;
 					}
-					else if (hasPendingReadPermissions){
-						//session.requestNewReadPermissions(new NewPermissionsRequest(FacebookAuthenticationActivity.this, FacebookUtil.EXTENDED_READ_PERMISSIONS));
-						hasPendingReadPermissions = false;
-					}
+				
 
 					break;
 				case CLOSED:

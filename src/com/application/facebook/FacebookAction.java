@@ -31,8 +31,8 @@ public class FacebookAction {
 		    params.putString("name", mFeed.getName());
 		    params.putString("caption", mFeed.getCaption());
 		    params.putString("description",mFeed.getDescription());
-		    params.putString("link", "https://developers.facebook.com/android");
-		    params.putString("picture", mFeed.getPicture());
+		  //  params.putString("link", "https://developers.facebook.com/android");
+		  //  params.putString("picture", mFeed.getPicture());
 
 		    WebDialog feedDialog = (
 		        new WebDialog.FeedDialogBuilder(mContext,

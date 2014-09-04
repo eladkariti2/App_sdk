@@ -9,7 +9,7 @@ public class FbOpenGraphUrlFactory  {
 	public static final String OPEN_GRAPH_BASE_URL = "https://graph.facebook.com/v2.1/";
 	public static final String OPEN_GRAPH_PIC_URL = "me?fields=id,name,picture.type(large)";
 	public static final String ACCESS_TOKEN = "&access_token={{token}}";
-	public static final String OPEN_GRAPH_FEED_URL = "{{ID}}?fields=id,name,posts.limit(25){from{name,picture},id,caption,message,picture,comments.summary(true){like_count,message,id,from},likes.limit(1).summary(true)}";
+	public static final String OPEN_GRAPH_FEED_URL = "{{ID}}?fields=id,name,feed.limit(25){from{name,picture.type(large)},id,caption,message,picture,comments.summary(true){like_count,message,id,from},likes.limit(1).summary(true)}";
 	
 	public static String getFacebokUserBasicURL(Context context){
 		String ans = OPEN_GRAPH_BASE_URL  + OPEN_GRAPH_PIC_URL  + ACCESS_TOKEN;

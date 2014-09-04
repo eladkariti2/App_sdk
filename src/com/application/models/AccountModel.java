@@ -25,7 +25,9 @@ public class AccountModel {
 
 	public String getFBPageID() {
 		// TODO Auto-generated method stub
-		return "135130956523111";
+		String id = "515881818544964"; // temp
+	//	id  = "135130956523111";//וואלה חדשות 
+		return id;
 	}
 
 }

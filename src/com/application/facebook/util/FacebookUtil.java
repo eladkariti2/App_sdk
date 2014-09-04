@@ -10,7 +10,11 @@ import android.content.Context;
 import android.util.Log;
 
 import com.application.activities.FacebookAuthenticationActivity;
+import com.application.activities.FeedPostActivity;
+import com.application.facebook.FacebookAction;
+import com.application.facebook.FacebookFeed;
 import com.application.facebook.FacebookPermissions;
+import com.application.facebook.FbPostToFeedRequest;
 import com.application.facebook.interfaces.FacebookLoaderI;
 import com.application.facebook.listener.FacebookLoaderListener;
 import com.application.facebook.listener.FacebookPageLoaderListener;
@@ -18,16 +22,18 @@ import com.application.loader.FacebookLoader;
 import com.application.text.APConstant;
 import com.application.utils.AppData;
 import com.application.utils.PreferenceUtil;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.Session.NewPermissionsRequest;
 import com.facebook.SessionState;
+import com.facebook.android.Facebook;
 
 
 public class FacebookUtil {
-	public static final List<String> BASIC_APP_PERMISSIONS= Arrays.asList(new String[]{"publish_checkins" , "publish_stream","user_friends","manage_pages" });
-
-	//public static final List<String> EXTENDED_READ_PERMISSIONS= Arrays.asList(new String[]{ "friends_online_presence", "xmpp_login"});
-	//public static final List<String> PUBLISH_PERMISSIONS= Arrays.asList(new String[]{"publish_actions" , "publish_stream", "manage_pages"});
+	public static final List<String> BASIC_APP_PERMISSIONS = Arrays.asList(new String[]{"publish_actions" , "publish_stream", "manage_pages"});
+	public static final List<String> PUBLISH_APP_PERMISSIONS = Arrays.asList(new String[]{"publish_actions" });
 
 	public static final String TAG = "FacebookUtil";
 
@@ -105,11 +111,15 @@ public class FacebookUtil {
 		FacebookAuthenticationActivity.StartFacebookAuthenticationActivity(activity);
 	}
 	
-	public static void postFeedTofacebook(Context context){
-
+	public static void postFeedTofacebook(Context context,FacebookLoaderListener listener ){
 		Session session = Session.getActiveSession();
-		if(!isTokenValid()){
-			session.openForRead(new Session.OpenRequest((Activity) context));
+		if(isSubsetOf(PUBLISH_APP_PERMISSIONS,session.getPermissions())){
+			FbPostToFeedRequest req  = new FbPostToFeedRequest(AppData.getAPAccount().getFBPageID(), "אחלה מקום", null, listener);
+			req.execute();
+		}
+		else{
+			FbPostToFeedRequest req  = new FbPostToFeedRequest(AppData.getAPAccount().getFBPageID(), "אחלה מקום", null, listener);
+			req.execute();
 		}
 	}
 	
@@ -126,16 +136,12 @@ public class FacebookUtil {
 	
 	
 	public static void loadFacebookProfile(Context context,FacebookLoaderI listener){
-		
 		FacebookLoader.UserProfilePicLoader(context,new FacebookLoaderListener(context, listener));		
-		
 	}
 	
 	
 	public static void loadFacebookPage(Context context,String pageID,FacebookLoaderI listener){
-		
 		FacebookLoader.FBFeedPageLoader(context,pageID, new FacebookPageLoaderListener(context, listener));		
-		
 	}
 	
 	
@@ -160,15 +166,28 @@ public class FacebookUtil {
 		Session.StatusCallback callbackDelegate;
 		boolean hasPendingBasicPermissions = false;
 		boolean hasPendingReadPermissions = false;
+		boolean hasPendingPublishPermissions = false;
 		
 		public SessionStatusCallback(Context context,Session.StatusCallback callbackDelegate){
+			this(context,false,callbackDelegate);
+		}
+		
+		public SessionStatusCallback(Context context,boolean publishPermissionNeeded,Session.StatusCallback callbackDelegate){
 			this.context = context;
 			this.callbackDelegate = callbackDelegate;
+			hasPendingPublishPermissions = publishPermissionNeeded;
+			
 		}
 		
 		public SessionStatusCallback(Context context,Session.StatusCallback callbackDelegate,String action){
 			this.context = context;
 			this.callbackDelegate = callbackDelegate;
+		}
+		
+
+		private void onSuccefullyFinished() {
+			// TODO Auto-generated method stub
+			
 		}
 
 		@Override
@@ -185,8 +204,8 @@ public class FacebookUtil {
 				Log.d(TAG,"access token is " + session.getAccessToken());
 				FacebookUtil.setFBTokenExpiration(context,session.getExpirationDate().getTime());
 				
-				if(hasPendingBasicPermissions && FacebookUtil.publishPermissionRequestHasChanged(session, FacebookUtil.getApplicationFBPermissions())){
-					session.requestNewPublishPermissions(new NewPermissionsRequest((Activity) context, FacebookUtil.BASIC_APP_PERMISSIONS));
+				if(hasPendingPublishPermissions && FacebookUtil.publishPermissionRequestHasChanged(session, FacebookUtil.getApplicationFBPermissions())){
+					session.requestNewPublishPermissions(new NewPermissionsRequest((Activity) context, FacebookUtil.PUBLISH_APP_PERMISSIONS));
 					hasPendingBasicPermissions = false;
 				}
 				else if(hasPendingReadPermissions && FacebookUtil.readPermissionRequestHasChanged(session, FacebookUtil.getApplicationFBPermissions())){
@@ -198,7 +217,7 @@ public class FacebookUtil {
 			case OPENED_TOKEN_UPDATED:
 				Log.d(TAG,"session OPENED_TOKEN_UPDATED");
 				if(!hasPendingBasicPermissions && !hasPendingReadPermissions){
-//					onSuccefullyFinished();
+					onSuccefullyFinished();
 				}
 				else if(hasPendingBasicPermissions){
 					session.requestNewPublishPermissions(new NewPermissionsRequest((Activity) context, FacebookUtil.BASIC_APP_PERMISSIONS));
@@ -230,6 +249,7 @@ public class FacebookUtil {
 			}
 
 		}
+
 	}
 
 }
