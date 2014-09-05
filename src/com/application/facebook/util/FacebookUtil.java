@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.application.activities.FacebookAuthenticationActivity;
@@ -111,10 +112,10 @@ public class FacebookUtil {
 		FacebookAuthenticationActivity.StartFacebookAuthenticationActivity(activity);
 	}
 	
-	public static void postFeedTofacebook(Context context,FacebookLoaderListener listener ){
+	public static void postFeedTofacebook(Context context,FacebookLoaderListener listener,String message,Bitmap image ){
 		Session session = Session.getActiveSession();
 		if(isSubsetOf(PUBLISH_APP_PERMISSIONS,session.getPermissions())){
-			FbPostToFeedRequest req  = new FbPostToFeedRequest(AppData.getAPAccount().getFBPageID(), "אחלה מקום", null, listener);
+			FbPostToFeedRequest req  = new FbPostToFeedRequest(AppData.getAPAccount().getFBPageID(),message, image, listener);
 			req.execute();
 		}
 		else{

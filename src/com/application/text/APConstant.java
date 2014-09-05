@@ -2,6 +2,9 @@ package com.application.text;
 
 public class APConstant {
 
+	 public static final int REQUEST_IMAGE_CAPTURE_CAMERA = 111;
+	 public static final int REQUEST_IMAGE_CAPTURE_GALLERY = 112;
+	
 	//Facebook
 	public static final String FACEBOOK_ACCESS_TOKEN_KEY = "facebookAccessTokenKey";
 	public static final String FACEBOOK_ACCESS_EXPIRATION_KEY = "facebookAccessExpitationKey";

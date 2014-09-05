@@ -4,6 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <LinearLayout
+        android:id="@+id/actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/take_pick"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Take Picture" />
+
+        <Button
+            android:id="@+id/add_pick"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="Add Picture" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/post_button"
         android:layout_width="match_parent"
@@ -17,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/post_button"
+        android:layout_below="@id/actions"
         android:gravity="top"
         android:hint="Enter post" >
     </EditText>

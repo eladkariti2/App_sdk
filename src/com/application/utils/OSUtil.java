@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.provider.MediaStore;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.WindowManager;
 
 import com.application.CustomApplication;
+import com.application.text.APConstant;
 
 public class OSUtil {
 
@@ -67,6 +69,26 @@ public class OSUtil {
 		catch (Exception e){
 			Log.e(TAG, "Error when trying to send mail - startEmailActivity");
 		}
+	}
+	
+	public static void launchCamera(Context context){
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
+			((Activity) context).startActivityForResult(takePictureIntent,APConstant.REQUEST_IMAGE_CAPTURE_CAMERA);
+		}
+	}
+	
+	public static void launchGallery(Context context){
+		// Filesystem.
+	    final Intent galleryIntent = new Intent();
+	    galleryIntent.setType("image/*");
+	    galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+	    // Chooser of filesystem options.
+	    final Intent chooserIntent = Intent.createChooser(galleryIntent, "BOlayam");
+	    if (chooserIntent.resolveActivity(context.getPackageManager()) != null) {
+	    	((Activity) context).startActivityForResult(chooserIntent, APConstant.REQUEST_IMAGE_CAPTURE_GALLERY);
+	    }
 	}
 	
 	public static String getAppVersion(Context context) {

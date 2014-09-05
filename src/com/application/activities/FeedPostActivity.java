@@ -1,9 +1,15 @@
 package com.application.activities;
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,6 +20,7 @@ import com.application.facebook.interfaces.FacebookLoaderI;
 import com.application.facebook.listener.FacebookLoaderListener;
 import com.application.facebook.model.FbModel;
 import com.application.facebook.util.FacebookUtil;
+import com.application.text.APConstant;
 import com.application.utils.OSUtil;
 
 public class FeedPostActivity extends BaseActivity {
@@ -25,6 +32,11 @@ public class FeedPostActivity extends BaseActivity {
 	View postButton;
 	EditText postText;
 	View postActionView;
+	View takePick;
+	View addPick;
+	
+	Bitmap imageToPost;
+	String messageToPost;
 	
 	FacebookLoaderListener listener;
 	
@@ -37,14 +49,35 @@ public class FeedPostActivity extends BaseActivity {
 		postText = (EditText)findViewById(OSUtil.getResourceId("post_text"));
 		postButton = findViewById(OSUtil.getResourceId("post_button"));
 		postActionView = findViewById(OSUtil.getResourceId("post_layout_container"));
+		addPick = findViewById(OSUtil.getResourceId("add_pick"));
+		takePick = findViewById(OSUtil.getResourceId("take_pick"));
 		
+		addPick.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dipatchTakePictuerFromGallery();
+				dispatchTakePictureIntent(false);
+			}
+		});
+	
+		
+    	takePick.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dispatchTakePictureIntent(true);
+			}
+		});
 		
 		postButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				postToFacebook();
+				postToFacebook(messageToPost,imageToPost);
 			}
 
 			
@@ -65,12 +98,48 @@ public class FeedPostActivity extends BaseActivity {
 		});
 	}
 	
-	private void postToFacebook() {
+
+	private void postToFacebook(String message,Bitmap image) {
 		
-		FacebookUtil.postFeedTofacebook(this,listener);
+		FacebookUtil.postFeedTofacebook(this,listener,message,image);
 	}
 	
 	
+	private void dispatchTakePictureIntent(boolean fromCamera) {
+		if(fromCamera){
+			OSUtil.launchCamera(this);
+		}else{
+			OSUtil.launchGallery(this);
+		}
+	}
+	
+	//Handle the picture result.
+		@Override
+		public void onActivityResult(int requestCode, int resultCode, Intent data) {
+			// TODO Auto-generated method stub
+			super.onActivityResult(requestCode, resultCode, data);
+			if ( resultCode == RESULT_OK) {
+				Log.d(TAG, "Captuer pictuer status OK");
+				if(requestCode == APConstant.REQUEST_IMAGE_CAPTURE_CAMERA){
+					Bundle extras = data.getExtras();
+					imageToPost = (Bitmap) extras.get("data");
+				}else if (requestCode == APConstant.REQUEST_IMAGE_CAPTURE_GALLERY){
+					Uri imageUri = data.getData();
+					try {
+						imageToPost = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			    }
+			}
+			else{
+				Log.e(TAG, "Failed to captuer image");
+			}
+		}
 	
 	
 	public static void startFeedPostActivity(Context context,boolean withPhoto){
