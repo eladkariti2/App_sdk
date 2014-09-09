@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -90,5 +93,20 @@ public class StringUtil {
 		}
 		return result;
 	}
+	
+	//Adds the offset to date, the time zone +00 and need to change it according to the current time zone 
+	private static Date addOffsetToDate(Date date) {
+		// TODO Auto-generated method stub
+		Calendar mCalendar = Calendar.getInstance(); 
+		TimeZone mTimeZone = mCalendar.getTimeZone();  
+		int mGMTOffset = mTimeZone.getRawOffset();
+		Date result = new Date(date.getTime() + TimeUnit.MILLISECONDS.convert(mGMTOffset, TimeUnit.MILLISECONDS));
+		return result;
+	}
 
+	public static String parseDateToFbDataFormat(Date date){
+		String result = null;
+		result = fbDF.format(date);
+		return result;
+	}
 }

@@ -9,7 +9,7 @@ public class FbOpenGraphUrlFactory  {
 	public static final String OPEN_GRAPH_BASE_URL = "https://graph.facebook.com/v2.1/";
 	public static final String OPEN_GRAPH_PIC_URL = "me?fields=id,name,picture.type(large)";
 	public static final String ACCESS_TOKEN = "&access_token={{token}}";
-	public static final String OPEN_GRAPH_FEED_URL = "{{ID}}?fields=id,name,feed.limit(25){from{name,picture.type(large)},id,caption,message,picture,comments.summary(true){like_count,message,id,from},likes.limit(1).summary(true)}";
+	public static final String OPEN_GRAPH_FEED_URL = "{{ID}}?fields=id,name,feed.limit(25).since({{since}}){from{name,picture.type(large)},id,caption,message,picture,comments.summary(true){like_count,message,id,from},likes.limit(1).summary(true)}";
 	
 	public static String getFacebokUserBasicURL(Context context){
 		String ans = OPEN_GRAPH_BASE_URL  + OPEN_GRAPH_PIC_URL  + ACCESS_TOKEN;
@@ -17,10 +17,11 @@ public class FbOpenGraphUrlFactory  {
 		return ans;
 	}
 	
-	public static String getFacebokFeedBasicURL(Context context,String pageID){
+	public static String getFacebokFeedBasicURL(Context context,String pageID,String date){
 		String ans = OPEN_GRAPH_BASE_URL  + OPEN_GRAPH_FEED_URL + ACCESS_TOKEN;
 		ans =  ans.replace("{{token}}", FacebookUtil.getFBAuthToken(context));
 		ans = ans.replace("{{ID}}", pageID);
+		ans = ans.replace("{{since}}", date);
 		//ans = "https://graph.facebook.com/v2.1/127757258676?fields=id,name,posts.limit(1){from{name,picture},id,caption,message,picture,name}&access_token=CAAKkhYMCa7gBAJWrWY9D6Eq0x7awBZCzLUs5xAAYE9IAZBIZA4gFd7L51dG4ZAcQwc4xBcH013sHEfckBVBYwPuW79rJW5QRuMGCJucNIzm9nqqmuKDUzOfonWIp7vZA31pAr7TpuykGBZBEEkzDDK7ZBvUyFINpZCzCs2RKJneylsZCvLifhUzwBVgRGPB1XkZCN6b1RvjTyms7I5aCi6EJrxjwFEPjGb1ifqKFqcYA2ILRqo931xWn8ENsxbQFL8UoLJUZBgZAdFa0nAZDZD";
 		return ans;
 	}

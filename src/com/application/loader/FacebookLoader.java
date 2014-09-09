@@ -19,8 +19,8 @@ public class FacebookLoader {
 		loader.execute(url);
 	}
 
-	public static void FBFeedPageLoader(Context context,String pageID,FacebookLoaderListener listener) {
-		String url = FbOpenGraphUrlFactory.getFacebokFeedBasicURL(context,pageID);
+	public static void FBFeedPageLoader(Context context,String pageID,String date,FacebookLoaderListener listener) {
+		String url = FbOpenGraphUrlFactory.getFacebokFeedBasicURL(context,pageID,date);
 		FBFeedLoaderAsyncTask loader = new FBFeedLoaderAsyncTask(listener, FBFeed.class);
 		loader.execute(url);
 		

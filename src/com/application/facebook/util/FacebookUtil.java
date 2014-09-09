@@ -141,8 +141,8 @@ public class FacebookUtil {
 	}
 	
 	
-	public static void loadFacebookPage(Context context,String pageID,FacebookLoaderI listener){
-		FacebookLoader.FBFeedPageLoader(context,pageID, new FacebookPageLoaderListener(context, listener));		
+	public static void loadFacebookPage(Context context,String pageID,String date,FacebookLoaderI listener){
+		FacebookLoader.FBFeedPageLoader(context,pageID,date, new FacebookPageLoaderListener(context, listener));		
 	}
 	
 	

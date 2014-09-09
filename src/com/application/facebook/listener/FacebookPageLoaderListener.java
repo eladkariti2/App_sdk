@@ -22,7 +22,7 @@ public class FacebookPageLoaderListener extends FacebookLoaderListener implement
 	public void onTaskComplete(FbModel result) {
 		mFeed = (FBFeed) result;
 		
-		if(mFeed != null ){
+		if(mFeed != null && mFeed.getPosts() != null){
 			//check if need to load more Post
 			String nextPage = mFeed.getPosts().getNext();
 			nextPage = "";

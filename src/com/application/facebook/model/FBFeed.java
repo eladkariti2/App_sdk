@@ -14,5 +14,8 @@ public class FBFeed extends FbModel{
 		this.feed = feeds;
 	}
 	
+	public boolean hasPost(){
+		return feed != null && feed.getPosts() != null && !feed.getPosts().isEmpty();
+	}
 	
 }

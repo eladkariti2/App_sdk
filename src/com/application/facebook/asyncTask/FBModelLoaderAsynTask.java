@@ -1,6 +1,7 @@
 package com.application.facebook.asyncTask;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.application.facebook.model.FbModel;
 import com.application.facebook.model.FbProfilePic;
@@ -28,7 +29,7 @@ public class FBModelLoaderAsynTask extends AsyncTask<String, Void, FbModel> {
 		try {
 			 json = ServerUtil.doGet(url);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("FBModelLoaderAsynTask", e.getMessage());
 			mException = e;
 		}
 		

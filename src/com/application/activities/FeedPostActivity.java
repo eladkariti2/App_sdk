@@ -13,7 +13,10 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.application.base.BaseActivity;
 import com.application.facebook.interfaces.FacebookLoaderI;
@@ -34,23 +37,25 @@ public class FeedPostActivity extends BaseActivity {
 	View postActionView;
 	View takePick;
 	View addPick;
-	
+	ImageView mPostImage;
 	Bitmap imageToPost;
 	String messageToPost;
-	
+	ProgressBar mProgressBar;
 	FacebookLoaderListener listener;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(OSUtil.getLayoutResourceIdentifier("feed_post_layout"));
 		postText = (EditText)findViewById(OSUtil.getResourceId("post_text"));
 		postButton = findViewById(OSUtil.getResourceId("post_button"));
 		postActionView = findViewById(OSUtil.getResourceId("post_layout_container"));
 		addPick = findViewById(OSUtil.getResourceId("add_pick"));
 		takePick = findViewById(OSUtil.getResourceId("take_pick"));
+		mPostImage = (ImageView)findViewById(OSUtil.getResourceId("post_image"));
+		mProgressBar = (ProgressBar)findViewById(OSUtil.getResourceId("post_progress_bar"));
 		
 		addPick.setOnClickListener(new OnClickListener() {
 			
@@ -86,6 +91,7 @@ public class FeedPostActivity extends BaseActivity {
 			@Override
 			public void onSuccess(FbModel model) {
 				// TODO Auto-generated method stub
+				
 				FeedPostActivity.this.finish();
 			}
 			
@@ -93,13 +99,14 @@ public class FeedPostActivity extends BaseActivity {
 			public void onFailure(Exception e) {
 				// TODO Auto-generated method stub
 				Log.e(TAG, e.getMessage());
+				mProgressBar.setVisibility(View.GONE);
 			}
 		});
 	}
 	
 
 	private void postToFacebook(String message,Bitmap image) {
-		
+		mProgressBar.setVisibility(View.VISIBLE);
 		FacebookUtil.postFeedTofacebook(this,listener,message,image);
 	}
 	
@@ -134,6 +141,10 @@ public class FeedPostActivity extends BaseActivity {
 						e.printStackTrace();
 					}
 			    }
+				
+				mPostImage.setImageBitmap(imageToPost);
+				mPostImage.setVisibility(View.VISIBLE);
+				
 			}
 			else{
 				Log.e(TAG, "Failed to captuer image");
