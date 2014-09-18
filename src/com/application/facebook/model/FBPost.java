@@ -1,5 +1,9 @@
 package com.application.facebook.model;
 
+import java.util.List;
+
+import com.application.facebook.listener.LikeClickListener;
+
 
 public class FBPost extends FbModel {
 
@@ -7,8 +11,10 @@ public class FBPost extends FbModel {
 	private String created_time;
 	private String caption;
 	private String picture;
+	private FBLikes likes;
 	
 	private FbProfilePic from;
+	
 	
 	public String getMessage(){
 		return message;
@@ -34,12 +40,38 @@ public class FBPost extends FbModel {
 		return from.getUrl();
 	}
 	
+	public int getLikeNumber(){
+		if (likes != null){
+			return likes.getLikesNumber();
+		}
+		return 0;
+	}
+	
+	public List<FbModel> getLike(){
+		if(likes != null){
+			return likes.getLikes();
+		}
+		return null;
+	}
+	
 	
 	protected  class FBLikes {
+		protected List<FbModel> data;
 		protected FBLikesSummery  summary;
+		
+		
+		protected List<FbModel> getLikes() {
+			return data;
+		}
+		
+		protected int  getLikesNumber() {
+			return summary.total_count;
+		}
 	}
 	
 	protected  class FBLikesSummery {
 		protected int  total_count;
 	}
+	
+	
 }

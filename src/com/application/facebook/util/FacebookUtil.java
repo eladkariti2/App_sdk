@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -19,14 +21,19 @@ import com.application.facebook.FbPostToFeedRequest;
 import com.application.facebook.interfaces.FacebookLoaderI;
 import com.application.facebook.listener.FacebookLoaderListener;
 import com.application.facebook.listener.FacebookPageLoaderListener;
+import com.application.facebook.model.FbModel;
+import com.application.facebook.model.FbProfilePic;
 import com.application.loader.FacebookLoader;
 import com.application.text.APConstant;
 import com.application.utils.AppData;
+import com.application.utils.JsonUtil;
 import com.application.utils.PreferenceUtil;
+import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.Request.Callback;
 import com.facebook.Session.NewPermissionsRequest;
 import com.facebook.SessionState;
 import com.facebook.android.Facebook;
@@ -125,6 +132,47 @@ public class FacebookUtil {
 	}
 	
 	
+
+	public static void updateLike(Context context,final FacebookLoaderI listener,String commentID,boolean toDelete){
+		Session session = Session.getActiveSession();
+		String graphPath =  commentID + "/likes";
+		Request request = new Request(Session.getActiveSession(), graphPath, null,toDelete ? HttpMethod.DELETE : HttpMethod.POST, new Callback() {
+
+			@Override
+			public void onCompleted(Response response) {
+				FacebookRequestError error = response.getError();
+				
+				// request succeeded
+				if(error == null){
+					FbModel model = new FbModel();
+					JSONObject graphResponse = response.getGraphObject().getInnerJSONObject();
+					try {
+						boolean success = graphResponse.getBoolean("success");
+						if(success){
+							listener.onSuccess(model);
+						}else{
+							listener.onFailure(null);
+						}
+					} catch (Exception e) {
+						//error parsing the response
+						Log.i(TAG,"updateLike - JSON error "+ e.getMessage());
+						listener.onFailure(e);
+					}
+					
+				}
+				
+				// error
+				else{
+					listener.onFailure(error.getException());
+				}
+			}
+		});
+		request.executeAsync();
+		
+		
+	
+	}
+	
 	public static void clearFBToken(Context context){
 		setFBAuthToken(context,null);
 		setFBTokenExpiration(context,0);
@@ -143,6 +191,17 @@ public class FacebookUtil {
 	
 	public static void loadFacebookPage(Context context,String pageID,String date,FacebookLoaderI listener){
 		FacebookLoader.FBFeedPageLoader(context,pageID,date, new FacebookPageLoaderListener(context, listener));		
+	}
+	
+	public static FbProfilePic getUserProfile(){
+		String user = AppData.getProperty(APConstant.USER_FACEBOOK_PROFILE);
+		FbProfilePic model = (FbProfilePic)JsonUtil.serialize(user, FbProfilePic.class);
+		return model;
+	}
+	
+	public static void setUserProfile(FbModel model){
+		String user = JsonUtil.deserialize(model, FbProfilePic.class);
+		AppData.setProperty(APConstant.USER_FACEBOOK_PROFILE,user);
 	}
 	
 	

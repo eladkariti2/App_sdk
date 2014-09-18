@@ -24,6 +24,7 @@ import com.application.facebook.listener.FacebookLoaderListener;
 import com.application.facebook.model.FbModel;
 import com.application.facebook.util.FacebookUtil;
 import com.application.text.APConstant;
+import com.application.utils.AndroidBug5497Workaround;
 import com.application.utils.OSUtil;
 
 public class FeedPostActivity extends BaseActivity {
@@ -47,7 +48,9 @@ public class FeedPostActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
 		setContentView(OSUtil.getLayoutResourceIdentifier("feed_post_layout"));
 		postText = (EditText)findViewById(OSUtil.getResourceId("post_text"));
 		postButton = findViewById(OSUtil.getResourceId("post_button"));
@@ -102,8 +105,15 @@ public class FeedPostActivity extends BaseActivity {
 				mProgressBar.setVisibility(View.GONE);
 			}
 		});
+		AndroidBug5497Workaround.assistActivity(this);
 	}
 	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	//	
+	}
 
 	private void postToFacebook(String message,Bitmap image) {
 		mProgressBar.setVisibility(View.VISIBLE);

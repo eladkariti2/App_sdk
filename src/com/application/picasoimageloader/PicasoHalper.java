@@ -18,7 +18,7 @@ public class PicasoHalper {
 		loadImage(context,image,imagePeth,"");
 	}
 	
-	public static void loadImage(Context context,ImageView image,String imagePeth,String placeHolder){
+	public  static void loadImage(Context context,ImageView image,String imagePeth,String placeHolder){
 		
 		if(StringUtil.isEmpty(imagePeth)){
 			Log.e(TAG, "Image path is null");
