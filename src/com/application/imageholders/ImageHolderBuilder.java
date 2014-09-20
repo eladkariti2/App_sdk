@@ -27,8 +27,10 @@ public class ImageHolderBuilder {
 	}
 
 	private static void checkIfLiked(FBPostHolder holder, FBPost p,String userID) {
-		for(FbModel model : p.getLike()){
+		if(p.getLike() != null ){
+			for(FbModel model : p.getLike()){
 				holder.addExtension(ME_LIKED_POST,model.getId().equals(userID) ? "true"  : "false");
+			}
 		}
 	}
 	

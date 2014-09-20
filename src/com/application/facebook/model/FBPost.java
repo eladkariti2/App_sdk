@@ -13,6 +13,9 @@ public class FBPost extends FbModel {
 	private String picture;
 	private FBLikes likes;
 	
+	private FBCommentsContainer	comments;
+	private int like_count; //it only used in comment class
+	
 	private FbProfilePic from;
 	
 	
@@ -53,6 +56,19 @@ public class FBPost extends FbModel {
 		}
 		return null;
 	}
+	
+	public List<FBPost> getComments(){
+		if(comments!= null){
+			return comments.data;
+		}
+		return null;
+	}
+	
+	protected  class FBCommentsContainer {
+		protected List<FBPost> data;
+	}
+	
+	
 	
 	
 	protected  class FBLikes {
