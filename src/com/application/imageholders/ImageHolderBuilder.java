@@ -33,6 +33,18 @@ public class ImageHolderBuilder {
 			}
 		}
 	}
+
+	public static List<ImageHolder> createPostCommentsHolders(	List<FBPost> comments) {
+		// TODO Auto-generated method stub
+		List<ImageHolder> holders = new ArrayList<ImageHolder>();
+		if(comments != null)
+			for(FBPost comment : comments){
+				FBPostHolder holder = new FBPostHolder(comment.getId(),comment.getUserName(),comment.getCreatedTime(), comment.getUserPicture(),comment.getMessage(),null,comment.getCaption(),0,0);
+				holders.add(holder);
+			}
+		
+		return holders;
+	}
 	
 	
 }

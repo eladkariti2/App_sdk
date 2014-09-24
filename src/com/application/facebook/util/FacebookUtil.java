@@ -17,6 +17,7 @@ import com.application.activities.FeedPostActivity;
 import com.application.facebook.FacebookAction;
 import com.application.facebook.FacebookFeed;
 import com.application.facebook.FacebookPermissions;
+import com.application.facebook.FbPostComment;
 import com.application.facebook.FbPostToFeedRequest;
 import com.application.facebook.interfaces.FacebookLoaderI;
 import com.application.facebook.listener.FacebookLoaderListener;
@@ -41,7 +42,7 @@ import com.facebook.android.Facebook;
 
 public class FacebookUtil {
 	public static final List<String> BASIC_APP_PERMISSIONS = Arrays.asList(new String[]{"publish_actions" , "publish_stream", "manage_pages"});
-	public static final List<String> PUBLISH_APP_PERMISSIONS = Arrays.asList(new String[]{"publish_actions" });
+	public static final List<String> PUBLISH_APP_PERMISSIONS = Arrays.asList(new String[]{"publish_actions", "publish_stream", "manage_pages" });
 
 	public static final String TAG = "FacebookUtil";
 
@@ -126,11 +127,26 @@ public class FacebookUtil {
 			req.execute();
 		}
 		else{
-			FbPostToFeedRequest req  = new FbPostToFeedRequest(AppData.getAPAccount().getFBPageID(), "אחלה מקום", null, listener);
+			FbPostToFeedRequest req  = new FbPostToFeedRequest(AppData.getAPAccount().getFBPageID(), message, null, listener);
 			req.execute();
 		}
 	}
 	
+	public static void postFeedTofacebook(Context context,FacebookLoaderListener listener,String message ){
+		postFeedTofacebook(context,listener,message,null);
+	}
+	
+	public static void postCommentTofeed(Context context,FacebookLoaderListener listener,String postID,String message ){
+		Session session = Session.getActiveSession();
+		if(isSubsetOf(PUBLISH_APP_PERMISSIONS,session.getPermissions())){
+			FbPostComment req  = new FbPostComment(postID,message, listener);
+			req.execute();
+		}
+		else{
+			FbPostComment req  = new FbPostComment(postID,message, listener);
+			req.execute();
+		}
+	}
 	
 
 	public static void updateLike(Context context,final FacebookLoaderI listener,String commentID,boolean toDelete){

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/post_comment_bg" >
 
     <LinearLayout
         android:id="@+id/top_container"
@@ -56,6 +57,7 @@
             android:id="@+id/comment_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/post_text_container"
             android:hint="Write a comment" />
     </RelativeLayout>
 
@@ -63,8 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_container"
-        android:layout_below="@id/top_container"
-        android:background="#e9e9e9" >
+        android:layout_below="@id/top_container" >
 
         <ListView
             android:id="@+id/comments_list"
