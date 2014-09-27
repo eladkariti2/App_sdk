@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,15 @@ public class StringUtil {
 	public static final DateFormat usDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
 	public static final DateFormat programDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
 	public static final  SimpleDateFormat fbDF = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
+	
+	public static final  List<SimpleDateFormat> mFormat = new ArrayList<SimpleDateFormat>(){
+			{
+				add(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z"));
+				add(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z"));
+				add(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ"));
+			}
+		};
+	
 	public static boolean isEmpty(String str) {
 		boolean result = false;
 		if (str == null || str.length() == 0) {
@@ -84,12 +94,15 @@ public class StringUtil {
 
 	public static Date parseDateToFbDataFormat(String date){
 		Date result = null;
-		try {
-			result = fbDF.parse(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
+		for(DateFormat df : mFormat){
+			try {
+				result = df.parse(date);
+				break;
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				
+			}
 		}
 		return result;
 	}

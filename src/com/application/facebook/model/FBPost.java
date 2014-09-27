@@ -18,14 +18,26 @@ public class FBPost extends FbModel {
 	
 	private FbProfilePic from;
 	
+	public void setUserProfile(FbProfilePic from){
+		this.from = from;
+	}
 	
 	public String getMessage(){
 		return message;
 	}
 	
+	public void setMessage(String msg){
+		message = msg;
+	}
+	
 	public String getCreatedTime(){
 		return created_time;
 	}
+	
+	public void setCreatedTime(String time){
+		created_time = time;
+	}
+	
 	
 	public String getCaption(){
 		return caption;

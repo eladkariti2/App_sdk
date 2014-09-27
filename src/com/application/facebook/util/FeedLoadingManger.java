@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.util.Log;
+
 import com.application.CustomApplication;
 import com.application.facebook.interfaces.FacebookLoaderI;
 import com.application.facebook.model.FBFeed;
@@ -42,26 +44,30 @@ public class FeedLoadingManger {
 	}
 
 	public void startTimmer(){
+		Log.e("ELAD", "StartTimmer");
 		if(mFeedLoader == null){
 			mFeedLoader = new Timer();
 		}
 		mFeedLoader.schedule(new TimerTask() {
 
 			@Override
-			public void run() {			
+			public void run() {		
+				Log.e("ELAD", "run");
 				loadFeed();
 			}
 		}, 0,30 * 1000);//every 30 second check if there is new posts.
 	}
 
 	public void stopTimmer(){
-		if(mFeedLoader == null){
+		Log.e("ELAD", "stopTimmer");
+		if(mFeedLoader != null){
 			mFeedLoader.cancel();
 			mFeedLoader = null;
 		}
 	}
 
 	protected void loadFeed() {
+		Log.e("ELAD", "loadFeed");
 		// TODO Auto-generated method stub
 		FacebookUtil.loadFacebookPage(CustomApplication.getAppContext(),AppData.getAPAccount().getFBPageID(),getStartTime(), new FacebookLoaderI() {
 
@@ -74,7 +80,6 @@ public class FeedLoadingManger {
 					updateCommentToPost(feed.getPosts().getPosts());
 					APMessageBroker.getInstance().fireNotificationsByType(APBrokerNotificationTypes.AP_BROKER_FEED_LOADED, null);
 				}
-
 			}
 
 			@Override
@@ -135,7 +140,14 @@ public class FeedLoadingManger {
 	}
 
 	public void addCommentToPost(String postID,FBPost comment){
-
+		if(mPostToComments.containsKey(postID)){
+			mPostToComments.get(postID).add(0,comment);
+		}else{
+			ArrayList<FBPost> commentList = new ArrayList<FBPost>();
+			commentList.add(comment);
+			mPostToComments.put(postID,commentList );
+		}
+		
 	}
 
 
