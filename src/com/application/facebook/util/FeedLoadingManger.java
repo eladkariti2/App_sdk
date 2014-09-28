@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -44,7 +45,6 @@ public class FeedLoadingManger {
 	}
 
 	public void startTimmer(){
-		Log.e("ELAD", "StartTimmer");
 		if(mFeedLoader == null){
 			mFeedLoader = new Timer();
 		}
@@ -52,14 +52,12 @@ public class FeedLoadingManger {
 
 			@Override
 			public void run() {		
-				Log.e("ELAD", "run");
 				loadFeed();
 			}
 		}, 0,30 * 1000);//every 30 second check if there is new posts.
 	}
 
 	public void stopTimmer(){
-		Log.e("ELAD", "stopTimmer");
 		if(mFeedLoader != null){
 			mFeedLoader.cancel();
 			mFeedLoader = null;
@@ -67,7 +65,6 @@ public class FeedLoadingManger {
 	}
 
 	protected void loadFeed() {
-		Log.e("ELAD", "loadFeed");
 		// TODO Auto-generated method stub
 		FacebookUtil.loadFacebookPage(CustomApplication.getAppContext(),AppData.getAPAccount().getFBPageID(),getStartTime(), new FacebookLoaderI() {
 
@@ -104,23 +101,19 @@ public class FeedLoadingManger {
 	private String getStartTime() {
 		// TODO Auto-generated method stub
 		String result ="";
+		Calendar c = Calendar.getInstance(); 
+		Date date =  c.getTime();
 		if(currentTime != null){
-			//		/	result = currentTime;
-			result = StringUtil.getRelationalDateString(currentTime);
-			result = result.replace(" ","%20");
+			result = StringUtil.fbDF.format(currentTime);
+			currentTime = date;
 		}else{
-			Calendar c = Calendar.getInstance(); 
-			Date date =  c.getTime();
-			//currentTime  =  c.getTime();
-			//date = new Date(currentTime.mi)
+			
+			currentTime = new Date(date.getTime());
 			date.setHours(0);
 			date.setMinutes(0);
 			date.setSeconds(0);
-			result = StringUtil.parseDateToFbDataFormat(date);
-
-			result = StringUtil.getRelationalDateString(date);
-			result = "12 days ago";
-			result = result.replace(" ","%20");
+			
+			result = StringUtil.fbDF.format(date);
 		}
 
 		return result;

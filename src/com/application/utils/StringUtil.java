@@ -26,7 +26,7 @@ public class StringUtil {
 
 	public static final DateFormat usDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
 	public static final DateFormat programDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
-	public static final  SimpleDateFormat fbDF = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
+	public static final  SimpleDateFormat fbDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	
 	public static final  List<SimpleDateFormat> mFormat = new ArrayList<SimpleDateFormat>(){
 			{
