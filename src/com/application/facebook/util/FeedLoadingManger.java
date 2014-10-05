@@ -112,7 +112,7 @@ public class FeedLoadingManger {
 			date.setHours(0);
 			date.setMinutes(0);
 			date.setSeconds(0);
-			
+			date.setMonth(8);
 			result = StringUtil.fbDF.format(date);
 		}
 

@@ -3,8 +3,6 @@ package com.application.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +10,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.application.imageholders.ImageHolder;
-import com.application.picasoimageloader.PicasoHalper;
+import com.application.imageholders.ImageLoader;
+import com.application.imageholders.ImageLoader.APImageListener;
 import com.application.utils.OSUtil;
 import com.application.utils.StringUtil;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 public class ImageBaseAdapter extends BaseAdapter {
 
 	public static final String TAG = "ImageBaseAdapter";
+
+	private static final String CONVERTED = "convertedImage";
 	
 	protected Context mContext;
 	protected ArrayList<ImageHolder> mData ;
@@ -69,19 +68,99 @@ public class ImageBaseAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ImageHolder holder = getItem(position);
 		
-		if(convertView == null){
+		if (convertView == null) {
 			convertView = inflater.inflate(OSUtil.getLayoutResourceIdentifier(mMapper.itemLayoutName), parent, false);
+			
+		}
+		else {
+			((ImageView) convertView.findViewById(mMapper.imageViewId)).setImageDrawable(null);
+			ImageLoader convertedLoader = (ImageLoader)convertView.getTag(OSUtil.getStringResourceIdentifier("image_loader_custom_tag"));
+			if(convertedLoader!= null){
+				convertedLoader.cancel();
+			}
+			convertView.setTag(OSUtil.getStringResourceIdentifier("converted_view_custom_tag"), CONVERTED); 
 		}
 		
-		ImageView image = (ImageView)convertView.findViewById(mMapper.imageViewId);
+		convertView.setTag(holder);
+		String imageId = holder.getID();
 		
-		//Loading image with Picaso library
-		PicasoHalper.loadImage(mContext, image, holder.getImageUrl());
+		ImageView imageView = (ImageView) convertView.findViewById(mMapper.imageViewId);
+		imageView.setTag(imageId);
 		
+		
+		ImageLoader imageLoader = new ImageLoader(holder, new ImageLoaderListener(imageView, imageId, position));
+		if (mImageWidth > 0 && mImageHeight > 0) {
+			imageLoader.loadScaledImages(mImageWidth, mImageHeight);
+		} else {
+			imageLoader.loadImages();
+		}
+		
+		convertView.setTag(OSUtil.getStringResourceIdentifier("image_loader_custom_tag"), imageLoader); // Set the image loader as a custom tag on the item row
+		
+		 
 		return convertView;
+		
+//		ImageHolder holder = getItem(position);
+//		
+//		if(convertView == null){
+//			convertView = inflater.inflate(OSUtil.getLayoutResourceIdentifier(mMapper.itemLayoutName), parent, false);
+//		}
+//		
+//		ImageView image = (ImageView)convertView.findViewById(mMapper.imageViewId);
+//		
+//		//Loading image with Picaso library
+//		PicasoHalper.loadImage(mContext, image, holder.getImageUrl());
+//		
+//		return convertView;
 	}
 	
-	
+private class ImageLoaderListener implements  APImageListener {
+		
+		private ImageView mImageView;
+		private String mImageId;
+		private int mPosition;
+
+		public ImageLoaderListener(ImageView imageView, String imageId, int position) {
+			mImageView = imageView;
+			mImageId = imageId;
+			mPosition = position;
+		}
+		
+		@Override
+		public void handleException(Exception e) {
+			
+			//if the image not loaded then set the place holder in the image view.
+			String imageId = (String) mImageView.getTag();
+			if (!StringUtil.isEmpty(mPlaceHolder) && imageId.equals(mImageId)) { // Verify that we are setting the drawable on the correct ImageView, in case the user scrolled the grid/list
+				mImageView.setImageResource(OSUtil.getDrawableResourceIdentifier(mPlaceHolder));
+			}
+			
+		}
+
+
+
+		@Override
+		public void onTaskComplete(ImageHolder[] result) {
+			String imageId = (String) mImageView.getTag();
+			if (imageId.equals(mImageId)) { // Verify that we are setting the drawable on the correct ImageView, in case the user scrolled the grid/list
+				mImageView.setImageDrawable(result[0].getDrawable());
+				mData.get(mPosition).setDrawable(result[0].getDrawable());
+			}
+		}
+
+		@Override
+		public void onTaskStart() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onRequestSent(ImageHolder imageHolder) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 	
 	
 	public static class Mapper {

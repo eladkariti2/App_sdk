@@ -3,7 +3,8 @@
     <string name="app_name">AppSDK</string>
     <string name="fb_app_id"></string>
     
-    
+    <string name="image_loader_custom_tag">imageLoader tag</string>
+      <string name="converted_view_custom_tag">converted view tag</string>
     
         <!--  Font References -->    
     <string name="font_name_regular"></string>

@@ -2,11 +2,15 @@ package com.application.imageholders;
 
 import java.util.HashMap;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+
 public class ImageHolder {
 
 	private String mImageUrl;
 	private String mTitle;
 	private String mDescription;
+	transient Drawable mDrawable;
 	private String mID;
 	HashMap<String, String> mExtension;
 
@@ -51,5 +55,14 @@ public class ImageHolder {
 	public void addExtension(String key,String value){
 		mExtension.put(key, value);
 	}
+
+	public void setDrawable(Drawable bitmapDrawable) {
+		// TODO Auto-generated method stub
+		mDrawable = bitmapDrawable;
+	}
 	
+	public Drawable getDrawable() {
+		// TODO Auto-generated method stub
+		return mDrawable ;
+	}
 }
