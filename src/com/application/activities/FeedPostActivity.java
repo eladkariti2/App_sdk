@@ -10,12 +10,15 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.application.base.BaseActivity;
@@ -40,7 +43,7 @@ public class FeedPostActivity extends BaseActivity {
 	View addPick;
 	ImageView mPostImage;
 	Bitmap imageToPost;
-	String messageToPost;
+	String messageToPost = "";
 	ProgressBar mProgressBar;
 	FacebookLoaderListener listener;
 	
@@ -105,6 +108,29 @@ public class FeedPostActivity extends BaseActivity {
 				mProgressBar.setVisibility(View.GONE);
 			}
 		});
+		
+		postText.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				messageToPost = s.toString();
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		AndroidBug5497Workaround.assistActivity(this);
 	}
 	

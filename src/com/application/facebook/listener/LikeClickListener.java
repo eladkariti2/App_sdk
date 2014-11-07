@@ -6,8 +6,8 @@ import android.widget.ImageView;
 import com.application.facebook.interfaces.FacebookLoaderI;
 import com.application.facebook.model.FbModel;
 import com.application.imageholders.FBPostHolder;
-import com.application.imageholders.ImageHolder;
 import com.application.imageholders.ImageHolderBuilder;
+import com.application.utils.OSUtil;
 
 public class LikeClickListener implements FacebookLoaderI {
 
@@ -32,6 +32,7 @@ public class LikeClickListener implements FacebookLoaderI {
 		// TODO Auto-generated method stub
 		mIsliked = !mIsliked;
 		mHolder.addExtension(ImageHolderBuilder.ME_LIKED_POST,mIsliked + "" );
+		mImage.setImageResource(mIsliked ? OSUtil.getDrawableResourceIdentifier("facebook_entry_icon_active") : OSUtil.getDrawableResourceIdentifier("facebook_entry_like_icon") );
 	}
 
 	@Override

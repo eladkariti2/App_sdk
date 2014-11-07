@@ -127,7 +127,7 @@ public class FacebookUtil {
 			req.execute();
 		}
 		else{
-			FbPostToFeedRequest req  = new FbPostToFeedRequest(AppData.getAPAccount().getFBPageID(), message, null, listener);
+			FbPostToFeedRequest req  = new FbPostToFeedRequest(AppData.getAPAccount().getFBPageID(), message, image, listener);
 			req.execute();
 		}
 	}

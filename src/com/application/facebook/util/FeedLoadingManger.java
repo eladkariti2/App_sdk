@@ -54,7 +54,7 @@ public class FeedLoadingManger {
 			public void run() {		
 				loadFeed();
 			}
-		}, 0,30 * 1000);//every 30 second check if there is new posts.
+		}, 0,10 * 1000);//every 30 second check if there is new posts.
 	}
 
 	public void stopTimmer(){
@@ -101,10 +101,12 @@ public class FeedLoadingManger {
 	private String getStartTime() {
 		// TODO Auto-generated method stub
 		String result ="";
-		Calendar c = Calendar.getInstance(); 
+		Calendar c = Calendar.getInstance();
+		StringUtil.fbDF.setTimeZone(TimeZone.getTimeZone("UTC")); 
 		Date date =  c.getTime();
 		if(currentTime != null){
 			result = StringUtil.fbDF.format(currentTime);
+			Log.e("ELAD", currentTime.getTime() +"");
 			currentTime = date;
 		}else{
 			
