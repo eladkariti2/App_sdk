@@ -2,18 +2,11 @@ package com.application.models;
 
 public class BeachModel extends GenericModel {
 
-	private String whether;
+	private Whether whether;
 	private int womenNumber;
 	private int mensNumber;
 	private double entryFee;
 	
-	public String getWhether() {
-		return whether;
-	}
-	
-	public void setWhether(String mWhether) {
-		this.whether = mWhether;
-	}
 
 	public int getWomenNumber() {
 		return womenNumber;
@@ -39,6 +32,14 @@ public class BeachModel extends GenericModel {
 	
 	public void setEntryFee(double mEntryFee) {
 		this.entryFee = mEntryFee;
+	}
+
+	public Whether getWhether() {
+		return whether;
+	}
+
+	public void setWhether(Whether whether) {
+		this.whether = whether;
 	}
 	
 	

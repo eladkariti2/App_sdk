@@ -22,6 +22,7 @@ public class ImageHolder {
 		mImageUrl = url;
 		mTitle = title;
 		mID = id;
+		mDescription = description;
 		mExtension = new HashMap<String, String>();
 	}
 	
@@ -38,7 +39,7 @@ public class ImageHolder {
 		return mTitle;
 	}
 	
-	public String getDescriptionUrl() {
+	public String getDescription() {
 		return mDescription;
 	}
 	

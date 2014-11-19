@@ -66,6 +66,7 @@ public class ServerUtil {
 	 
 	 public static Drawable loadImage(String urlParam, boolean doCache) throws Exception
      {
+		 
 		 Drawable result =  null;
              URL url = new URL(urlParam);
              String json = null;
