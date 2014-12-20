@@ -52,8 +52,8 @@ public class FeedPostActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
 		setContentView(OSUtil.getLayoutResourceIdentifier("feed_post_layout"));
+		
 		postText = (EditText)findViewById(OSUtil.getResourceId("post_text"));
 		postButton = findViewById(OSUtil.getResourceId("post_button"));
 		postActionView = findViewById(OSUtil.getResourceId("post_layout_container"));
@@ -134,6 +134,12 @@ public class FeedPostActivity extends BaseActivity {
 				
 			}
 		});
+
+		boolean openGallery = getIntent().getExtras().getBoolean(ADD_PHOTO);
+		
+		if(openGallery){
+			dispatchTakePictureIntent(false);
+		}
 		
 		AndroidBug5497Workaround.assistActivity(this);
 	}
