@@ -159,14 +159,14 @@ public class FacebookUtil {
 	}
 	
 	
-	public static void loadFacebookPage(Context context,final String pageID,final String date,final AsyncTaskListener<FBModel> listener){
+	public static void loadFacebookPage(Context context,final String pageID,final String since,final AsyncTaskListener<FBModel> listener){
 		
 		((Activity)context).runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				APFeedRequest req = new APFeedRequest(pageID,date,"","", listener);
+				APFeedRequest req = new APFeedRequest(pageID,since,"","", listener);
 				req.doQuery();
 			}
 		});

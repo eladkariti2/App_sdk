@@ -95,9 +95,12 @@ public class FeedLoadingManger {
 					setSinceId(createdTime);
 					mPosts.addAll(feed.getPosts());
 					updateCommentToPost(feed.getPosts());
-				
+					APMessageBroker.getInstance().fireNotificationsByType(APBrokerNotificationTypes.AP_BROKER_FEED_LOADED, null);
+				}else{
+					APMessageBroker.getInstance().fireNotificationsByType(APBrokerNotificationTypes.AP_BROKER_FEED_LOADED_EMPTY, null);
 				}
-				APMessageBroker.getInstance().fireNotificationsByType(APBrokerNotificationTypes.AP_BROKER_FEED_LOADED, null);
+				
+				
 			}
 			
 			@Override
@@ -156,8 +159,8 @@ public class FeedLoadingManger {
 	}
 	
 
-	public List<FBPost> getFeed(){
-		return mPosts;
+	public List<FBPost> getFeed(int from){
+		return mPosts.subList(from, mPosts.size());
 	}
 
 	public List<FBPost> getPostComments(String postID){

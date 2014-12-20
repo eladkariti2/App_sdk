@@ -55,7 +55,7 @@ public class APPostToFeedRequest {
 		
 		Bundle postParams = new Bundle();
 		if(mImage!= null){
-			postParams.putString("name", mName);
+			postParams.putString("name", mMessage);
 			postParams.putString("caption", mCaption);
 			postParams.putString("message", mMessage);
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
