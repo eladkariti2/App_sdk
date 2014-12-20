@@ -1,20 +1,17 @@
 package com.application.activities;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.CalendarContract.Calendars;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -24,16 +21,15 @@ import com.application.adapters.CommentsFeedAdapter;
 import com.application.adapters.ImageBaseAdapter.Mapper;
 import com.application.base.BaseActivity;
 import com.application.facebook.interfaces.FacebookLoaderI;
-import com.application.facebook.listener.FacebookLoaderListener;
-import com.application.facebook.model.FBContinuesModel;
+import com.application.facebook.model.FBModel;
 import com.application.facebook.model.FBPost;
-import com.application.facebook.model.FbModel;
-import com.application.facebook.model.FbProfilePic;
+import com.application.facebook.model.FBProfilePic;
 import com.application.facebook.util.FacebookUtil;
 import com.application.facebook.util.FeedLoadingManger;
 import com.application.imageholders.FBPostHolder;
 import com.application.imageholders.ImageHolder;
 import com.application.imageholders.ImageHolderBuilder;
+import com.application.listener.AsyncTaskListener;
 import com.application.utils.JsonUtil;
 import com.application.utils.OSUtil;
 import com.application.utils.StringUtil;
@@ -71,37 +67,43 @@ public class FeedPostDetailsActivity extends BaseActivity {
 		likesNumber.setText(likes);
 
 		updateList();
-		
-		final FacebookLoaderListener listener = new FacebookLoaderListener(this,new FacebookLoaderI() {
+
+		final AsyncTaskListener<FBModel> listener = new AsyncTaskListener<FBModel>() {
 
 			@Override
-			public void onSuccess(FbModel model) {
+			public void handleException(Exception e) {
 				// TODO Auto-generated method stub
+				Log.e(TAG, e.getMessage() + "");
+			}
 
-				FbProfilePic userProfile =  FacebookUtil.getUserProfile();
-				
-				
+			@Override
+			public void onTaskComplete(FBModel model) {
+				// TODO Auto-generated method stub
+				FBProfilePic userProfile =  FacebookUtil.getUserProfile();
+
+
 				//Create comment object to add
 				FBPost comment = new FBPost();
 				comment.setId(model.getId());
 				comment.setMessage(mPostTextMessage );
 				comment.setUserProfile(userProfile);
-				
+
 				Calendar c = Calendar.getInstance(); 
 				Date date =  c.getTime();
-				comment.setCreatedTime(StringUtil.usDF.format(date));
-				
+				comment.setCreatedTime(StringUtil.internetDF.format(date));
+
 				//update post comment list with the new comment 
-				FeedLoadingManger.getInstance().addCommentToPost(holder.getID(), comment);
+				FeedLoadingManger.getInstance(FeedPostDetailsActivity.this).addCommentToPost(holder.getID(), comment);
 				updateList();
 			}
 
 			@Override
-			public void onFailure(Exception e) {
+			public void onTaskStart() {
 				// TODO Auto-generated method stub
-				Log.e(TAG, e.getMessage() + "");
+				
 			}
-		});
+		};
+
 
 		postButton.setOnClickListener(new OnClickListener() {
 
@@ -121,7 +123,7 @@ public class FeedPostDetailsActivity extends BaseActivity {
 	private void updateList() {
 		Log.e("ELAD", "FeedPoistDetialse updateList");
 		// TODO Auto-generated method stub
-		List<FBPost> comments = FeedLoadingManger.getInstance().getPostComments(holder.getID()) ;
+		List<FBPost> comments = FeedLoadingManger.getInstance(this).getPostComments(holder.getID()) ;
 		mCommentsHolders = ImageHolderBuilder.createPostCommentsHolders(comments);
 
 		//check if there is comments

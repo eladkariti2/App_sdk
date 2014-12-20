@@ -18,14 +18,13 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.application.base.BaseActivity;
 import com.application.facebook.interfaces.FacebookLoaderI;
-import com.application.facebook.listener.FacebookLoaderListener;
-import com.application.facebook.model.FbModel;
+import com.application.facebook.model.FBModel;
 import com.application.facebook.util.FacebookUtil;
+import com.application.listener.AsyncTaskListener;
 import com.application.text.APConstant;
 import com.application.utils.AndroidBug5497Workaround;
 import com.application.utils.OSUtil;
@@ -45,7 +44,7 @@ public class FeedPostActivity extends BaseActivity {
 	Bitmap imageToPost;
 	String messageToPost = "";
 	ProgressBar mProgressBar;
-	FacebookLoaderListener listener;
+	AsyncTaskListener<FBModel> listener;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,22 +91,27 @@ public class FeedPostActivity extends BaseActivity {
 
 			
 		});
-		listener = new FacebookLoaderListener(this,new FacebookLoaderI() {
+		listener = new AsyncTaskListener<FBModel>() {
 			
 			@Override
-			public void onSuccess(FbModel model) {
+			public void onTaskStart() {
 				// TODO Auto-generated method stub
 				
+			}
+			
+			@Override
+			public void onTaskComplete(FBModel result) {
+				// TODO Auto-generated method stub
 				FeedPostActivity.this.finish();
 			}
 			
 			@Override
-			public void onFailure(Exception e) {
+			public void handleException(Exception e) {
 				// TODO Auto-generated method stub
 				Log.e(TAG, e.getMessage());
 				mProgressBar.setVisibility(View.GONE);
 			}
-		});
+		};  
 		
 		postText.addTextChangedListener(new TextWatcher() {
 			
@@ -138,7 +142,6 @@ public class FeedPostActivity extends BaseActivity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-	//	
 	}
 
 	private void postToFacebook(String message,Bitmap image) {

@@ -1,5 +1,6 @@
 package com.application.facebook.util;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,15 +10,15 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.application.CustomApplication;
 import com.application.facebook.interfaces.FacebookLoaderI;
 import com.application.facebook.model.FBFeed;
+import com.application.facebook.model.FBModel;
 import com.application.facebook.model.FBPost;
-import com.application.facebook.model.FbModel;
-import com.application.imageholders.ImageHolder;
-import com.application.imageholders.ImageHolderBuilder;
+import com.application.listener.AsyncTaskListener;
 import com.application.messagebroker.APBrokerNotificationTypes;
 import com.application.messagebroker.APMessageBroker;
 import com.application.utils.AppData;
@@ -29,18 +30,25 @@ public class FeedLoadingManger {
 
 	HashMap<String , List<FBPost>> mPostToComments;
 	List<FBPost> mPosts;
-	Date currentTime;
+	long mSinceId;
 	Timer mFeedLoader;
-
+	Context mContext;
 	private FeedLoadingManger(){
 		mPosts = new ArrayList<FBPost>();
 		mPostToComments = new HashMap<String, List<FBPost>>();
 	}
 
-	public static synchronized FeedLoadingManger getInstance(){
+	public static synchronized FeedLoadingManger getInstance(Context context){
 		if(_instance == null){
 			_instance = new FeedLoadingManger();
+			Date date = new Date(System.currentTimeMillis());
+			date.setHours(0);
+			date.setMinutes(0);
+			date.setSeconds(0);
+			//date.setMonth(0);
+			_instance.setSinceId(date.getTime());
 		}
+		_instance.mContext = context;
 		return _instance;
 	}
 
@@ -54,7 +62,7 @@ public class FeedLoadingManger {
 			public void run() {		
 				loadFeed();
 			}
-		}, 0,10 * 1000);//every 30 second check if there is new posts.
+		}, 0,3 * 1000);//every 3 seconds check if there is new posts.
 	}
 
 	public void stopTimmer(){
@@ -64,25 +72,38 @@ public class FeedLoadingManger {
 		}
 	}
 
+	public void setSinceId(long sinceId) {
+		this.mSinceId = sinceId;
+	}
+	
 	protected void loadFeed() {
 		// TODO Auto-generated method stub
-		FacebookUtil.loadFacebookPage(CustomApplication.getAppContext(),AppData.getAPAccount().getFBPageID(),getStartTime(), new FacebookLoaderI() {
-
+		FacebookUtil.loadFacebookPage(mContext,AppData.getAPAccount().getFBPageID(), String.valueOf(mSinceId), new AsyncTaskListener<FBModel>() {
+			
 			@Override
-			public void onSuccess(FbModel model) {
+			public void onTaskStart() {
 				// TODO Auto-generated method stub
-				FBFeed feed = (FBFeed)model;
-				if(feed.hasPost()){
-					mPosts.addAll(feed.getPosts().getPosts());
-					updateCommentToPost(feed.getPosts().getPosts());
-					APMessageBroker.getInstance().fireNotificationsByType(APBrokerNotificationTypes.AP_BROKER_FEED_LOADED, null);
-				}
+				
 			}
-
+			
 			@Override
-			public void onFailure(Exception e) {
+			public void onTaskComplete(FBModel result) {
 				// TODO Auto-generated method stub
-
+				FBFeed feed = (FBFeed)result;
+				if(feed.hasPost()){
+					long createdTime = getFBTime(feed.getPosts().get(0).getCreatedTime());
+					setSinceId(createdTime);
+					mPosts.addAll(feed.getPosts());
+					updateCommentToPost(feed.getPosts());
+				
+				}
+				APMessageBroker.getInstance().fireNotificationsByType(APBrokerNotificationTypes.AP_BROKER_FEED_LOADED, null);
+			}
+			
+			@Override
+			public void handleException(Exception e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 	}
@@ -98,29 +119,42 @@ public class FeedLoadingManger {
 	}
 
 
-	private String getStartTime() {
+//	private String getStartTime() {
+//		// TODO Auto-generated method stub
+//		String result ="";
+//		Calendar c = Calendar.getInstance();
+//		Date date =  c.getTime();
+//		if(currentTime != null){
+//			result = StringUtil.internetDF.format(currentTime);
+//			Log.e("ELAD", currentTime.getTime() +"");
+//			currentTime = date;
+//		}else{
+//			
+//			currentTime = new Date(date.getTime());
+//			date.setHours(0);
+//			date.setMinutes(0);
+//			date.setSeconds(0);
+//			date.setMonth(8);
+//			result = StringUtil.internetDF.(date);
+//		}
+//
+//		return result;
+//
+//	}
+	
+	protected long getFBTime(String createdTime) {
 		// TODO Auto-generated method stub
-		String result ="";
-		Calendar c = Calendar.getInstance();
-		StringUtil.fbDF.setTimeZone(TimeZone.getTimeZone("UTC")); 
-		Date date =  c.getTime();
-		if(currentTime != null){
-			result = StringUtil.fbDF.format(currentTime);
-			Log.e("ELAD", currentTime.getTime() +"");
-			currentTime = date;
-		}else{
-			
-			currentTime = new Date(date.getTime());
-			date.setHours(0);
-			date.setMinutes(0);
-			date.setSeconds(0);
-			date.setMonth(8);
-			result = StringUtil.fbDF.format(date);
+		long result = 0;
+		try {
+			result = StringUtil.internetDF.parse(createdTime).getTime();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
+		
 		return result;
-
 	}
+	
 
 	public List<FBPost> getFeed(){
 		return mPosts;

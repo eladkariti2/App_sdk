@@ -16,6 +16,7 @@ import android.util.Log;
 
 public class ServerUtil {
 
+	
 	 public static String doGet(String urlParam) throws Exception
      {
              URL url = new URL(urlParam);

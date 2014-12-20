@@ -1,25 +1,42 @@
 package com.application.facebook.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.application.facebook.listener.LikeClickListener;
 
 
-public class FBPost extends FbModel {
+public class FBPost extends FBModel{
 
 	private String message ;
 	private String created_time;
 	private String caption;
 	private String picture;
+	private String link;
+	private String object_id;
+	private String source;
+	private MediaType type;
+	
 	private FBLikes likes;
 	
+	
 	private FBCommentsContainer	comments;
-	private int like_count; //it only used in comment class
 	
-	private FbProfilePic from;
+	private FBProfilePic from;
 	
-	public void setUserProfile(FbProfilePic from){
+	public void setUserProfile(FBProfilePic from){
 		this.from = from;
+	}
+	
+	public void setLink(String link){
+		this.link = link;
+	}
+	
+	public void setSource(String source){
+		this.source = source;
+	}
+	
+	public String getSource(){
+		return source;
 	}
 	
 	public String getMessage(){
@@ -62,18 +79,62 @@ public class FBPost extends FbModel {
 		return 0;
 	}
 	
-	public List<FbModel> getLike(){
+	public String getObject_id() {
+		return object_id;
+	}
+	
+	public MediaType getType() {
+		return type;
+	}
+
+	public void setType(MediaType type) {
+		this.type = type;
+	}
+
+
+	public void setObject_id(String object_id) {
+		this.object_id = object_id;
+	}
+	
+	public void setLikeNumber(int likeNumber){
+		if (likes != null){
+			 likes.setLikesNumber(likeNumber);
+		}
+	}
+	
+	public List<FBModel> getLikes(){
 		if(likes != null){
 			return likes.getLikes();
 		}
 		return null;
 	}
 	
-	public List<FBPost> getComments(){
-		if(comments!= null){
-			return comments.data;
+	
+	public boolean isUserLike(){
+		boolean isUserLike = false;
+		if(likes!=null){
+			isUserLike = likes.getUserLike();
 		}
-		return null;
+		return isUserLike;
+	}
+	
+	public void setIsUserLike(boolean isLikes){
+		if (likes != null){
+			 likes.setUserLike(isLikes);
+		}
+	}
+	
+	public List<FBPost> getComments(){
+		List<FBPost> commentsList = new ArrayList<FBPost>();
+		if(comments!= null && comments.data != null){
+			commentsList =  comments.data;
+		}
+		return commentsList;
+	}
+	
+	
+	public String getLimk(){
+		return link;
 	}
 	
 	protected  class FBCommentsContainer {
@@ -83,23 +144,37 @@ public class FBPost extends FbModel {
 	
 	
 	
+	
 	protected  class FBLikes {
-		protected List<FbModel> data;
+		protected List<FBModel> data;
 		protected FBLikesSummery  summary;
+		protected boolean  isUserLike;
 		
-		
-		protected List<FbModel> getLikes() {
+		protected List<FBModel> getLikes() {
 			return data;
 		}
 		
 		protected int  getLikesNumber() {
 			return summary.total_count;
 		}
+		
+		protected void  setLikesNumber(int likeNumber) {
+			 summary.total_count = likeNumber;
+		}
+		
+		public void setUserLike(boolean userLike){
+			isUserLike = userLike;
+		}
+		
+		public boolean getUserLike(){
+			return isUserLike;
+		}
+		
 	}
 	
 	protected  class FBLikesSummery {
 		protected int  total_count;
 	}
 	
-	
+
 }

@@ -24,17 +24,10 @@ import com.google.android.maps.GeoPoint;
 
 public class StringUtil {
 
-	public static final DateFormat usDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
-	public static final DateFormat programDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
-	public static final  SimpleDateFormat fbDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-	
-	public static final  List<SimpleDateFormat> mFormat = new ArrayList<SimpleDateFormat>(){
-			{
-				add(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z"));
-				add(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z"));
-				add(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ"));
-			}
-		};
+//	public static final DateFormat usDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
+//	public static final DateFormat programDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
+//	public static final  SimpleDateFormat fbDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	public static final DateFormat internetDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 	
 	public static boolean isEmpty(String str) {
 		boolean result = false;
@@ -79,7 +72,7 @@ public class StringUtil {
 	}
 
 	public static String getFBExpirationDate(long time){
-		String dateStr = usDF.format(new Date(time));
+		String dateStr = internetDF.format(new Date(time));
 		Log.d("StringUtil","FBExpirationDate:: " + dateStr);
 		return dateStr;
 	}
@@ -90,21 +83,6 @@ public class StringUtil {
 		
 		PrettyTime p = new PrettyTime(locale);
 		return p.format(date);		
-	}
-
-	public static Date parseDateToFbDataFormat(String date){
-		Date result = null;
-		for(DateFormat df : mFormat){
-			try {
-				result = df.parse(date);
-				break;
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				
-			}
-		}
-		return result;
 	}
 	
 	//Adds the offset to date, the time zone +00 and need to change it according to the current time zone 
@@ -119,7 +97,7 @@ public class StringUtil {
 
 	public static String parseDateToFbDataFormat(Date date){
 		String result = null;
-		result = fbDF.format(date);
+		result = internetDF.format(date);
 		return result;
 	}
 }

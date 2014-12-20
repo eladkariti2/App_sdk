@@ -1,5 +1,6 @@
 package com.application.adapters;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -38,7 +39,13 @@ public class CommentsFeedAdapter extends ImageBaseAdapter{
 		String creationTime = "";
 
 		if(!StringUtil.isEmpty(dateStr)){
-			Date date  = StringUtil.parseDateToFbDataFormat(dateStr);
+			Date date = null;
+			try {
+				date = StringUtil.internetDF.parse(dateStr);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			creationTime = StringUtil.getRelationalDateString(date);
 		}
 		

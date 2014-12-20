@@ -1,16 +1,16 @@
 package com.application.facebook.model;
 
-public class FbModel {
+public class FBModel {
 	
 	protected String id;
 	protected String name;
-
-	public FbModel(){}
-
+	
+	public FBModel(){}
+	
 	public String getId() {
 		return id;
 	}
-
+	
 	public void setId(String id) {
 		this.id = id;
 	}
