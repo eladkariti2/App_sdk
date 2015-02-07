@@ -26,15 +26,8 @@ public class StringUtil {
 
 	public static final DateFormat usDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
 	public static final DateFormat programDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
-	public static final  SimpleDateFormat fbDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	public static final  SimpleDateFormat internetDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	
-	public static final  List<SimpleDateFormat> mFormat = new ArrayList<SimpleDateFormat>(){
-			{
-				add(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z"));
-				add(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z"));
-				add(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ"));
-			}
-		};
 	
 	public static boolean isEmpty(String str) {
 		boolean result = false;
@@ -92,20 +85,6 @@ public class StringUtil {
 		return p.format(date);		
 	}
 
-	public static Date parseDateToFbDataFormat(String date){
-		Date result = null;
-		for(DateFormat df : mFormat){
-			try {
-				result = df.parse(date);
-				break;
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				
-			}
-		}
-		return result;
-	}
 	
 	//Adds the offset to date, the time zone +00 and need to change it according to the current time zone 
 	private static Date addOffsetToDate(Date date) {
@@ -119,7 +98,20 @@ public class StringUtil {
 
 	public static String parseDateToFbDataFormat(Date date){
 		String result = null;
-		result = fbDF.format(date);
+		result = internetDF.format(date);
 		return result;
+	}
+
+	public static Date parseDateToFbDataFormat(String dateStr) {
+		// TODO Auto-generated method stub
+		Date result =  null;
+		try {
+			result = internetDF.parse(dateStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+		
 	}
 }

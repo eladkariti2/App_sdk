@@ -102,10 +102,10 @@ public class FeedLoadingManger {
 		// TODO Auto-generated method stub
 		String result ="";
 		Calendar c = Calendar.getInstance();
-		StringUtil.fbDF.setTimeZone(TimeZone.getTimeZone("UTC")); 
+		StringUtil.internetDF.setTimeZone(TimeZone.getTimeZone("UTC")); 
 		Date date =  c.getTime();
 		if(currentTime != null){
-			result = StringUtil.fbDF.format(currentTime);
+			result = StringUtil.internetDF.format(currentTime);
 			Log.e("ELAD", currentTime.getTime() +"");
 			currentTime = date;
 		}else{
@@ -115,7 +115,7 @@ public class FeedLoadingManger {
 			date.setMinutes(0);
 			date.setSeconds(0);
 			date.setMonth(8);
-			result = StringUtil.fbDF.format(date);
+			result = StringUtil.internetDF.format(date);
 		}
 
 		return result;

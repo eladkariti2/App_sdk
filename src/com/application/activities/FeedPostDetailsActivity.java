@@ -23,12 +23,7 @@ import android.widget.TextView;
 import com.application.adapters.CommentsFeedAdapter;
 import com.application.adapters.ImageBaseAdapter.Mapper;
 import com.application.base.BaseActivity;
-import com.application.facebook.interfaces.FacebookLoaderI;
-import com.application.facebook.listener.FacebookLoaderListener;
-import com.application.facebook.model.FBContinuesModel;
 import com.application.facebook.model.FBPost;
-import com.application.facebook.model.FbModel;
-import com.application.facebook.model.FbProfilePic;
 import com.application.facebook.util.FacebookUtil;
 import com.application.facebook.util.FeedLoadingManger;
 import com.application.imageholders.FBPostHolder;
@@ -72,36 +67,36 @@ public class FeedPostDetailsActivity extends BaseActivity {
 
 		updateList();
 		
-		final FacebookLoaderListener listener = new FacebookLoaderListener(this,new FacebookLoaderI() {
-
-			@Override
-			public void onSuccess(FbModel model) {
-				// TODO Auto-generated method stub
-
-				FbProfilePic userProfile =  FacebookUtil.getUserProfile();
-				
-				
-				//Create comment object to add
-				FBPost comment = new FBPost();
-				comment.setId(model.getId());
-				comment.setMessage(mPostTextMessage );
-				comment.setUserProfile(userProfile);
-				
-				Calendar c = Calendar.getInstance(); 
-				Date date =  c.getTime();
-				comment.setCreatedTime(StringUtil.usDF.format(date));
-				
-				//update post comment list with the new comment 
-				FeedLoadingManger.getInstance().addCommentToPost(holder.getID(), comment);
-				updateList();
-			}
-
-			@Override
-			public void onFailure(Exception e) {
-				// TODO Auto-generated method stub
-				Log.e(TAG, e.getMessage() + "");
-			}
-		});
+//		final FacebookLoaderListener listener = new FacebookLoaderListener(this,new FacebookLoaderI() {
+//
+//			@Override
+//			public void onSuccess(FbModel model) {
+//				// TODO Auto-generated method stub
+//
+//				FbProfilePic userProfile =  FacebookUtil.getUserProfile();
+//				
+//				
+//				//Create comment object to add
+//				FBPost comment = new FBPost();
+//				comment.setId(model.getId());
+//				comment.setMessage(mPostTextMessage );
+//				comment.setUserProfile(userProfile);
+//				
+//				Calendar c = Calendar.getInstance(); 
+//				Date date =  c.getTime();
+//				comment.setCreatedTime(StringUtil.usDF.format(date));
+//				
+//				//update post comment list with the new comment 
+//				FeedLoadingManger.getInstance().addCommentToPost(holder.getID(), comment);
+//				updateList();
+//			}
+//
+//			@Override
+//			public void onFailure(Exception e) {
+//				// TODO Auto-generated method stub
+//				Log.e(TAG, e.getMessage() + "");
+//			}
+//		});
 
 		postButton.setOnClickListener(new OnClickListener() {
 
@@ -109,7 +104,7 @@ public class FeedPostDetailsActivity extends BaseActivity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				mPostTextMessage = mPostText.getText().toString();
-				FacebookUtil.postCommentTofeed(FeedPostDetailsActivity.this,listener,holder.getID(),mPostTextMessage );
+				//FacebookUtil.postCommentTofeed(FeedPostDetailsActivity.this,listener,holder.getID(),mPostTextMessage );
 			}
 
 

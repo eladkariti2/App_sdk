@@ -1,25 +1,15 @@
 package com.application.facebook.model;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class FBPostContainer extends FBModel{
+public class FBFriendsList extends FBModel{
 
-
-	protected List<FBPost> data;
+	
+	protected List<FBFriend> data;
 	protected FBPagination paging;
 	
-	public List<FBPost> getPosts() {
-		List<FBPost> posts = new ArrayList<FBPost>();
-		if(data!= null)	{
-			posts = data;
-		}
-		return posts;
-	}
-
-	public void setPosts(List<FBPost> data) {
-		this.data = data;
+	public List<FBFriend>  getFriends(){
+		return data;
 	}
 	
 	public String getNext(){
@@ -37,5 +27,10 @@ public class FBPostContainer extends FBModel{
 		}
 		return result;
 	}
+	public boolean  hasFriends(){
+		return data != null && !data.isEmpty();
+		
+	}
+	
 	
 }

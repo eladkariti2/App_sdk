@@ -5,39 +5,21 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.application.activities.FacebookAuthenticationActivity;
-import com.application.activities.FeedPostActivity;
-import com.application.facebook.FacebookAction;
-import com.application.facebook.FacebookFeed;
 import com.application.facebook.FacebookPermissions;
-import com.application.facebook.FbPostComment;
-import com.application.facebook.FbPostToFeedRequest;
-import com.application.facebook.interfaces.FacebookLoaderI;
-import com.application.facebook.listener.FacebookLoaderListener;
-import com.application.facebook.listener.FacebookPageLoaderListener;
-import com.application.facebook.model.FbModel;
-import com.application.facebook.model.FbProfilePic;
-import com.application.loader.FacebookLoader;
+import com.application.facebook.model.FBModel;
+import com.application.facebook.model.FBProfilePic;
 import com.application.text.APConstant;
 import com.application.utils.AppData;
 import com.application.utils.JsonUtil;
 import com.application.utils.PreferenceUtil;
-import com.facebook.FacebookRequestError;
-import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.Request.Callback;
 import com.facebook.Session.NewPermissionsRequest;
 import com.facebook.SessionState;
-import com.facebook.android.Facebook;
 
 
 public class FacebookUtil {
@@ -119,76 +101,7 @@ public class FacebookUtil {
 	public static void loginTofacebook(Activity activity){
 		FacebookAuthenticationActivity.StartFacebookAuthenticationActivity(activity);
 	}
-	
-	public static void postFeedTofacebook(Context context,FacebookLoaderListener listener,String message,Bitmap image ){
-		Session session = Session.getActiveSession();
-		if(isSubsetOf(PUBLISH_APP_PERMISSIONS,session.getPermissions())){
-			FbPostToFeedRequest req  = new FbPostToFeedRequest(AppData.getAPAccount().getFBPageID(),message, image, listener);
-			req.execute();
-		}
-		else{
-			FbPostToFeedRequest req  = new FbPostToFeedRequest(AppData.getAPAccount().getFBPageID(), message, image, listener);
-			req.execute();
-		}
-	}
-	
-	public static void postFeedTofacebook(Context context,FacebookLoaderListener listener,String message ){
-		postFeedTofacebook(context,listener,message,null);
-	}
-	
-	public static void postCommentTofeed(Context context,FacebookLoaderListener listener,String postID,String message ){
-		Session session = Session.getActiveSession();
-		if(isSubsetOf(PUBLISH_APP_PERMISSIONS,session.getPermissions())){
-			FbPostComment req  = new FbPostComment(postID,message, listener);
-			req.execute();
-		}
-		else{
-			FbPostComment req  = new FbPostComment(postID,message, listener);
-			req.execute();
-		}
-	}
-	
-
-	public static void updateLike(Context context,final FacebookLoaderI listener,String commentID,boolean toDelete){
-		Session session = Session.getActiveSession();
-		String graphPath =  commentID + "/likes";
-		Request request = new Request(Session.getActiveSession(), graphPath, null,toDelete ? HttpMethod.DELETE : HttpMethod.POST, new Callback() {
-
-			@Override
-			public void onCompleted(Response response) {
-				FacebookRequestError error = response.getError();
-				
-				// request succeeded
-				if(error == null){
-					FbModel model = new FbModel();
-					JSONObject graphResponse = response.getGraphObject().getInnerJSONObject();
-					try {
-						boolean success = graphResponse.getBoolean("success");
-						if(success){
-							listener.onSuccess(model);
-						}else{
-							listener.onFailure(null);
-						}
-					} catch (Exception e) {
-						//error parsing the response
-						Log.i(TAG,"updateLike - JSON error "+ e.getMessage());
-						listener.onFailure(e);
-					}
-					
-				}
-				
-				// error
-				else{
-					listener.onFailure(error.getException());
-				}
-			}
-		});
-		request.executeAsync();
 		
-		
-	
-	}
-	
 	public static void clearFBToken(Context context){
 		setFBAuthToken(context,null);
 		setFBTokenExpiration(context,0);
@@ -198,25 +111,15 @@ public class FacebookUtil {
 			session.close();
 		}
 	}
-	
-	
-	public static void loadFacebookProfile(Context context,FacebookLoaderI listener){
-		FacebookLoader.UserProfilePicLoader(context,new FacebookLoaderListener(context, listener));		
-	}
-	
-	
-	public static void loadFacebookPage(Context context,String pageID,String date,FacebookLoaderI listener){
-		FacebookLoader.FBFeedPageLoader(context,pageID,date, new FacebookPageLoaderListener(context, listener));		
-	}
-	
-	public static FbProfilePic getUserProfile(){
+
+	public static FBProfilePic getUserProfile(){
 		String user = AppData.getProperty(APConstant.USER_FACEBOOK_PROFILE);
-		FbProfilePic model = (FbProfilePic)JsonUtil.serialize(user, FbProfilePic.class);
+		FBProfilePic model = (FBProfilePic)JsonUtil.serialize(user, FBProfilePic.class);
 		return model;
 	}
 	
-	public static void setUserProfile(FbModel model){
-		String user = JsonUtil.deserialize(model, FbProfilePic.class);
+	public static void setUserProfile(FBModel model){
+		String user = JsonUtil.deserialize(model, FBProfilePic.class);
 		AppData.setProperty(APConstant.USER_FACEBOOK_PROFILE,user);
 	}
 	

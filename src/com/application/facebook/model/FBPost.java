@@ -1,25 +1,39 @@
 package com.application.facebook.model;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
-import com.application.facebook.listener.LikeClickListener;
 
+public class FBPost extends FBModel{
 
-public class FBPost extends FbModel {
-
-	private String message ;
-	private String created_time;
-	private String caption;
-	private String picture;
-	private FBLikes likes;
+	protected String message ;
+	protected String created_time;
+	protected String caption;
+	protected String picture;
+	protected String link;
+	protected String object_id;
+	protected String source;
+	protected FBMediaType type;	
+	protected FBLikes likes;		
+	protected FBCommentsContainer	comments;	
+	protected FBProfilePic from;
 	
-	private FBCommentsContainer	comments;
-	private int like_count; //it only used in comment class
 	
-	private FbProfilePic from;
-	
-	public void setUserProfile(FbProfilePic from){
+	public void setUserProfile(FBProfilePic from){
 		this.from = from;
+	}
+	
+	public void setLink(String link){
+		this.link = link;
+	}
+	
+	public void setSource(String source){
+		this.source = source;
+	}
+	
+	public String getSource(){
+		return source;
 	}
 	
 	public String getMessage(){
@@ -56,50 +70,75 @@ public class FBPost extends FbModel {
 	}
 	
 	public int getLikeNumber(){
-		if (likes != null){
-			return likes.getLikesNumber();
+		if (getLikes() != null){
+			return getLikes().getLikesNumber();
 		}
 		return 0;
 	}
 	
-	public List<FbModel> getLike(){
-		if(likes != null){
-			return likes.getLikes();
+	public String getObject_id() {
+		return object_id;
+	}
+	
+	public FBMediaType getType() {
+		return type;
+	}
+
+	public void setType(FBMediaType type) {
+		this.type = type;
+	}
+
+
+	public void setObject_id(String object_id) {
+		this.object_id = object_id;
+	}
+	
+	public void setLikeNumber(int likeNumber){
+		if (getLikes() != null){
+			 getLikes().setLikesNumber(likeNumber);
+		}
+	}
+	
+	public List<FBModel> getFBModelLikes(){
+		if(getLikes() != null){
+			return getLikes().getLikes();
 		}
 		return null;
 	}
 	
-	public List<FBPost> getComments(){
-		if(comments!= null){
-			return comments.data;
+	
+	public boolean isUserLike(){
+		boolean isUserLike = false;
+		if(getLikes()!=null){
+			isUserLike = getLikes().getUserLike();
 		}
-		return null;
+		return isUserLike;
 	}
 	
-	protected  class FBCommentsContainer {
-		protected List<FBPost> data;
-	}
-	
-	
-	
-	
-	protected  class FBLikes {
-		protected List<FbModel> data;
-		protected FBLikesSummery  summary;
-		
-		
-		protected List<FbModel> getLikes() {
-			return data;
-		}
-		
-		protected int  getLikesNumber() {
-			return summary.total_count;
+	public void setIsUserLike(boolean isLikes){
+		if (getLikes() != null){
+			 getLikes().setUserLike(isLikes);
 		}
 	}
 	
-	protected  class FBLikesSummery {
-		protected int  total_count;
+	public List<FBComment> getComments(){
+		List<FBComment> commentsList = new ArrayList<FBComment>();
+		if(comments!= null && comments.getData() != null){
+			commentsList = comments.getData();
+		}
+		return commentsList;
 	}
 	
 	
+	public String getLimk(){
+		return link;
+	}
+
+	public FBLikes getLikes() {
+		return likes;
+	}
+
+	public void setLikes(FBLikes likes) {
+		this.likes = likes;
+	}
 }

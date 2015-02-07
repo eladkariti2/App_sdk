@@ -18,13 +18,9 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.application.base.BaseActivity;
-import com.application.facebook.interfaces.FacebookLoaderI;
-import com.application.facebook.listener.FacebookLoaderListener;
-import com.application.facebook.model.FbModel;
 import com.application.facebook.util.FacebookUtil;
 import com.application.text.APConstant;
 import com.application.utils.AndroidBug5497Workaround;
@@ -45,7 +41,7 @@ public class FeedPostActivity extends BaseActivity {
 	Bitmap imageToPost;
 	String messageToPost = "";
 	ProgressBar mProgressBar;
-	FacebookLoaderListener listener;
+//	FacebookLoaderListener listener;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,23 +88,23 @@ public class FeedPostActivity extends BaseActivity {
 
 			
 		});
-		listener = new FacebookLoaderListener(this,new FacebookLoaderI() {
-			
-			@Override
-			public void onSuccess(FbModel model) {
-				// TODO Auto-generated method stub
-				
-				FeedPostActivity.this.finish();
-			}
-			
-			@Override
-			public void onFailure(Exception e) {
-				// TODO Auto-generated method stub
-				Log.e(TAG, e.getMessage());
-				mProgressBar.setVisibility(View.GONE);
-			}
-		});
-		
+//		listener = new FacebookLoaderListener(this,new FacebookLoaderI() {
+//			
+//			@Override
+//			public void onSuccess(FbModel model) {
+//				// TODO Auto-generated method stub
+//				
+//				FeedPostActivity.this.finish();
+//			}
+//			
+//			@Override
+//			public void onFailure(Exception e) {
+//				// TODO Auto-generated method stub
+//				Log.e(TAG, e.getMessage());
+//				mProgressBar.setVisibility(View.GONE);
+//			}
+//		});
+//		
 		postText.addTextChangedListener(new TextWatcher() {
 			
 			@Override
@@ -143,7 +139,7 @@ public class FeedPostActivity extends BaseActivity {
 
 	private void postToFacebook(String message,Bitmap image) {
 		mProgressBar.setVisibility(View.VISIBLE);
-		FacebookUtil.postFeedTofacebook(this,listener,message,image);
+	//	FacebookUtil.postFeedTofacebook(this,listener,message,image);
 	}
 	
 	
