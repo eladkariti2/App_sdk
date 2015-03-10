@@ -116,22 +116,22 @@ public class FeedPostDetailsActivity extends BaseActivity {
 	private void updateList() {
 		Log.e("ELAD", "FeedPoistDetialse updateList");
 		// TODO Auto-generated method stub
-		List<FBPost> comments = FeedLoadingManger.getInstance().getPostComments(holder.getID()) ;
-		mCommentsHolders = ImageHolderBuilder.createPostCommentsHolders(comments);
-
-		//check if there is comments
-		if(mCommentsHolders.size() >0){
-
-			Mapper mapper = new Mapper("feed_comment_details", OSUtil.getResourceId("avatar"));
-			CommentsFeedAdapter adapter = new CommentsFeedAdapter(this, (ArrayList<ImageHolder>) mCommentsHolders, mapper);
-			mCommentsList.setAdapter(adapter);
-
-			mNoCommentImg.setVisibility(View.GONE);
-			mCommentsList.setVisibility(View.VISIBLE);
-		}else{
-			mNoCommentImg.setVisibility(View.VISIBLE);
-			mCommentsList.setVisibility(View.GONE);
-		}
+//		List<FBPost> comments = FeedLoadingManger.getInstance().getPostComments(holder.getID()) ;
+//		mCommentsHolders = ImageHolderBuilder.createPostCommentsHolders(comments);
+//
+//		//check if there is comments
+//		if(mCommentsHolders.size() >0){
+//
+//			Mapper mapper = new Mapper("feed_comment_details", OSUtil.getResourceId("avatar"));
+//			CommentsFeedAdapter adapter = new CommentsFeedAdapter(this, (ArrayList<ImageHolder>) mCommentsHolders, mapper);
+//			mCommentsList.setAdapter(adapter);
+//
+//			mNoCommentImg.setVisibility(View.GONE);
+//			mCommentsList.setVisibility(View.VISIBLE);
+//		}else{
+//			mNoCommentImg.setVisibility(View.VISIBLE);
+//			mCommentsList.setVisibility(View.GONE);
+//		}
 	}
 
 

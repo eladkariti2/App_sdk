@@ -9,11 +9,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.WindowManager;
-
 import com.application.CustomApplication;
 import com.application.text.APConstant;
 
@@ -23,7 +24,20 @@ public class OSUtil {
 	
 	private static final String TAG = "OSUtil";
 
-	
+	public static String getDeviceIdentifier(Context context) {
+		String udid = Settings.Secure.getString(context.getContentResolver(),
+				Settings.Secure.ANDROID_ID);
+		if (StringUtil.isEmpty(udid) || "9774d56d682e549c".equals(udid)) {
+			TelephonyManager tm = (TelephonyManager) context
+					.getSystemService(Context.TELEPHONY_SERVICE);
+			udid = tm.getDeviceId();
+			if (StringUtil.isEmpty(udid)) {
+				udid = tm.getSimSerialNumber();
+			}
+			udid = StringUtil.isEmpty(udid) ? null : udid;
+		}
+		return udid;
+	}
 	
 
 	public static int convertDPToPixels(float dp) {
@@ -171,6 +185,12 @@ public class OSUtil {
 	public static String getPackageName(Context context) {
 		return context.getPackageName();
 	}
+
+	
+	public static String getBundleId() {
+		return getPackageName();
+	}
+	
 	
 	public static int getAttributeResourceIdentifier(String name) {
 		return getResourceIdentifier(name, "attr");
@@ -201,4 +221,8 @@ public class OSUtil {
 		public static int getResourceIdentifier(String name,String defType){
 			return CustomApplication.getAppContext().getResources().getIdentifier(name, defType, OSUtil.getPackageName());
 		}
+
+
+
+		
 }

@@ -1,5 +1,6 @@
 package com.application.facebook.loader;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import android.os.Bundle;
@@ -54,8 +55,13 @@ public class APFeedRequest {
 		queryUrl.append(PAGE_FIELDS);
 		if(!StringUtil.isEmpty(since)){
 			
-			String dateSince = StringUtil.internetDF.format(new Date(Long.parseLong(since)));
-			
+			String dateSince = "";
+			try {
+				dateSince = StringUtil.internetDF.format(StringUtil.internetDF.parse(since));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			queryUrl.append(SINCE_CREATED_TIME_FILTER.replace("{{since}}", dateSince));
 		}
 		if(!StringUtil.isEmpty(until)){

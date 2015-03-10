@@ -12,6 +12,7 @@ import com.application.utils.JsonUtil;
 public class ImageHolderBuilder {
 
 	public final static  String ME_LIKED_POST = "me_liked_post";
+	public final static  String TYPE = "type";
 	
 	public static ArrayList<ImageHolder> createFBPostHolder( List<FBPost> posts){
 		ArrayList<ImageHolder> holders = new ArrayList<ImageHolder>();

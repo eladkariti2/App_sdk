@@ -14,14 +14,39 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.application.exception.APException.APConnectionException;
+
 public class ServerUtil {
 
-	 public static String doGet(String urlParam) throws Exception
+	
+	public static enum EncodingFormat{
+		Default,
+		UTF8,
+		ISO88591
+	}
+
+	public static enum RequestMethod{
+		GET,
+		POST,
+		PUT,
+		DELETE
+	}
+	 
+	public static String doGet(String urlParam) throws Exception
+    {
+		 return doGet(urlParam,false);
+    }
+	
+	public static String doGet(String urlParam,boolean addHeaders) throws APConnectionException, IOException
      {
              URL url = new URL(urlParam);
              String json = null;
              HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
              
+             if(addHeaders){
+            	 urlConnection = addHeadersToConnections(urlConnection);
+             }
+             setConnectionSettings(urlConnection,RequestMethod.GET);
              try 
              {
                      Log.i(ServerUtil.class.getSimpleName(), "Url: " + urlParam);
@@ -39,32 +64,16 @@ public class ServerUtil {
              return json;
      }
 
-	 public static String doGet(String urlParam,boolean addHeaders) throws Exception
-     {
-             URL url = new URL(urlParam);
-             String json = null;
-             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-             if(addHeaders){
-            	// urlConnection = addHeadersToConnections(urlConnection);
-             }
-             try 
-             {
-                     Log.i(ServerUtil.class.getSimpleName(), "Url: " + urlParam);
-                     
-                     InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                     json = readStream(in);
-                     
-                     Log.i(ServerUtil.class.getSimpleName(), "Json Route: " + json);
-             }
-             finally 
-             {
-                     urlConnection.disconnect();
-             }
-
-             return json;
-     }
 	 
-	 public static Drawable loadImage(String urlParam, boolean doCache) throws Exception
+	 
+	 private static void setConnectionSettings(HttpURLConnection urlConnection, RequestMethod method) throws IOException {
+		// TODO Auto-generated method stub
+		urlConnection.setRequestMethod(method.toString());
+		urlConnection.setConnectTimeout(1500);
+		urlConnection.setReadTimeout(1000);
+	}
+
+	public static Drawable loadImage(String urlParam, boolean doCache) throws Exception
      {
 		 
 		 Drawable result =  null;
@@ -90,12 +99,12 @@ public class ServerUtil {
      }
 	 
 	 
-//     private static HttpURLConnection addHeadersToConnections(
-//			HttpURLConnection urlConnection) {
-//  
-//    	 urlConnection.setRequestProperty (ACCEPT_LANGUAGE ,"he");
-//		 return urlConnection;
-//	}
+     private static HttpURLConnection addHeadersToConnections(
+			HttpURLConnection urlConnection) {
+  
+    	// urlConnection.setRequestProperty (ACCEPT_LANGUAGE ,"he");
+		 return urlConnection;
+	}
 
 	private static String readStream(InputStream in) throws IOException
      {
