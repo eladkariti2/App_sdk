@@ -5,13 +5,16 @@ import java.util.TimerTask;
 
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.application.base.BaseActivity;
+import com.application.base.behaviour.BaseBehaviour;
 import com.application.interfaces.AccountLoadI;
 import com.application.listener.AccountLoaderListener;
 import com.application.loader.ModelLoader;
+import com.application.messagebroker.APBrokerNotificationTypes;
 import com.application.models.AccountModel;
 import com.application.ui.SplashLoader;
 import com.application.utils.AppData;
@@ -31,7 +34,7 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 		ImageView loaderAnimation = (ImageView) findViewById(OSUtil.getResourceId("progress_indicator"));
 		AnimationDrawable progressAnimation = (AnimationDrawable) loaderAnimation.getDrawable();
 		progressAnimation.start();
-		ModelLoader.AccountModelLoader(new AccountLoaderListener(this));
+		//ModelLoader.AccountModelLoader(new AccountLoaderListener(this));
 	}
 	
 	@Override
@@ -69,7 +72,21 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 	
 	protected abstract void onIntroLoaded();
 	 
-	
+	@Override
+	public void onBrokerEventOccurred(Integer eventType, Object eventParams) {
+		// TODO Auto-generated method stub
+		switch (eventType) {
+		case APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION:
+			Location location = (Location)eventParams;
+			ModelLoader.AccountModelLoader(new AccountLoaderListener(this));
+			BaseBehaviour.saveUserLocation(location);
+			BaseBehaviour.stopLocationListener(mLocationManager, mLocationListenr);
+			break;
+
+		default:
+			break;
+		}
+	}
 	
 
 }

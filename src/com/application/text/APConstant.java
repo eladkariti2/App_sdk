@@ -5,7 +5,7 @@ public class APConstant {
 	 public static final int REQUEST_IMAGE_CAPTURE_CAMERA = 111;
 	 public static final int REQUEST_IMAGE_CAPTURE_GALLERY = 112;
 	
-	 
+	 public static final String USER_LOCATIOM = "user_location";
 	 
 	 
 	//Facebook
