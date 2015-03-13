@@ -14,6 +14,8 @@ import com.application.activities.FacebookAuthenticationActivity;
 import com.application.gps.listener.APLocationListenr;
 import com.application.interfaces.BaseActivityFacebookAuthoriziationI;
 import com.application.messagebroker.APBrokerNotificationTypes;
+import com.application.messagebroker.APMessageBroker;
+import com.application.messagebroker.IAPBrokerListener;
 import com.application.text.APConstant;
 import com.application.utils.AppData;
 import com.facebook.UiLifecycleHelper;
@@ -30,6 +32,7 @@ public class BaseBehaviour {
 
 			}
 		}
+		APMessageBroker.getInstance().addListener(APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION,(IAPBrokerListener) activity);
 	}
 
 	public static void onResume(Activity activity){
@@ -83,7 +86,7 @@ public class BaseBehaviour {
 		if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ){
 			buildAlertMessageNoGps(activity);
 		}
-
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,locationListenr);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,locationListenr);
 	}
 
@@ -138,6 +141,7 @@ public class BaseBehaviour {
 				facebookLifecycleHelper.onDestroy();
 			}
 		}
+		APMessageBroker.getInstance().removeListener(APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION,(IAPBrokerListener) activity);
 	}
 
 
