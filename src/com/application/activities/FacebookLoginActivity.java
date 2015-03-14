@@ -43,6 +43,7 @@ public class FacebookLoginActivity extends BaseActivity {
 		
 		if(resultCode == FacebookAuthenticationActivity.FACEBOOK_AUTH_RESULT){
 			setResult(FacebookAuthenticationActivity.FACEBOOK_AUTH_RESULT);
+			finish();
 		}
 		
 	}

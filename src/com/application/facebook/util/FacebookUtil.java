@@ -23,8 +23,8 @@ import com.facebook.SessionState;
 
 
 public class FacebookUtil {
-	public static final List<String> BASIC_APP_PERMISSIONS = Arrays.asList(new String[]{"publish_actions" , "publish_stream", "manage_pages"});
-	public static final List<String> PUBLISH_APP_PERMISSIONS = Arrays.asList(new String[]{"publish_actions", "publish_stream", "manage_pages" });
+	public static final List<String> BASIC_APP_PERMISSIONS = Arrays.asList(new String[]{"publish_actions" , "publish_stream", "manage_pages","user_birthday"});
+	public static final List<String> PUBLISH_APP_PERMISSIONS = Arrays.asList(new String[]{"publish_actions", "publish_stream", "manage_pages","user_birthday" });
 
 	public static final String TAG = "FacebookUtil";
 

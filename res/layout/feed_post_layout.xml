@@ -3,7 +3,7 @@
     android:id="@+id/post_layout_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
+<!-- 
     <RelativeLayout
         android:id="@+id/post_container"
         android:layout_width="match_parent"
@@ -117,7 +117,7 @@
             android:layout_marginTop="20dp"
             android:scaleType="centerCrop" />
     </RelativeLayout>
-
+ -->
     <ProgressBar
         android:id="@+id/post_progress_bar"
         android:layout_centerInParent="true"

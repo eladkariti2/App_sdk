@@ -66,23 +66,7 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 	Timer timer;
 
 	@Override
-	public void onAccountLoaded(AccountModel account) {
-		mAccount = account;
-		AppData.getInstace().setAccount(account);
-		timer = new Timer();
-
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				onIntroLoaded();
-			}
-		}, 2000);
-
-
-
-	}
+	public abstract void onAccountLoaded(AccountModel account);
 
 	protected abstract void onIntroLoaded();
 
@@ -116,7 +100,15 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 
 	private void continueFlowUserConnected() {
 		// TODO Auto-generated method stub
-		loadUserProfile();
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				loadUserProfile();
+			}
+		});
+	
 	}
 
 	private void loadUserProfile() {

@@ -57,7 +57,7 @@ public class APUserProfileRequest {
 			picture = picture.replace("{{size}}", "normal");
 				
 		}
-		mQuery = "id,name,"+picture;
+		mQuery = "id,name,birthday," + picture ;
 			
 	}
 

@@ -57,8 +57,9 @@ public class APFeedRequest {
 			
 			String dateSince = "";
 			try {
-				dateSince = StringUtil.internetDF.format(StringUtil.internetDF.parse(since));
-			} catch (ParseException e) {
+//				dateSince = StringUtil.internetDF.format(StringUtil.internetDF.parse(since));
+				dateSince = StringUtil.internetDF.format(new Date(Long.parseLong(since)));
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

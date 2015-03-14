@@ -1,5 +1,6 @@
-package com.application.facebook.util;
+package com.application.datahandler;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.TimerTask;
 
 import android.util.Log;
 
-import com.application.facebook.listener.FacebookI;
+import com.application.facebook.listener.FeedEventI;
 import com.application.facebook.loader.APFeedRequest;
 import com.application.facebook.model.FBFeed;
 import com.application.facebook.model.FBModel;
@@ -23,15 +24,16 @@ import com.application.utils.AppData;
 import com.application.utils.StringUtil;
 import com.google.android.gms.internal.da;
 
-public class FeedLoadingManger {
+public class FBEventDataHandler {
 
 	List<FBPost> mPosts;
-	Date currentTime;
+	FeedEventI mListener;
+	boolean mIsfirstLoad ;
+	long mLastUpdateTime;
 	
-	FacebookI mListener;
-	
-	public FeedLoadingManger(FacebookI listener){
+	public FBEventDataHandler(FeedEventI listener){
 		mListener = listener;
+		mIsfirstLoad = true;
 	}
 
 	public void loadFeed() {
@@ -41,14 +43,19 @@ public class FeedLoadingManger {
 			@Override
 			public void onTaskStart() {
 				// TODO Auto-generated method stub
-
 			}
+
 
 			@Override
 			public void onTaskComplete(FBModel result) {
 				// TODO Auto-generated method stub
 				FBFeed feed = (FBFeed)result;
-				mListener.onLoaded(feed);
+				if(feed != null && feed.getPosts() != null && !feed.getPosts().isEmpty()){
+					long createdTime = getFBTime(feed.getPosts().get(0).getCreatedTime());
+					setmSinceId(createdTime); 			
+					mListener.onLoaded(feed);
+				}
+				
 			}
 
 			@Override
@@ -61,36 +68,45 @@ public class FeedLoadingManger {
 		req.doQuery();
 	}
 
-
+	protected void setmSinceId(long createdTime) {
+		// TODO Auto-generated method stub
+		mLastUpdateTime = createdTime;
+	}
 
 	private String getStartTime() {
 		// TODO Auto-generated method stub
 		String result ="";
-		Calendar c = Calendar.getInstance();
-		StringUtil.internetDF.setTimeZone(TimeZone.getTimeZone("UTC")); 
-		Date date =  c.getTime();
-		if(currentTime != null){
-			result = StringUtil.internetDF.format(currentTime);
-			Log.e("ELAD", currentTime.getTime() +"");
-			currentTime = date;
+		if(mIsfirstLoad){
+			result = getStartDayDate();
 		}else{
-
-			currentTime = new Date(date.getTime());
-			c.set(2014, 7, 1);
-			date = c.getTime();
-			date.setHours(0);
-			date.setMinutes(0);
-			date.setSeconds(0);
-			date.setMonth(1);
-			
-			
-			
-		
-			result = StringUtil.internetDF.format(date);
+			result = "" + mLastUpdateTime;
 		}
-
 		return result;
+	}
 
+	private String getStartDayDate() {
+		mIsfirstLoad = false;
+		String time = "";
+		Calendar c = Calendar.getInstance();
+		Date date = c.getTime();
+		date.setHours(0);
+		date.setMinutes(0);
+		date.setSeconds(0);
+		time = date.getTime() + "";
+		mLastUpdateTime = date.getTime();
+		return time;
+	}
+	
+	protected long getFBTime(String createdTime) {
+		// TODO Auto-generated method stub
+		long result = 0;
+		try {
+			result = StringUtil.internetDF.parse(createdTime).getTime();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }
