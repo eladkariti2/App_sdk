@@ -58,6 +58,10 @@ public class FBPostHolder  extends ImageHolder {
 		return likesNumber;
 	}
 	
+	public void setLikesNumber(int number){
+		likesNumber = number;
+	}
+	
 	public int getCommentNumber(){
 		return commentNumber;
 	}

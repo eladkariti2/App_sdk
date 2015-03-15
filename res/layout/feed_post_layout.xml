@@ -3,7 +3,7 @@
     android:id="@+id/post_layout_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-<!-- 
+
     <RelativeLayout
         android:id="@+id/post_container"
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="30dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/post_logo" />
+             />
 
         <TextView
             android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:src="@drawable/camera_post" />
+               />
         </LinearLayout>
 
         <LinearLayout
@@ -87,7 +87,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:src="@drawable/camera_post" />
+                />
         </LinearLayout>
     </LinearLayout>
 
@@ -117,7 +117,7 @@
             android:layout_marginTop="20dp"
             android:scaleType="centerCrop" />
     </RelativeLayout>
- -->
+
     <ProgressBar
         android:id="@+id/post_progress_bar"
         android:layout_centerInParent="true"

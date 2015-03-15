@@ -57,7 +57,6 @@ public class APFeedRequest {
 			
 			String dateSince = "";
 			try {
-//				dateSince = StringUtil.internetDF.format(StringUtil.internetDF.parse(since));
 				dateSince = StringUtil.internetDF.format(new Date(Long.parseLong(since)));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -100,7 +99,7 @@ public class APFeedRequest {
 						mListener.onTaskComplete((FBModel)feed);
 					} catch (Exception e) {
 						//error parsing the response
-						Log.i(TAG,"JSON error "+ e.getMessage());
+						Log.e(TAG,"JSON error "+ e.getMessage());
 						mListener.handleException(e);
 					}
 					

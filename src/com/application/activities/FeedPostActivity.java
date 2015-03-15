@@ -59,35 +59,35 @@ public class FeedPostActivity extends BaseActivity {
 		mPostImage = (ImageView)findViewById(OSUtil.getResourceId("post_image"));
 		mProgressBar = (ProgressBar)findViewById(OSUtil.getResourceId("post_progress_bar"));
 		
-		addPick.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				dispatchTakePictureIntent(false);
-			}
-		});
-	
-		
-    	takePick.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				dispatchTakePictureIntent(true);
-			}
-		});
-		
-		postButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				postToFacebook(messageToPost,imageToPost);
-			}
-
-			
-		});
+//		addPick.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				dispatchTakePictureIntent(false);
+//			}
+//		});
+//	
+//		
+//    	takePick.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				dispatchTakePictureIntent(true);
+//			}
+//		});
+//		
+//		postButton.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//				postToFacebook(messageToPost,imageToPost);
+//			}
+//
+//			
+//		});
 //		listener = new FacebookLoaderListener(this,new FacebookLoaderI() {
 //			
 //			@Override
@@ -105,29 +105,29 @@ public class FeedPostActivity extends BaseActivity {
 //			}
 //		});
 //		
-		postText.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
-				messageToPost = s.toString();
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		AndroidBug5497Workaround.assistActivity(this);
+//		postText.addTextChangedListener(new TextWatcher() {
+//			
+//			@Override
+//			public void onTextChanged(CharSequence s, int start, int before, int count) {
+//				// TODO Auto-generated method stub
+//				messageToPost = s.toString();
+//			}
+//			
+//			@Override
+//			public void beforeTextChanged(CharSequence s, int start, int count,
+//					int after) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//			@Override
+//			public void afterTextChanged(Editable s) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
+//		
+//		AndroidBug5497Workaround.assistActivity(this);
 	}
 	
 	@Override
