@@ -19,10 +19,10 @@ import com.facebook.Session;
 import com.google.gson.Gson;
 
 public class APPostToFeedRequest {
-	
+
 	private static final String TAG = APPostToFeedRequest.class.getSimpleName();
-	
-	
+
+
 	String mIdentifier;
 	AsyncTaskListener<FBModel> mListener;
 	String mName;
@@ -32,13 +32,13 @@ public class APPostToFeedRequest {
 	String mLink;
 	String mPicture;
 	Bitmap mImage;
-	
+
 	public APPostToFeedRequest(String identifier,String postText,Bitmap image, AsyncTaskListener<FBModel> listener){
 		this(identifier, postText,image,null,null,null,null,null ,listener);	
 	}
-	
+
 	public APPostToFeedRequest(String identifier,String postText,Bitmap image,String name,String caption, String description, String link, String picture,AsyncTaskListener<FBModel> listener){
-		
+
 		this.mIdentifier = identifier;
 		this.mMessage = postText;
 		this.mName= name;
@@ -49,14 +49,14 @@ public class APPostToFeedRequest {
 		this.mImage = image;
 		this.mListener = listener;
 	}
-	
+
 	public void doQuery(){
 		mListener.onTaskStart();
-		
+
 		Bundle postParams = new Bundle();
 		if(mImage!= null){
-			postParams.putString("name", mName);
-			postParams.putString("caption", mCaption);
+			//postParams.putString("name", mName);
+		//	postParams.putString("caption", mCaption);
 			postParams.putString("message", mMessage);
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			mImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -65,15 +65,15 @@ public class APPostToFeedRequest {
 		}
 		else{
 			postParams.putString("name", mName);
-			postParams.putString("message", mMessage);
 			postParams.putString("caption", mCaption);
 			postParams.putString("description", mDescription);
 			postParams.putString("link", mLink);
+			postParams.putString("message", mMessage);
 			postParams.putString("picture", mPicture);
 		}
-		
+
 		String path = (mImage == null) ? mIdentifier + "/feed" : mIdentifier + "/photos";
-		
+
 		Request request = new Request(Session.getActiveSession(), path, postParams,HttpMethod.POST, new Callback() {
 
 			@Override
@@ -87,16 +87,16 @@ public class APPostToFeedRequest {
 
 						Gson gson = new Gson();
 						FBPost post = (FBPost)gson.fromJson(graphResponse, FBPost.class);	
-						
+
 						mListener.onTaskComplete((FBModel)post);
 					} catch (Exception e) {
 						//error parsing the response
 						Log.i(TAG,"JSON error "+ e.getMessage());
 						mListener.handleException(e);
 					}
-					
+
 				}
-				
+
 				// error
 				else{
 					mListener.handleException(error.getException());
@@ -106,6 +106,6 @@ public class APPostToFeedRequest {
 
 		RequestAsyncTask task = new RequestAsyncTask(request);
 		task.execute();
-		
+
 	}
 }

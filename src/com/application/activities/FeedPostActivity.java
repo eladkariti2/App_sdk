@@ -21,9 +21,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.application.base.BaseActivity;
+import com.application.facebook.loader.APPostToFeedRequest;
+import com.application.facebook.model.FBModel;
 import com.application.facebook.util.FacebookUtil;
+import com.application.listener.AsyncTaskListener;
 import com.application.text.APConstant;
 import com.application.utils.AndroidBug5497Workaround;
+import com.application.utils.AppData;
 import com.application.utils.OSUtil;
 
 public class FeedPostActivity extends BaseActivity {
@@ -41,13 +45,14 @@ public class FeedPostActivity extends BaseActivity {
 	Bitmap imageToPost;
 	String messageToPost = "";
 	ProgressBar mProgressBar;
-//	FacebookLoaderListener listener;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		 
+		
+		boolean addPhoto = getIntent().getExtras().getBoolean(ADD_PHOTO);
+		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		setContentView(OSUtil.getLayoutResourceIdentifier("feed_post_layout"));
@@ -59,90 +64,104 @@ public class FeedPostActivity extends BaseActivity {
 		mPostImage = (ImageView)findViewById(OSUtil.getResourceId("post_image"));
 		mProgressBar = (ProgressBar)findViewById(OSUtil.getResourceId("post_progress_bar"));
 		
-//		addPick.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				dispatchTakePictureIntent(false);
-//			}
-//		});
-//	
-//		
-//    	takePick.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				dispatchTakePictureIntent(true);
-//			}
-//		});
-//		
-//		postButton.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				postToFacebook(messageToPost,imageToPost);
-//			}
-//
-//			
-//		});
-//		listener = new FacebookLoaderListener(this,new FacebookLoaderI() {
-//			
-//			@Override
-//			public void onSuccess(FbModel model) {
-//				// TODO Auto-generated method stub
-//				
-//				FeedPostActivity.this.finish();
-//			}
-//			
-//			@Override
-//			public void onFailure(Exception e) {
-//				// TODO Auto-generated method stub
-//				Log.e(TAG, e.getMessage());
-//				mProgressBar.setVisibility(View.GONE);
-//			}
-//		});
-//		
-//		postText.addTextChangedListener(new TextWatcher() {
-//			
-//			@Override
-//			public void onTextChanged(CharSequence s, int start, int before, int count) {
-//				// TODO Auto-generated method stub
-//				messageToPost = s.toString();
-//			}
-//			
-//			@Override
-//			public void beforeTextChanged(CharSequence s, int start, int count,
-//					int after) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void afterTextChanged(Editable s) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//		});
-//		
-//		AndroidBug5497Workaround.assistActivity(this);
+		addPick.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dispatchTakePictureIntent(false);
+			}
+		});
+	
+		
+    	takePick.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dispatchTakePictureIntent(true);
+			}
+		});
+		
+		postButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				postToFacebook(messageToPost,imageToPost);
+			}
+
+			
+		});
+		
+		postText.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				messageToPost = s.toString();
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		AndroidBug5497Workaround.assistActivity(this);
+		
+		if(addPhoto){
+			dispatchTakePictureIntent(true);
+		}
 	}
 	
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-	//	
+	
 	}
 
 	private void postToFacebook(String message,Bitmap image) {
 		mProgressBar.setVisibility(View.VISIBLE);
-	//	FacebookUtil.postFeedTofacebook(this,listener,message,image);
+		APPostToFeedRequest req = new APPostToFeedRequest(AppData.getAPAccount().getFBPageID(),message, image, new AsyncTaskListener<FBModel>() {
+			
+			@Override
+			public void onTaskStart() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onTaskComplete(FBModel result) {
+				// TODO Auto-generated method stub
+					closeActivity();
+			}
+			
+			@Override
+			public void handleException(Exception e) {
+				mProgressBar.setVisibility(View.GONE);
+				// TODO Auto-generated method stub
+				//Show error message
+			}
+		});
+		req.doQuery();
 	}
 	
 	
+	protected void closeActivity() {
+		// TODO Auto-generated method stub
+		finish();
+	}
+
 	private void dispatchTakePictureIntent(boolean fromCamera) {
 		if(fromCamera){
 			OSUtil.launchCamera(this);
