@@ -38,7 +38,6 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 		ImageView loaderAnimation = (ImageView) findViewById(OSUtil.getResourceId("progress_indicator"));
 		AnimationDrawable progressAnimation = (AnimationDrawable) loaderAnimation.getDrawable();
 		progressAnimation.start();
-		//ModelLoader.AccountModelLoader(new AccountLoaderListener(this));
 	}
 
 	@Override
@@ -46,14 +45,14 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 		// TODO Auto-generated method stub
 		super.onStart();
 		timer = new Timer();
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				APMessageBroker.getInstance().fireNotificationsByType(APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION,new Location(""));
-			}
-		}, 2000);
+//		timer.schedule(new TimerTask() {
+//
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+//				APMessageBroker.getInstance().fireNotificationsByType(APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION,new Location(""));
+//			}
+//		}, 2000);
 		
 	}
 
@@ -76,7 +75,7 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 		switch (eventType) {
 		case APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION:
 			Location location = (Location)eventParams;
-			BaseBehaviour.saveUserLocation(location);
+			AppData.saveUserLocation(location);
 			BaseBehaviour.stopLocationListener(mLocationManager, mLocationListenr);
 			boolean isConnected =  FacebookUtil.isTokenValid();
 			if(isConnected){

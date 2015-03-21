@@ -116,8 +116,4 @@ public class BaseActivity extends Activity implements BaseActivityFacebookAuthor
 		BaseBehaviour.onBrokerEventOccurred(eventType, eventParams);
 	}
 	
-	protected Location getUserLocation(){
-		return BaseBehaviour.getUserLocation();
-	}
-
 }

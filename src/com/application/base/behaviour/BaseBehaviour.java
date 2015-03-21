@@ -156,7 +156,7 @@ public class BaseBehaviour {
 		switch (eventType) {
 		case APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION:
 			Location location = (Location)eventParams;
-			saveUserLocation(location);
+			AppData.saveUserLocation(location);
 			break;
 
 		default:
@@ -164,19 +164,6 @@ public class BaseBehaviour {
 		}
 	}
 
-	public static Location getUserLocation() {
-		// TODO Auto-generated method stub
-		Gson gson = new Gson();
-		String userLocation = AppData.getProperty(APConstant.USER_LOCATIOM);
-		Location location = (Location)gson.fromJson(userLocation, Location.class);
-		return location;
-	}
 
-	public static void saveUserLocation(Location location) {
-		// TODO Auto-generated method stub
-		String userLocation = new Gson().toJson(location);
-		AppData.setProperty(APConstant.USER_LOCATIOM, userLocation);
-		
-	}
 
 }

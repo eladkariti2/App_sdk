@@ -24,11 +24,16 @@ import com.application.adapters.CommentsFeedAdapter;
 import com.application.adapters.ImageBaseAdapter.Mapper;
 import com.application.base.BaseActivity;
 import com.application.datahandler.FBEventDataHandler;
+import com.application.facebook.loader.APCommentsRequest;
+import com.application.facebook.loader.APPostCommentRequest;
+import com.application.facebook.model.FBComment;
+import com.application.facebook.model.FBModel;
 import com.application.facebook.model.FBPost;
 import com.application.facebook.util.FacebookUtil;
 import com.application.imageholders.FBPostHolder;
 import com.application.imageholders.ImageHolder;
 import com.application.imageholders.ImageHolderBuilder;
+import com.application.listener.AsyncTaskListener;
 import com.application.utils.JsonUtil;
 import com.application.utils.OSUtil;
 import com.application.utils.StringUtil;
@@ -64,39 +69,8 @@ public class FeedPostDetailsActivity extends BaseActivity {
 
 		String likes =  StringUtil.isEmpty(holder.getLikesNumber() + "") ?  "0" : "" + holder.getLikesNumber() ;
 		likesNumber.setText(likes);
-
-		updateList();
 		
-//		final FacebookLoaderListener listener = new FacebookLoaderListener(this,new FacebookLoaderI() {
-//
-//			@Override
-//			public void onSuccess(FbModel model) {
-//				// TODO Auto-generated method stub
-//
-//				FbProfilePic userProfile =  FacebookUtil.getUserProfile();
-//				
-//				
-//				//Create comment object to add
-//				FBPost comment = new FBPost();
-//				comment.setId(model.getId());
-//				comment.setMessage(mPostTextMessage );
-//				comment.setUserProfile(userProfile);
-//				
-//				Calendar c = Calendar.getInstance(); 
-//				Date date =  c.getTime();
-//				comment.setCreatedTime(StringUtil.usDF.format(date));
-//				
-//				//update post comment list with the new comment 
-//				FeedLoadingManger.getInstance().addCommentToPost(holder.getID(), comment);
-//				updateList();
-//			}
-//
-//			@Override
-//			public void onFailure(Exception e) {
-//				// TODO Auto-generated method stub
-//				Log.e(TAG, e.getMessage() + "");
-//			}
-//		});
+		loadCommentIfNeeded();
 
 		postButton.setOnClickListener(new OnClickListener() {
 
@@ -104,34 +78,104 @@ public class FeedPostDetailsActivity extends BaseActivity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				mPostTextMessage = mPostText.getText().toString();
-				//FacebookUtil.postCommentTofeed(FeedPostDetailsActivity.this,listener,holder.getID(),mPostTextMessage );
+				postComment();
 			}
-
-
 		});
 	}
 
 
+	private void postComment() {
+		// TODO Auto-generated method stub
+		APPostCommentRequest req = new APPostCommentRequest(holder.getID(), mPostTextMessage, new AsyncTaskListener<FBModel>() {
+			
+			@Override
+			public void onTaskStart() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onTaskComplete(FBModel result) {
+				// TODO Auto-generated method stub
+				loadComment();
+				mPostTextMessage = "";
+				mPostText.setText("");
+			}
+			
+			@Override
+			public void handleException(Exception e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		req.doQuery();
+	}
 
-	private void updateList() {
+	private void loadCommentIfNeeded() {
+		// TODO Auto-generated method stub
+		if(holder.getCommentNumber() > 0){
+			loadComment();
+		}else{
+			displayNoComments();
+		}
+	}
+
+
+
+	private void loadComment() {
+		// TODO Auto-generated method stub
+		String id = holder.getID();
+		APCommentsRequest req = new APCommentsRequest(id, new AsyncTaskListener<FBModel>() {
+			
+			@Override
+			public void onTaskStart() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onTaskComplete(FBModel result) {
+				// TODO Auto-generated method stub
+				updateList((FBPost)result);
+			}
+			
+			@Override
+			public void handleException(Exception e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		req.doQuery();
+	}
+
+
+
+	private void displayNoComments() {
+		// TODO Auto-generated method stub
+		mNoCommentImg.setVisibility(View.VISIBLE);
+		mCommentsList.setVisibility(View.GONE);
+	}
+
+
+
+	private void updateList(FBPost post) {
 		Log.e("ELAD", "FeedPoistDetialse updateList");
 		// TODO Auto-generated method stub
-//		List<FBPost> comments = FeedLoadingManger.getInstance().getPostComments(holder.getID()) ;
-//		mCommentsHolders = ImageHolderBuilder.createPostCommentsHolders(comments);
-//
-//		//check if there is comments
-//		if(mCommentsHolders.size() >0){
-//
-//			Mapper mapper = new Mapper("feed_comment_details", OSUtil.getResourceId("avatar"));
-//			CommentsFeedAdapter adapter = new CommentsFeedAdapter(this, (ArrayList<ImageHolder>) mCommentsHolders, mapper);
-//			mCommentsList.setAdapter(adapter);
-//
-//			mNoCommentImg.setVisibility(View.GONE);
-//			mCommentsList.setVisibility(View.VISIBLE);
-//		}else{
-//			mNoCommentImg.setVisibility(View.VISIBLE);
-//			mCommentsList.setVisibility(View.GONE);
-//		}
+		List<FBComment> comments = post.getComments();
+		mCommentsHolders = ImageHolderBuilder.createPostCommentsHolders(comments);
+
+		//check if there is comments
+		if(mCommentsHolders.size() >0){
+
+			Mapper mapper = new Mapper("feed_comment_details", OSUtil.getResourceId("avatar"));
+			CommentsFeedAdapter adapter = new CommentsFeedAdapter(this, (ArrayList<ImageHolder>) mCommentsHolders, mapper);
+			mCommentsList.setAdapter(adapter);
+
+			mNoCommentImg.setVisibility(View.GONE);
+			mCommentsList.setVisibility(View.VISIBLE);
+		}else{
+			displayNoComments();
+		}
 	}
 
 

@@ -115,8 +115,5 @@ public class BaseFragmentActivity extends FragmentActivity implements BaseActivi
 		BaseBehaviour.onBrokerEventOccurred(eventType, eventParams);
 	}
 	
-	protected Location getUserLocation(){
-		return BaseBehaviour.getUserLocation();
-	}
 	
 }

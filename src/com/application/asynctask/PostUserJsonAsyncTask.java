@@ -2,7 +2,9 @@ package com.application.asynctask;
 
 import java.util.List;
 
+import android.nfc.Tag;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.application.helper.StaticObjectHalper;
 import com.application.listener.AsyncTaskListener;
@@ -13,14 +15,15 @@ import com.application.utils.JsonUtil;
 import com.application.utils.ServerUtil;
 import com.application.utils.StringUtil;
 
-public class AccountJsonAsyncTask extends AsyncTask<String, Void, AccountModel> {
+public class PostUserJsonAsyncTask extends AsyncTask<String, Void, AccountModel> {
 
+	private static final String TAG = "PostUserJsonAsyncTask";
 	Class<AccountModel> mLoadedClass;
 	Exception mException = null;
 	AsyncTaskListener mListener;
 	
 	
-	public AccountJsonAsyncTask(AsyncTaskListener listener,Class loadedClass)
+	public PostUserJsonAsyncTask(AsyncTaskListener listener,Class loadedClass)
 	{
 		mListener = listener;
 		mLoadedClass = loadedClass;
@@ -33,6 +36,7 @@ public class AccountJsonAsyncTask extends AsyncTask<String, Void, AccountModel> 
 		AccountModel account = new AccountModel();
 		
 		try {
+			Log.d(TAG, "url");
 			 json = ServerUtil.doGet(url);
 		} catch (Exception e) {
 			e.printStackTrace();

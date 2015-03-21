@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.util.Properties;
 
 import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 
 import com.application.models.AccountModel;
+import com.application.text.APConstant;
+import com.google.gson.Gson;
 
 /* 
  * Singleton object to store application data. 
@@ -85,6 +88,21 @@ public class AppData {
 	public static void setProperty(String name,String value){
 		getInstace().properties.setProperty(name,value);
 		//setDirty(true);
+	}
+	
+	public static Location getUserLocation() {
+		// TODO Auto-generated method stub
+		Gson gson = new Gson();
+		String userLocation = AppData.getProperty(APConstant.USER_LOCATIOM);
+		Location location = (Location)gson.fromJson(userLocation, Location.class);
+		return location;
+	}
+
+	public static void saveUserLocation(Location location) {
+		// TODO Auto-generated method stub
+		String userLocation = new Gson().toJson(location);
+		AppData.setProperty(APConstant.USER_LOCATIOM, userLocation);
+		
 	}
 	
 }

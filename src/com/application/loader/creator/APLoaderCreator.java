@@ -11,7 +11,7 @@ import com.application.utils.OSUtil;
 
 public class APLoaderCreator {
 	
-	public static String BASE_URL = "192.168.56.1:80http://localhost:50423/api/";
+	public static String BASE_URL = "http://VAIO:50423/api/";
 	
 	public static final String TIMESTAMP_KEY = "TimeStamp";	
 	public static final String BUNDLE_KEY = "Bundle";	

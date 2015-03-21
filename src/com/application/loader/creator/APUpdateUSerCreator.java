@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class APUpdateUSerCreator extends APLoaderCreator {
 
-	public static final String USERS_URL_PREFIX = "Users/";
+	public static final String USERS_URL_PREFIX = "User/";
 	
 	public static final String USER_NAME = "UserName";
 	public static final String USER_BIRTHDAY = "birthday";

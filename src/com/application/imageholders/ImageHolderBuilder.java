@@ -3,6 +3,7 @@ package com.application.imageholders;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.application.facebook.model.FBComment;
 import com.application.facebook.model.FBModel;
 import com.application.facebook.model.FBPost;
 import com.application.text.APConstant;
@@ -39,7 +40,7 @@ public class ImageHolderBuilder {
 		}
 	}
 
-	public static List<ImageHolder> createPostCommentsHolders(	List<FBPost> comments) {
+	public static List<ImageHolder> createPostCommentsHolders(	List<FBComment> comments) {
 		// TODO Auto-generated method stub
 		List<ImageHolder> holders = new ArrayList<ImageHolder>();
 		if(comments != null)

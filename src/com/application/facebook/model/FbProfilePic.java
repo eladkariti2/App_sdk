@@ -13,4 +13,12 @@ public class FBProfilePic extends FBModel {
 	public void setUrl(String url){
 		picture.getFBPictureData().setUrl(url);
 	}
+	
+	public String gebirthday(){
+		return birthday;
+	}
+	
+	public void setbirthday(String birthday){
+		this.birthday = birthday;
+	}
 }
