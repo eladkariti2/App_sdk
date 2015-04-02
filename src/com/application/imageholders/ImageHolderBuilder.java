@@ -21,6 +21,10 @@ public class ImageHolderBuilder {
 		FBModel model = (FBModel)JsonUtil.serialize(user, FBModel.class);
 		for(FBPost p : posts){
 			FBPostHolder holder = new FBPostHolder(p.getId(),p.getUserName(),p.getCreatedTime(), p.getUserPicture(),p.getMessage(),p.getPostPicture(),p.getCaption(),p.getLikeNumber(),p.getComments().size());
+			if(p.getAttachements() != null){
+				holder.setWidth(p.getAttachements().getWidth());
+				holder.setHeight(p.getAttachements().getHeight());
+			}
 			holders.add(holder);
 			checkIfLiked(holder,p,model.getId());
 		}

@@ -18,7 +18,7 @@ public class FBPost extends FBModel{
 	protected FBLikes likes;		
 	protected FBCommentsContainer	comments;	
 	protected FBProfilePic from;
-	
+	protected FBattachments attachments;
 	
 	public void setUserProfile(FBProfilePic from){
 		this.from = from;
@@ -34,6 +34,10 @@ public class FBPost extends FBModel{
 	
 	public String getSource(){
 		return source;
+	}
+	
+	public FBattachments getAttachements(){
+		return attachments;
 	}
 	
 	public String getMessage(){

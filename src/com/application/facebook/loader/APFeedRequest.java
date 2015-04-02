@@ -29,7 +29,7 @@ public class APFeedRequest {
 	public static final String SINCE_CREATED_TIME_FILTER = ".since({{since}})";
 	public static final String LIMIT_FILTER = ".limit({{limit}})";
 	public static final String UNTIL_CREATED_TIME_FILTER = ".until({{until}})";
-	public static final String POSTS_FIELDS = ",id,caption,message,link,object_id,type,source,picture,likes.summary(true),comments.summary(true)";
+	public static final String POSTS_FIELDS = ",id,caption,attachments{media,target},message,link,object_id,type,source,picture,likes.summary(true),comments.summary(true)";
 	public static final String USERS_FIELDS = "{id,name,picture.type(large)}";
 	public static final String COMMENTS_FIELDS = "{attachment,created_time,like_count,message,id,from" + USERS_FIELDS +"}";
 

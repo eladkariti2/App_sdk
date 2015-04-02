@@ -1,5 +1,7 @@
 package com.application.imageholders;
 
+import com.google.android.gms.internal.he;
+
 public class FBPostHolder  extends ImageHolder {
 
 	String postId;
@@ -11,6 +13,9 @@ public class FBPostHolder  extends ImageHolder {
 	String userName;
 	int likesNumber;
 	int commentNumber;
+	int width = 0;
+	int height = 0;
+	
 	
 	public FBPostHolder(String postId,String userName,String date,String userPic,String message,String pic,String caption,int likes,int comments){
 		super(postId, "", userPic);
@@ -65,4 +70,23 @@ public class FBPostHolder  extends ImageHolder {
 	public int getCommentNumber(){
 		return commentNumber;
 	}
+
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight(){
+		return height;
+	}
+	
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+
+	public void setHeight(int height) {
+		this.height = height;		
+	}
+	
 }
