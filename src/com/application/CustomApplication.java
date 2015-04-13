@@ -4,8 +4,11 @@ import java.util.Locale;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.sax.StartElementListener;
 
+import com.application.bg.LocationUpdaterService;
 import com.application.utils.AppData;
 
 public class CustomApplication  extends Application{
@@ -22,6 +25,9 @@ public class CustomApplication  extends Application{
 	public static void onCreateBehaviour(Application context) {
 		CustomApplication.context = context.getApplicationContext();
 		AppData.loadProperties(context);
+	   // context.startService(new Intent(context, LocationUpdaterService.class));
+//		FlurryAgent .init
+		
 	}
 
 	@Override

@@ -1,6 +1,10 @@
 package com.application.models;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.application.helper.StaticObjectHalper;
+import com.application.utils.JsonUtil;
 
 public class AccountModel {
 	
@@ -16,6 +20,8 @@ public class AccountModel {
 	}
 
 	public List<BeachModel> getList() {
+		List<BeachModel> models = StaticObjectHalper.createStaticBeachList();
+		list= models;
 		return list;
 	}
 
@@ -30,4 +36,5 @@ public class AccountModel {
 		return id;
 	}
 
+	
 }
