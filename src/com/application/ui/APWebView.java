@@ -6,11 +6,14 @@ import java.util.TimerTask;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+import com.application.utils.OSUtil;
 
 public class APWebView extends WebView{
 
@@ -36,10 +39,10 @@ public class APWebView extends WebView{
 		this.getSettings().setUseWideViewPort(true);
 		this.setBackgroundColor(0x00000000);
 	
-//		this.setWebViewClient(new WebViewClient(){
-//			public boolean shouldOverrideUrlLoading(WebView view, String url)
-//			{
-//				boolean result = true;
+		this.setWebViewClient(new WebViewClient(){
+			public boolean shouldOverrideUrlLoading(WebView view, String url)
+			{
+				boolean result = true;
 //				if(isKnownScheme(url)){
 //					handleSpecialUrl(view.getContext(),url);
 //					result = true;
@@ -48,26 +51,27 @@ public class APWebView extends WebView{
 //					APWebView.this.loadUrl(url);
 //					result =  true;
 //				}
-//				return result;
-//			} 
-//			public void onReceivedError (WebView view, int errorCode, String description, String failingUrl){
-//				APLogger.error(TAG, failingUrl +"   "+errorCode);
-//			}
-//			public void onPageFinished(WebView view, String url) {
-//			
-//				APLogger.debug(TAG,"onPageFinished   "+url);
-//			
-//				if( getContext() != null ){
-//					View progBar = ((Activity) getContext()).findViewById(OSUtil.getResourceId("progressbar") );
-//					//When you go back from the webView quick before the callback invoke the view is null.
-//					if(progBar != null){
-//						progBar.setVisibility(View.GONE);
-//					}
-//					setTimerIfNeeded(exposureTime);
-//				}
-//			}
-//
-//		});
+				APWebView.this.loadUrl(url);
+				return result;
+			} 
+			public void onReceivedError (WebView view, int errorCode, String description, String failingUrl){
+				Log.e(TAG, failingUrl +"   "+errorCode);
+			}
+			public void onPageFinished(WebView view, String url) {
+			
+				Log.d(TAG,"onPageFinished   "+url);
+			
+				if( getContext() != null ){
+					View progBar = ((Activity) getContext()).findViewById(OSUtil.getResourceId("progressbar") );
+					//When you go back from the webView quick before the callback invoke the view is null.
+					if(progBar != null){
+						progBar.setVisibility(View.GONE);
+					}
+					setTimerIfNeeded(exposureTime);
+				}
+			}
+
+		});
 
 		//JSHandler = initJSHandler((Activity) context);
 	//	jsInterface = JSInterface.getInstance(context, this,JSHandler,AppData.getProperty(PropertiesI.FACEBOOK_ID_KEY));
