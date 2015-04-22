@@ -76,6 +76,9 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 		case APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION:
 			Location location = (Location)eventParams;
 			AppData.saveUserLocation(location);
+			//Stop listen to event because the instance still live on the APMessageBroker
+			//and this activity still get called when the event raised.
+			APMessageBroker.getInstance().removeListener(APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION, BaseSplashActivity.this);
 			BaseBehaviour.stopLocationListener(mLocationManager, mLocationListenr);
 			boolean isConnected =  FacebookUtil.isTokenValid();
 			if(isConnected){

@@ -91,7 +91,7 @@ public class APPostToFeedRequest {
 						mListener.onTaskComplete((FBModel)post);
 					} catch (Exception e) {
 						//error parsing the response
-						Log.i(TAG,"JSON error "+ e.getMessage());
+						Log.e(TAG,"JSON error "+ e.getMessage());
 						mListener.handleException(e);
 					}
 
@@ -99,6 +99,7 @@ public class APPostToFeedRequest {
 
 				// error
 				else{
+					Log.e(TAG,"JSON error "+ error.getErrorMessage());
 					mListener.handleException(error.getException());
 				}
 			}

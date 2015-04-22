@@ -40,7 +40,7 @@ public class FacebookLoginActivity extends BaseActivity {
 	
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		
+		super.onActivityResult(requestCode, resultCode, data);
 		if(resultCode == FacebookAuthenticationActivity.FACEBOOK_AUTH_RESULT){
 			setResult(FacebookAuthenticationActivity.FACEBOOK_AUTH_RESULT);
 			finish();

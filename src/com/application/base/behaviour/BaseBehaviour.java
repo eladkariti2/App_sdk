@@ -86,8 +86,8 @@ public class BaseBehaviour {
 		if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ){
 			buildAlertMessageNoGps(activity);
 		}
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,locationListenr);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,locationListenr);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 5 * 60 * 1000,locationListenr);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 5 * 60 * 1000,locationListenr);
 	}
 
 	public static void stopLocationListener(LocationManager locationManager,APLocationListenr locationListenr) {
