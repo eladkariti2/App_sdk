@@ -47,7 +47,7 @@ public class FeedPostDetailsActivity extends BaseActivity {
 	FBPostHolder holder ;
 	EditText mPostText;
 	ListView mCommentsList ;
-	ImageView mNoCommentImg ;
+	View mNoCommentsContainer ;
 	List<ImageHolder> mCommentsHolders;
 	String mPostTextMessage ;
 
@@ -64,7 +64,8 @@ public class FeedPostDetailsActivity extends BaseActivity {
 		TextView likesNumber =  (TextView)findViewById(OSUtil.getResourceId("likes_number"));
 		mPostText =  (EditText)findViewById(OSUtil.getResourceId("comment_text"));
 		mCommentsList =  (ListView)findViewById(OSUtil.getResourceId("comments_list"));
-		mNoCommentImg  = (ImageView)findViewById(OSUtil.getResourceId("no_comments_img"));
+		 mNoCommentsContainer = findViewById(OSUtil.getResourceId("no_comments_container"));
+		 
 		View postButton  = findViewById(OSUtil.getResourceId("post_text_container"));
 
 		String likes =  StringUtil.isEmpty(holder.getLikesNumber() + "") ?  "0" : "" + holder.getLikesNumber() ;
@@ -152,7 +153,7 @@ public class FeedPostDetailsActivity extends BaseActivity {
 
 	private void displayNoComments() {
 		// TODO Auto-generated method stub
-		mNoCommentImg.setVisibility(View.VISIBLE);
+		mNoCommentsContainer.setVisibility(View.VISIBLE);
 		mCommentsList.setVisibility(View.GONE);
 	}
 
@@ -171,7 +172,7 @@ public class FeedPostDetailsActivity extends BaseActivity {
 			CommentsFeedAdapter adapter = new CommentsFeedAdapter(this, (ArrayList<ImageHolder>) mCommentsHolders, mapper);
 			mCommentsList.setAdapter(adapter);
 
-			mNoCommentImg.setVisibility(View.GONE);
+			mNoCommentsContainer.setVisibility(View.GONE);
 			mCommentsList.setVisibility(View.VISIBLE);
 		}else{
 			displayNoComments();

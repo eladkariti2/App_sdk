@@ -64,6 +64,7 @@ public class FeedPostActivity extends BaseActivity {
 		mPostImage = (ImageView)findViewById(OSUtil.getResourceId("post_image"));
 		mProgressBar = (ProgressBar)findViewById(OSUtil.getResourceId("post_progress_bar"));
 		
+		
 		addPick.setOnClickListener(new OnClickListener() {
 			
 			@Override

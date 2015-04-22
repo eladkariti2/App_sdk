@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/post_comment_bg" >
+    android:background="#ffffff" >
 
     <LinearLayout
         android:id="@+id/top_container"
@@ -23,15 +23,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:textColor="#000000"
-            android:text="14" />
+            android:text="14"
+            android:textColor="#000000" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:textColor="#000000"
-            android:text=" peapole liked this ..." />
+            android:text=" peapole liked this ..."
+            android:textColor="#000000" />
     </LinearLayout>
 
     <RelativeLayout
@@ -67,16 +67,47 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_container"
-        android:layout_below="@id/top_container" >
+        android:layout_below="@id/top_container"
+        android:background="@color/app_bg_color" >
 
         <ListView
             android:id="@+id/comments_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:cacheColorHint="#00000000"
+            android:divider="#ffffff"
+            android:dividerHeight="1dp"
+            android:clickable="false"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="7dp" >
         </ListView>
 
+        <LinearLayout
+            android:id="@+id/no_comments_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="140dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/no_comments" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/first_to_post_comment"
+                android:textColor="#000000" />
+        </LinearLayout>
+
         <ImageView
-            android:id="@+id/no_comments_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#123abc"
