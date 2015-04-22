@@ -24,7 +24,7 @@ public class FacebookLoginActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(OSUtil.getLayoutResourceIdentifier("facebook_login"));
 
-		View view = findViewById(OSUtil.getResourceId("center_container"));
+		View view = findViewById(OSUtil.getResourceId("facebook_connect_container"));
 
 		view.setOnClickListener(loginInClickListener);
 	}

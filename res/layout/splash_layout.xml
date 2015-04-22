@@ -4,26 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-     <ImageView
+    <ImageView
         android:id="@+id/app_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/app_bg"/>
-    
+        android:src="@drawable/app_bg" />
+
     <ImageView
         android:id="@+id/splash_img"
-      android:layout_width="320dp"
-        android:layout_height="350dp"
-        android:src="@drawable/logo"
-        android:layout_centerInParent="true" />
+        android:layout_width="210dp"
+        android:layout_height="173dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/logo" />
+
+    <ImageView
+        android:id="@+id/title_img"
+        android:layout_width="310dp"
+        android:layout_height="61dp"
+        android:layout_below="@id/splash_img"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/logo_text" />
 
     <ImageView
         android:id="@+id/progress_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/splash_img"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/title_img"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:src="@drawable/preload_progress" />
 
 </com.application.ui.SplashLoader>
