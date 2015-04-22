@@ -53,9 +53,8 @@ public class FBEventDataHandler {
 				if(feed != null && feed.getPosts() != null && !feed.getPosts().isEmpty()){
 					long createdTime = getFBTime(feed.getPosts().get(0).getCreatedTime());
 					setmSinceId(createdTime); 			
-					mListener.onLoaded(feed);
 				}
-				
+				mListener.onLoaded(feed);
 			}
 
 			@Override
