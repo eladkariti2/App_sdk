@@ -25,14 +25,14 @@ public class StaticObjectHalper {
 		
 		w.setWave(wave);
 		w.setFlag(flag);
-		BeachModel palmahim = getBeachModel("111","פלמחים",w,4,"http://i.imgur.com/DvpvklR.png",100,10,"הגן הלאומי פלמחים (או חולות פלמחים) משתרע משפך נחל שורק עד גבול קיבוץ פלמחים על פני 221 דונם, ושייך למועצה אזורית גן רווה. אורך החוף הוא 8.8 קילומטר, וכולל בתי גידול ייחודיים. אזור הטלה של צבי ים, וצמחיה ובעלי חיים מסוגים שונים.",400,300,15);
-		BeachModel reshon = getBeachModel("112","חוף ראשון",w,4,"http://i.imgur.com/DvpvklR.png",300,22,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",430,60,15);
-		BeachModel gordon = getBeachModel("113","nmhmho",w,4,"2163581/image_assets/3563203/original.jpg?1405656157",150,97,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",100,620,0);
-		BeachModel habonim = getBeachModel("114","פלמחי�?",w,4,"com/accounts/32/broadcasters/1/vod_items/2163581/image_assets/3563203/original.jpg?1405656157",220,1000,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",400,600,20);
-		BeachModel mecmoret = getBeachModel("115","פלמחי�?",w,4,"",180,103,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",4,200,15);
-		BeachModel avram = getBeachModel("116","פלמחי�?",w,4,"htt/accounts/32/broadcasters/1/vod_items/2163581/image_assets/3563203/original.jpg?1405656157",400,15,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",432,100,25);
-		BeachModel dado = getBeachModel("117","פלמחי�?",w,4,"",300,10,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",40,60,0);
-		BeachModel hashaket = getBeachModel("118","פלמחי�?",w,4,"htt.com/accounts/32/broadcasters/1/vod_items/2163581/image_assets/3563203/original.jpg?1405656157",55,30,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",100,230,0);
+		BeachModel palmahim = getBeachModel("111","פלמחים",w,4,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdO2rmVu0MRcqJvrEK43PBrOB8fKm9WGbkjqc21af2mnOgmV2",100,10,"הגן הלאומי פלמחים (או חולות פלמחים) משתרע משפך נחל שורק עד גבול קיבוץ פלמחים על פני 221 דונם, ושייך למועצה אזורית גן רווה. אורך החוף הוא 8.8 קילומטר, וכולל בתי גידול ייחודיים. אזור הטלה של צבי ים, וצמחיה ובעלי חיים מסוגים שונים.",400,300,15);
+		BeachModel reshon = getBeachModel("112","חוף ראשון",w,4,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdO2rmVu0MRcqJvrEK43PBrOB8fKm9WGbkjqc21af2mnOgmV2",300,22,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",430,60,15);
+		BeachModel gordon = getBeachModel("113","חוף בוגרשוב",w,4,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdO2rmVu0MRcqJvrEK43PBrOB8fKm9WGbkjqc21af2mnOgmV2",150,97,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",100,620,0);
+		BeachModel habonim = getBeachModel("114","חוף מציצים",w,4,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdO2rmVu0MRcqJvrEK43PBrOB8fKm9WGbkjqc21af2mnOgmV2",220,1000,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",400,600,20);
+		BeachModel mecmoret = getBeachModel("115","חוף הבונים",w,4,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdO2rmVu0MRcqJvrEK43PBrOB8fKm9WGbkjqc21af2mnOgmV2",180,103,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",4,200,15);
+		BeachModel avram = getBeachModel("116","החוף השקט",w,4,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdO2rmVu0MRcqJvrEK43PBrOB8fKm9WGbkjqc21af2mnOgmV2",400,15,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",432,100,25);
+		BeachModel dado = getBeachModel("117","חוף אברהם",w,4,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdO2rmVu0MRcqJvrEK43PBrOB8fKm9WGbkjqc21af2mnOgmV2",300,10,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",40,60,0);
+		BeachModel hashaket = getBeachModel("118","חוף לבנון",w,4,"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGdO2rmVu0MRcqJvrEK43PBrOB8fKm9WGbkjqc21af2mnOgmV2",55,30,"חוף פלמחי�? - קיבוץ פלמחי�? חוף טיבעי לל�? מסעדות מיוחדות. קיימת מסעדה �?חת כניסה",100,230,0);
 		
 		list.add(palmahim);list.add(reshon);
 		list.add(gordon);list.add(habonim);
