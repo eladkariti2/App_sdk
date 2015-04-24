@@ -50,4 +50,18 @@ public class CustomApplication  extends Application{
 	public static Locale getDefaultDeviceLocale(){
 		return Locale.getDefault();
 	}
+	
+	public static void setApplicationLocale(Locale locale) {
+		setApplicationLocale(locale,false);
+		
+	}
+
+	public static void setApplicationLocale(Locale locale, boolean isRecovered){
+		if(!isRecovered){
+			AppData.setLocale(locale);
+		}
+		Configuration config = context.getResources().getConfiguration();
+		config.locale = locale;
+		context.getResources().updateConfiguration(config, null);
+	}
 }

@@ -1,6 +1,7 @@
 package com.application.utils;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Properties;
 
 import android.content.Context;
@@ -96,6 +97,11 @@ public class AppData {
 		String userLocation = AppData.getProperty(APConstant.USER_LOCATIOM);
 		Location location = (Location)gson.fromJson(userLocation, Location.class);
 		return location;
+	}
+	
+	public static void setLocale(Locale _locale){
+		//getInstace().locale = _locale;
+		
 	}
 
 	public static void saveUserLocation(Location location) {
