@@ -14,6 +14,7 @@ public class ImageHolderBuilder {
 
 	public final static  String ME_LIKED_POST = "me_liked_post";
 	public final static  String TYPE = "type";
+	public final static  String IS_USER_FRIEND= "IS_USER_FRIEND";
 	
 	public static ArrayList<ImageHolder> createFBPostHolder( List<FBPost> posts){
 		ArrayList<ImageHolder> holders = new ArrayList<ImageHolder>();
