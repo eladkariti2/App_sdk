@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -15,13 +16,14 @@ import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.WindowManager;
+
 import com.application.CustomApplication;
 import com.application.text.APConstant;
 
 public class OSUtil {
 
-	
-	
+
+
 	private static final String TAG = "OSUtil";
 
 	public static String getDeviceIdentifier(Context context) {
@@ -38,19 +40,19 @@ public class OSUtil {
 		}
 		return udid;
 	}
-	
+
 
 	public static int convertDPToPixels(float dp) {
 		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
 				CustomApplication.getAppContext().getResources()
-						.getDisplayMetrics());
+				.getDisplayMetrics());
 		return (int) px;
 	}
 
 	public static int convertDPToPixels(int dp) {
 		return convertDPToPixels((float) dp);
 	}
-	
+
 	public static void setLocale(Context context,String localString){
 		Locale locale = new Locale(localString);
 		Locale.setDefault(locale);
@@ -58,9 +60,9 @@ public class OSUtil {
 		config.locale = locale;
 		context.getResources().updateConfiguration(config,
 				context.getResources().getDisplayMetrics());
-		
+
 	}
-	
+
 	public static void launchMail(Context context,String[] addresses, String subject, String body, boolean isHtml) {
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 		emailIntent.setType("text/html");
@@ -69,10 +71,10 @@ public class OSUtil {
 		}
 		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
 		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, isHtml ? Html.fromHtml(body) : body);
-		
+
 		startEmailActivity(context, emailIntent);
 	}
-	
+
 	private static void startEmailActivity(Context context, Intent emailIntent) {
 		try{
 			if(!(context instanceof Activity)){
@@ -84,27 +86,27 @@ public class OSUtil {
 			Log.e(TAG, "Error when trying to send mail - startEmailActivity");
 		}
 	}
-	
+
 	public static void launchCamera(Context context){
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
 			((Activity) context).startActivityForResult(takePictureIntent,APConstant.REQUEST_IMAGE_CAPTURE_CAMERA);
 		}
 	}
-	
+
 	public static void launchGallery(Context context){
 		// Filesystem.
-	    final Intent galleryIntent = new Intent();
-	    galleryIntent.setType("image/*");
-	    galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+		final Intent galleryIntent = new Intent();
+		galleryIntent.setType("image/*");
+		galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
 
-	    // Chooser of filesystem options.
-	    final Intent chooserIntent = Intent.createChooser(galleryIntent, "BOlayam");
-	    if (chooserIntent.resolveActivity(context.getPackageManager()) != null) {
-	    	((Activity) context).startActivityForResult(chooserIntent, APConstant.REQUEST_IMAGE_CAPTURE_GALLERY);
-	    }
+		// Chooser of filesystem options.
+		final Intent chooserIntent = Intent.createChooser(galleryIntent, "BOlayam");
+		if (chooserIntent.resolveActivity(context.getPackageManager()) != null) {
+			((Activity) context).startActivityForResult(chooserIntent, APConstant.REQUEST_IMAGE_CAPTURE_GALLERY);
+		}
 	}
-	
+
 	public static String getAppVersion(Context context) {
 		String result = "";
 		try {
@@ -117,11 +119,11 @@ public class OSUtil {
 		}
 		return result;
 	}
-	
+
 	public static String getDeviceModel() {
 		return android.os.Build.MODEL;
 	}
-	
+
 	public static int getAppVersionCode(Context context) {
 		int result = 0;
 		try {
@@ -134,95 +136,109 @@ public class OSUtil {
 		}
 		return result;
 	}
-	
+
 	public static int getAPIVersion() {
 		return android.os.Build.VERSION.SDK_INT;
 	}
-	
+
 	public static int getScreenHeight(Context context) {
 		return ((WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay()
 				.getHeight();
 	}
-	
+
 	public static int getScreenWidth(Context context) {
 		return ((WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay()
 				.getWidth();
 	}
-	
+
 	public static String getDeviceData(Context context) {
 		StringBuffer deviceData = new StringBuffer();
-	
+
 		deviceData.append("Package: ").append(OSUtil.getPackageName(context))
-				.append("\n");
+		.append("\n");
 		deviceData.append("Version name: ")
-				.append(OSUtil.getAppVersion(context)).append("\n");
+		.append(OSUtil.getAppVersion(context)).append("\n");
 		deviceData.append("Version code: ")
-				.append(OSUtil.getAppVersionCode(context)).append("\n");
+		.append(OSUtil.getAppVersionCode(context)).append("\n");
 		deviceData.append("Device model: ").append(OSUtil.getDeviceModel())
-				.append("\n");
+		.append("\n");
 		deviceData.append("OS API Version: ").append(OSUtil.getAPIVersion())
 		.append("\n");
 		deviceData.append("Screen size: ")
-				.append(OSUtil.getScreenWidth(context)).append("x")
-				.append(OSUtil.getScreenHeight(context)).append("\n");
+		.append(OSUtil.getScreenWidth(context)).append("x")
+		.append(OSUtil.getScreenHeight(context)).append("\n");
 		deviceData.append("Screen density: ")
-				.append(OSUtil.getScreenDensity(context)).append("\n");
+		.append(OSUtil.getScreenDensity(context)).append("\n");
 		return deviceData.toString();
 	}
-	
+
 	public static float getScreenDensity(Context context) {
 		return context.getResources().getDisplayMetrics().density;
 	}
-	
-	
-	
+
+
+
 	public static String getPackageName() {
 		return getPackageName(CustomApplication.getAppContext());
 	}
-	
+
 	public static String getPackageName(Context context) {
 		return context.getPackageName();
 	}
 
-	
+
 	public static String getBundleId() {
 		return getPackageName();
 	}
-	
-	
+
+
 	public static int getAttributeResourceIdentifier(String name) {
 		return getResourceIdentifier(name, "attr");
 	}
-	
+
 	// Find resource id at runtime
-		public static int getResourceId(String name) {
-			return getResourceIdentifier(name, "id");
+	public static int getResourceId(String name) {
+		return getResourceIdentifier(name, "id");
+	}
+
+	public static int getAnimationResourceId(String name) {
+		return getResourceIdentifier(name, "anim");
+	}
+
+	public static int getLayoutResourceIdentifier(String name) {
+		return getResourceIdentifier(name, "layout");
+	}
+
+	public static int getDrawableResourceIdentifier(String name) {
+		return getResourceIdentifier(name, "drawable");
+	}
+
+	public static int getStringResourceIdentifier(String name) {
+		return getResourceIdentifier(name, "string");
+	}
+
+	// Find resource identifier 
+	public static int getResourceIdentifier(String name,String defType){
+		return CustomApplication.getAppContext().getResources().getIdentifier(name, defType, OSUtil.getPackageName());
+	}
+
+
+	public static void OpenFacebookIntent(Context context,String fbProfileId) {
+		Intent i ;
+		Uri uri ;
+
+		String facebookUrl = "https://www.facebook.com/" + fbProfileId;
+		try {
+			int versionCode = context.getPackageManager().getPackageInfo("com.facebook.katana", 0).versionCode;
+			uri = Uri.parse(versionCode >= 3002850 ? "fb://facewebmodal/f?href=" + facebookUrl : "fb://profile/" + fbProfileId );
+		} catch (PackageManager.NameNotFoundException e) {
+			// Facebook is not installed. Open the browser
+			uri = Uri.parse(facebookUrl);
 		}
+		i = new Intent(Intent.ACTION_VIEW, uri);
+		context.startActivity(i);
+	}
 
-		public static int getAnimationResourceId(String name) {
-			return getResourceIdentifier(name, "anim");
-		}
-
-		public static int getLayoutResourceIdentifier(String name) {
-			return getResourceIdentifier(name, "layout");
-		}
-
-		public static int getDrawableResourceIdentifier(String name) {
-			return getResourceIdentifier(name, "drawable");
-		}
-
-		public static int getStringResourceIdentifier(String name) {
-			return getResourceIdentifier(name, "string");
-		}
-
-		// Find resource identifier 
-		public static int getResourceIdentifier(String name,String defType){
-			return CustomApplication.getAppContext().getResources().getIdentifier(name, defType, OSUtil.getPackageName());
-		}
-
-
-
-		
 }
