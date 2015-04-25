@@ -1033,7 +1033,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	/** If a view is currently pressed then unpress it */
