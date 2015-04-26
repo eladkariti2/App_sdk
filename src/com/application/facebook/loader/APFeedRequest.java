@@ -97,6 +97,8 @@ public class APFeedRequest {
 						Gson gson = new Gson();
 						FBFeed feed = (FBFeed)gson.fromJson(graphResponse, FBFeed.class);						
 						mListener.onTaskComplete((FBModel)feed);
+						
+						Log.d(TAG,"JSON graphResponse "+ graphResponse);
 					} catch (Exception e) {
 						//error parsing the response
 						Log.e(TAG,"JSON error "+ e.getMessage());

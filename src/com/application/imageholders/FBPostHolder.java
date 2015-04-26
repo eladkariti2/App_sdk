@@ -88,5 +88,11 @@ public class FBPostHolder  extends ImageHolder {
 	public void setHeight(int height) {
 		this.height = height;		
 	}
+
+
+	public void setImageUrl(String image) {
+		// TODO Auto-generated method stub
+		pictureUrl = image;
+	}
 	
 }

@@ -25,6 +25,7 @@ public class ImageHolderBuilder {
 			if(p.getAttachements() != null){
 				holder.setWidth(p.getAttachements().getWidth());
 				holder.setHeight(p.getAttachements().getHeight());
+				holder.setImageUrl(p.getAttachements().getImage());
 			}
 			holders.add(holder);
 			checkIfLiked(holder,p,model.getId());
