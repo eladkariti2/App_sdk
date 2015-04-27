@@ -4,6 +4,7 @@ package com.application.activities;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -45,6 +46,7 @@ public class FeedPostActivity extends BaseActivity {
 	Bitmap imageToPost;
 	String messageToPost = "";
 	ProgressBar mProgressBar;
+	Uri mImageUri = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,16 +86,7 @@ public class FeedPostActivity extends BaseActivity {
 			}
 		});
 		
-		postButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				postToFacebook(messageToPost,imageToPost);
-			}
-
-			
-		});
+		postButton.setOnClickListener(postClickListener);
 		
 		postText.addTextChangedListener(new TextWatcher() {
 			
@@ -124,6 +117,17 @@ public class FeedPostActivity extends BaseActivity {
 		}
 	}
 	
+	OnClickListener postClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			// TODO Auto-generated method stub
+			postToFacebook(messageToPost,imageToPost);
+			postButton.setOnClickListener(null);
+		}
+	};
+	
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -133,7 +137,7 @@ public class FeedPostActivity extends BaseActivity {
 
 	private void postToFacebook(String message,Bitmap image) {
 		mProgressBar.setVisibility(View.VISIBLE);
-		APPostToFeedRequest req = new APPostToFeedRequest(AppData.getAPAccount().getFBPageID(),message, image, new AsyncTaskListener<FBModel>() {
+		APPostToFeedRequest req = new APPostToFeedRequest(this,AppData.getAPAccount().getFBPageID(),message, image, new AsyncTaskListener<FBModel>() {
 			
 			@Override
 			public void onTaskStart() {
@@ -150,6 +154,7 @@ public class FeedPostActivity extends BaseActivity {
 			@Override
 			public void handleException(Exception e) {
 				mProgressBar.setVisibility(View.GONE);
+				postButton.setOnClickListener(postClickListener);
 				// TODO Auto-generated method stub
 				//Show error message
 			}
@@ -165,7 +170,12 @@ public class FeedPostActivity extends BaseActivity {
 
 	private void dispatchTakePictureIntent(boolean fromCamera) {
 		if(fromCamera){
-			OSUtil.launchCamera(this);
+			ContentValues  values = new ContentValues();
+	         values.put(MediaStore.Images.Media.TITLE, "New Picture");
+	         values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+	          mImageUri = getContentResolver().insert(
+	                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+			OSUtil.launchCamera(this,mImageUri);
 		}else{
 			OSUtil.launchGallery(this);
 		}
@@ -179,8 +189,12 @@ public class FeedPostActivity extends BaseActivity {
 			if ( resultCode == RESULT_OK) {
 				Log.d(TAG, "Captuer pictuer status OK");
 				if(requestCode == APConstant.REQUEST_IMAGE_CAPTURE_CAMERA){
-					Bundle extras = data.getExtras();
-					imageToPost = (Bitmap) extras.get("data");
+					 try {
+						 imageToPost = MediaStore.Images.Media.getBitmap(
+	                                getContentResolver(), mImageUri);
+	                    } catch (Exception e) {
+	                        e.printStackTrace();
+	                    }
 				}else if (requestCode == APConstant.REQUEST_IMAGE_CAPTURE_GALLERY){
 					Uri imageUri = data.getData();
 					try {

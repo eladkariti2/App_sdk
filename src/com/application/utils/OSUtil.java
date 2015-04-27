@@ -3,6 +3,7 @@ package com.application.utils;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -87,10 +88,14 @@ public class OSUtil {
 		}
 	}
 
-	public static void launchCamera(Context context){
-		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
-			((Activity) context).startActivityForResult(takePictureIntent,APConstant.REQUEST_IMAGE_CAPTURE_CAMERA);
+	public static void launchCamera(Context context,Uri imageUri){
+	
+         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+       
+		//Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if (intent.resolveActivity(context.getPackageManager()) != null) {
+			((Activity) context).startActivityForResult(intent, APConstant.REQUEST_IMAGE_CAPTURE_CAMERA);
 		}
 	}
 

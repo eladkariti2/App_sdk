@@ -2,7 +2,10 @@ package com.application.facebook.loader;
 
 import java.io.ByteArrayOutputStream;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -32,13 +35,14 @@ public class APPostToFeedRequest {
 	String mLink;
 	String mPicture;
 	Bitmap mImage;
+	Context mContext;
 
-	public APPostToFeedRequest(String identifier,String postText,Bitmap image, AsyncTaskListener<FBModel> listener){
-		this(identifier, postText,image,null,null,null,null,null ,listener);	
+	public APPostToFeedRequest(Context context,String identifier,String postText,Bitmap image, AsyncTaskListener<FBModel> listener){
+		this(context,identifier, postText,image,null,null,null,null,null ,listener);	
 	}
 
-	public APPostToFeedRequest(String identifier,String postText,Bitmap image,String name,String caption, String description, String link, String picture,AsyncTaskListener<FBModel> listener){
-
+	public APPostToFeedRequest(Context context,String identifier,String postText,Bitmap image,String name,String caption, String description, String link, String picture,AsyncTaskListener<FBModel> listener){
+		mContext = context;
 		this.mIdentifier = identifier;
 		this.mMessage = postText;
 		this.mName= name;
@@ -52,14 +56,27 @@ public class APPostToFeedRequest {
 
 	public void doQuery(){
 		mListener.onTaskStart();
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				post();
+			}
+		}).start();;
+		
 
+	}
+
+	protected void post() {
+		// TODO Auto-generated method stub
 		Bundle postParams = new Bundle();
 		if(mImage!= null){
 			//postParams.putString("name", mName);
 		//	postParams.putString("caption", mCaption);
 			postParams.putString("message", mMessage);
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			mImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+			mImage.compress(Bitmap.CompressFormat.JPEG, 80, stream);
 			byte[] byteArray = stream.toByteArray();
 			postParams.putByteArray("picture",byteArray);
 		}
@@ -74,7 +91,7 @@ public class APPostToFeedRequest {
 
 		String path = (mImage == null) ? mIdentifier + "/feed" : mIdentifier + "/photos";
 
-		Request request = new Request(Session.getActiveSession(), path, postParams,HttpMethod.POST, new Callback() {
+		final Request request = new Request(Session.getActiveSession(), path, postParams,HttpMethod.POST, new Callback() {
 
 			@Override
 			public void onCompleted(Response response) {
@@ -105,8 +122,15 @@ public class APPostToFeedRequest {
 			}
 		});
 
-		RequestAsyncTask task = new RequestAsyncTask(request);
-		task.execute();
-
+		((Activity)mContext).runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				RequestAsyncTask task = new RequestAsyncTask(request);
+				task.execute();
+			}
+		});
+		
 	}
 }
