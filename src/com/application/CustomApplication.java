@@ -25,9 +25,6 @@ public class CustomApplication  extends Application{
 	public static void onCreateBehaviour(Application context) {
 		CustomApplication.context = context.getApplicationContext();
 		AppData.loadProperties(context);
-	   // context.startService(new Intent(context, LocationUpdaterService.class));
-//		FlurryAgent .init
-		
 	}
 
 	@Override
