@@ -26,7 +26,7 @@ public class StringUtil {
 
 	public static final DateFormat usDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
 	public static final DateFormat programDF = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss z");
-	public static final  SimpleDateFormat internetDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	public static final  SimpleDateFormat internetDF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 	
 	
 	public static boolean isEmpty(String str) {
