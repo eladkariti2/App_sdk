@@ -2,7 +2,6 @@ package com.application.googlemap.loader;
 
 import com.application.listener.AsyncTaskListener;
 import com.application.utils.ServerUtil;
-import com.google.android.gms.maps.model.LatLng;
 
 import android.content.Context;
 import android.graphics.Bitmap;

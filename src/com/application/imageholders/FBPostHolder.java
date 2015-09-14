@@ -1,6 +1,5 @@
 package com.application.imageholders;
 
-import com.google.android.gms.internal.he;
 
 public class FBPostHolder  extends ImageHolder {
 

@@ -22,7 +22,6 @@ import com.application.messagebroker.APBrokerNotificationTypes;
 import com.application.messagebroker.APMessageBroker;
 import com.application.utils.AppData;
 import com.application.utils.StringUtil;
-import com.google.android.gms.internal.da;
 
 public class FBEventDataHandler {
 

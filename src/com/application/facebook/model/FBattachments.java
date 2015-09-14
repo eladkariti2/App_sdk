@@ -2,7 +2,6 @@ package com.application.facebook.model;
 
 import java.util.List;
 
-import com.google.android.gms.internal.ei;
 
 public class FBattachments {
 

@@ -12,6 +12,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.util.Log;
@@ -65,13 +66,13 @@ public class OSUtil {
 	}
 
 	public static void launchMail(Context context,String[] addresses, String subject, String body, boolean isHtml) {
-		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+		Intent emailIntent = new Intent(Intent.ACTION_SEND);
 		emailIntent.setType("text/html");
 		if(addresses != null){
-			emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, addresses);
+			emailIntent.putExtra(Intent.EXTRA_EMAIL, addresses);
 		}
-		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, isHtml ? Html.fromHtml(body) : body);
+		emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+		emailIntent.putExtra(Intent.EXTRA_TEXT, isHtml ? Html.fromHtml(body) : body);
 
 		startEmailActivity(context, emailIntent);
 	}
@@ -99,6 +100,17 @@ public class OSUtil {
 		}
 	}
 
+	public static void launchCamera(Fragment f,Context context,Uri imageUri){
+		
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+      
+		//Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		if (intent.resolveActivity(context.getPackageManager()) != null) {
+			f.startActivityForResult(intent, APConstant.REQUEST_IMAGE_CAPTURE_CAMERA);
+		}
+	}
+	
 	public static void launchGallery(Context context){
 		// Filesystem.
 		final Intent galleryIntent = new Intent();
@@ -245,5 +257,7 @@ public class OSUtil {
 		i = new Intent(Intent.ACTION_VIEW, uri);
 		context.startActivity(i);
 	}
+	
+	
 
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <solid android:color="#ffffff" />
+
+    <corners android:radius="5dp" />
+
+</shape><!-- From: file:/C:/Users/elad/Desktop/project/BolaYamAppAndroidStudio/App_sdk/res/drawable/post_comment_bg.xml --><!-- From: file:/C:/Users/elad/Desktop/project/BolaYamAppAndroidStudio/App_sdk/build/intermediates/bundles/debug/res/drawable/post_comment_bg.xml -->
