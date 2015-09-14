@@ -6,11 +6,12 @@ import org.json.JSONObject;
 import com.application.facebook.model.FBModel;
 import com.application.facebook.model.FBPhoto;
 import com.application.listener.AsyncTaskListener;
+
+import com.facebook.AccessToken;
 import com.facebook.FacebookRequestError;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
 import com.google.gson.Gson;
 
 public class FacebookPhotoLoader {
@@ -24,34 +25,35 @@ public class FacebookPhotoLoader {
 	}
 	
 	public void load(){
-		new Request(
-			    Session.getActiveSession(),mPhotoId, null, HttpMethod.GET,
-			    new Request.Callback() {
-			        public void onCompleted(Response response) {
-			        	FacebookRequestError error = response.getError();
-						
+		AccessToken token = AccessToken.getCurrentAccessToken();
+		new GraphRequest(
+				token,mPhotoId, null, HttpMethod.GET,
+				new GraphRequest.Callback() {
+					public void onCompleted(GraphResponse response) {
+						FacebookRequestError error = response.getError();
+
 						// request succeeded
 						if(error == null){
 							FBModel model = new FBModel();
-							JSONObject graphResponse = response.getGraphObject().getInnerJSONObject();
+							JSONObject graphResponse = response.getJSONObject();
 							FBPhoto photo = new Gson().fromJson(graphResponse.toString(), FBPhoto.class);
-							
+
 							try {
 								mListener.onTaskComplete(photo);
 							} catch (Exception e) {
 								//error parsing the response
 								mListener.handleException(e);
 							}
-							
+
 						}
-						
+
 						// error
 						else{
 							mListener.handleException(error.getException());
 						}
-			        }
-			    }
-			).executeAsync();
+					}
+				}
+		).executeAsync();
 	}
 
 }

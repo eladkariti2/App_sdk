@@ -1,11 +1,9 @@
 package com.application.interfaces;
 
-import com.facebook.Session;
-import com.facebook.UiLifecycleHelper;
+import com.facebook.CallbackManager;
 
 public interface BaseActivityFacebookAuthoriziationI {
 
-	public UiLifecycleHelper getFacebookSessionLifecycleHelper();
-	public Session.StatusCallback initFacebookSessionCallback();
+    public CallbackManager getFBCallBackManager();
 	
 }

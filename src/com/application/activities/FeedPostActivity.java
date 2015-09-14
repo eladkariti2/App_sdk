@@ -137,29 +137,28 @@ public class FeedPostActivity extends BaseActivity {
 
 	private void postToFacebook(String message,Bitmap image) {
 		mProgressBar.setVisibility(View.VISIBLE);
-		APPostToFeedRequest req = new APPostToFeedRequest(this,AppData.getAPAccount().getFBPageID(),message, image, new AsyncTaskListener<FBModel>() {
-			
+		FacebookUtil.createPostToFeed(AppData.getAPAccount().getFBPageID(),message,image,new AsyncTaskListener<FBModel>() {
+
 			@Override
 			public void onTaskStart() {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onTaskComplete(FBModel result) {
 				// TODO Auto-generated method stub
-					closeActivity();
+				closeActivity();
 			}
-			
+
 			@Override
 			public void handleException(Exception e) {
 				mProgressBar.setVisibility(View.GONE);
 				postButton.setOnClickListener(postClickListener);
 				// TODO Auto-generated method stub
 				//Show error message
-			}
-		});
-		req.doQuery();
+			}}
+		);
 	}
 	
 	

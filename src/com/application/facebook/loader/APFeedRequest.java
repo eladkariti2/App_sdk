@@ -11,17 +11,16 @@ import com.application.facebook.model.FBModel;
 import com.application.facebook.model.FBPost;
 import com.application.listener.AsyncTaskListener;
 import com.application.utils.StringUtil;
+
+import com.facebook.AccessToken;
 import com.facebook.FacebookRequestError;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.RequestAsyncTask;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.Request.Callback;
 import com.google.gson.Gson;
 
 
-public class APFeedRequest {	
+public class APFeedRequest {
 
 	private static final String TAG = APFeedRequest.class.getSimpleName();
 
@@ -42,7 +41,7 @@ public class APFeedRequest {
 	public APFeedRequest(String identifier,AsyncTaskListener<FBModel> listener) {
 		this(identifier, null,null, listener);
 	}
-	
+
 
 	public APFeedRequest(String identifier,String since, String until, AsyncTaskListener<FBModel> listener) {
 		this(identifier,since,until,null,listener);
@@ -54,7 +53,7 @@ public class APFeedRequest {
 		StringBuilder queryUrl = new StringBuilder();
 		queryUrl.append(PAGE_FIELDS);
 		if(!StringUtil.isEmpty(since)){
-			
+
 			String dateSince = "";
 			try {
 				dateSince = StringUtil.internetDF.format(new Date(Long.parseLong(since)));
@@ -77,36 +76,36 @@ public class APFeedRequest {
 		Log.d(TAG, queryUrl.toString());
 	}
 
-	
+
 	public void doQuery(){
-	
+
 		Bundle params = new Bundle();
-	    params.putString(FIELDS, mQuery);
-	    
-		
-		Request request = new Request(Session.getActiveSession(), identifier, params,HttpMethod.GET, new Callback() {
+		params.putString(FIELDS, mQuery);
+
+		AccessToken token = AccessToken.getCurrentAccessToken();
+
+		GraphRequest request  = new GraphRequest(token, identifier, params, HttpMethod.GET, new GraphRequest.Callback() {
 
 			@Override
-			public void onCompleted(Response response) {
+			public void onCompleted(GraphResponse response) {
 				FacebookRequestError error = response.getError();
 
 				// request succeeded
 				if(error == null){
-					String graphResponse = response.getGraphObject().getInnerJSONObject().toString();				
+
+					String graphResponse = response.getJSONObject().toString();
+					Log.i(TAG,"JSON error "+ graphResponse);
 					try {
 						Gson gson = new Gson();
-						FBFeed feed = (FBFeed)gson.fromJson(graphResponse, FBFeed.class);						
+						FBFeed feed = (FBFeed)gson.fromJson(graphResponse, FBFeed.class);
 						mListener.onTaskComplete((FBModel)feed);
-						
-						Log.d(TAG,"JSON graphResponse "+ graphResponse);
 					} catch (Exception e) {
 						//error parsing the response
-						Log.e(TAG,"JSON error "+ e.getMessage());
+						Log.i(TAG,"JSON error "+ e.getMessage());
 						mListener.handleException(e);
 					}
-					
+
 				}
-				
 				// error
 				else{
 					mListener.handleException(error.getException());
@@ -114,8 +113,8 @@ public class APFeedRequest {
 			}
 		});
 
-		RequestAsyncTask task = new RequestAsyncTask(request);
-		task.execute();
+		request.executeAsync();
 	}
+
 
 }

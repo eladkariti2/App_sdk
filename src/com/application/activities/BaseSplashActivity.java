@@ -80,7 +80,7 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 			//and this activity still get called when the event raised.
 			APMessageBroker.getInstance().removeListener(APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION, BaseSplashActivity.this);
 			BaseBehaviour.stopLocationListener(mLocationManager, mLocationListenr);
-			boolean isConnected =  FacebookUtil.isTokenValid();
+			boolean isConnected =  false;//FacebookUtil.isTokenValid();
 			if(isConnected){
 				continueFlowUserConnected() ;
 			}
@@ -115,7 +115,7 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 
 	private void loadUserProfile() {
 
-		APUserProfileRequest req = new APUserProfileRequest(new AsyncTaskListener<FBModel>() {
+		FacebookUtil.loadUserInfo( new AsyncTaskListener<FBModel>() {
 
 			@Override
 			public void onTaskStart() {
@@ -136,7 +136,6 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 			}
 		});
 
-		req.doQuery();
 	}
 
 	@Override

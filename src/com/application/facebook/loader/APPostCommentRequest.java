@@ -5,13 +5,11 @@ import android.util.Log;
 
 import com.application.facebook.model.FBModel;
 import com.application.listener.AsyncTaskListener;
+import com.facebook.AccessToken;
 import com.facebook.FacebookRequestError;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Request.Callback;
-import com.facebook.RequestAsyncTask;
-import com.facebook.Response;
-import com.facebook.Session;
 
 public class APPostCommentRequest {
 
@@ -32,19 +30,20 @@ public class APPostCommentRequest {
 		mListener.onTaskStart();
 		Bundle postParams = new Bundle();
 		postParams.putString("message", mMessage);
-		
+
 		String graphPath = mIdentifier + "/comments";
-		
-		Request request = new Request(Session.getActiveSession(), graphPath, postParams,HttpMethod.POST, new Callback() {
+		AccessToken token = AccessToken.getCurrentAccessToken();
+
+		GraphRequest request  = new GraphRequest(token, graphPath, postParams,HttpMethod.POST, new GraphRequest.Callback() {
 
 			@Override
-			public void onCompleted(Response response) {
+			public void onCompleted(GraphResponse response) {
 				FacebookRequestError error = response.getError();
-				
+
 				// request succeeded
 				if(error == null){
-					
-					String graphResponse = response.getGraphObject().getInnerJSONObject().toString();
+
+					String graphResponse = response.getJSONObject().toString();
 					try {
 						mListener.onTaskComplete(null);
 					} catch (Exception e) {
@@ -60,11 +59,6 @@ public class APPostCommentRequest {
 			}
 		});
 
-		RequestAsyncTask task = new RequestAsyncTask(request);
-		task.execute();
-
-		
-		
-		
+		request.executeAsync();
 	}
 }

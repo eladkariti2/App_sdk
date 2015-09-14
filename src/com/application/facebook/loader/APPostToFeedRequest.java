@@ -12,13 +12,12 @@ import android.util.Log;
 import com.application.facebook.model.FBModel;
 import com.application.facebook.model.FBPost;
 import com.application.listener.AsyncTaskListener;
+
+import com.facebook.AccessToken;
 import com.facebook.FacebookRequestError;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Request.Callback;
-import com.facebook.RequestAsyncTask;
-import com.facebook.Response;
-import com.facebook.Session;
 import com.google.gson.Gson;
 
 public class APPostToFeedRequest {
@@ -35,14 +34,12 @@ public class APPostToFeedRequest {
 	String mLink;
 	String mPicture;
 	Bitmap mImage;
-	Context mContext;
 
-	public APPostToFeedRequest(Context context,String identifier,String postText,Bitmap image, AsyncTaskListener<FBModel> listener){
-		this(context,identifier, postText,image,null,null,null,null,null ,listener);	
+	public APPostToFeedRequest(String identifier,String postText,Bitmap image, AsyncTaskListener<FBModel> listener){
+		this(identifier, postText,image,null,null,null,null,null ,listener);
 	}
 
-	public APPostToFeedRequest(Context context,String identifier,String postText,Bitmap image,String name,String caption, String description, String link, String picture,AsyncTaskListener<FBModel> listener){
-		mContext = context;
+	public APPostToFeedRequest(String identifier,String postText,Bitmap image,String name,String caption, String description, String link, String picture,AsyncTaskListener<FBModel> listener){
 		this.mIdentifier = identifier;
 		this.mMessage = postText;
 		this.mName= name;
@@ -90,25 +87,27 @@ public class APPostToFeedRequest {
 		}
 
 		String path = (mImage == null) ? mIdentifier + "/feed" : mIdentifier + "/photos";
+		AccessToken token = AccessToken.getCurrentAccessToken();
 
-		final Request request = new Request(Session.getActiveSession(), path, postParams,HttpMethod.POST, new Callback() {
+		GraphRequest request  = new GraphRequest(token, path, postParams, HttpMethod.POST, new GraphRequest.Callback() {
 
 			@Override
-			public void onCompleted(Response response) {
+			public void onCompleted(GraphResponse response) {
 				FacebookRequestError error = response.getError();
 
 				// request succeeded
 				if(error == null){
-					String graphResponse = response.getGraphObject().getInnerJSONObject().toString();				
+					String graphResponse = response.getJSONObject().toString();
+
 					try {
 
 						Gson gson = new Gson();
-						FBPost post = (FBPost)gson.fromJson(graphResponse, FBPost.class);	
+						FBPost post = (FBPost)gson.fromJson(graphResponse, FBPost.class);
 
 						mListener.onTaskComplete((FBModel)post);
 					} catch (Exception e) {
 						//error parsing the response
-						Log.e(TAG,"JSON error "+ e.getMessage());
+						Log.i(TAG,"JSON error "+ e.getMessage());
 						mListener.handleException(e);
 					}
 
@@ -116,21 +115,13 @@ public class APPostToFeedRequest {
 
 				// error
 				else{
-					Log.e(TAG,"JSON error "+ error.getErrorMessage());
 					mListener.handleException(error.getException());
 				}
 			}
 		});
 
-		((Activity)mContext).runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				RequestAsyncTask task = new RequestAsyncTask(request);
-				task.execute();
-			}
-		});
-		
+		request.executeAsync();
+
+
 	}
 }

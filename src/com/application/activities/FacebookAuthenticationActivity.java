@@ -7,10 +7,18 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.application.base.BaseActivity;
+import com.application.facebook.listener.FBAuthoriziationListener;
+import com.application.facebook.permissions.APFBPermissions;
+import com.application.facebook.permissions.APPermissionsType;
+import com.application.facebook.permissions.BasicFBPermissions;
 import com.application.facebook.util.FacebookUtil;
-import com.facebook.Session;
-import com.facebook.Session.NewPermissionsRequest;
-import com.facebook.SessionState;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+
 
 public class FacebookAuthenticationActivity extends BaseActivity {
 	
@@ -18,107 +26,130 @@ public class FacebookAuthenticationActivity extends BaseActivity {
 	public static final String TAG = "FacebookAuthenticationActivity";
 	
 	public static final int FACEBOOK_AUTH_RESULT = 110;
-	
-	
+	private static final String AUTH_LISTENER = "APFacebookAuthoriziationListener";
+	private static final String AUTH_PERMISSIONS = "AuthPermissions";
+
+	CallbackManager callbackManager;
+	static FBAuthoriziationListener mListener;
+
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		loginToFacebook();
-	}
-	
-	private void loginToFacebook() {
-		Session session = Session.getActiveSession();
-		if (session != null && !session.isOpened() && !session.isClosed()) {
-			session.openForRead(new Session.OpenRequest(this).setCallback(new SessionStatusCallback()));
-		} else {
-			 Session.openActiveSession(this, true, new SessionStatusCallback());
-		}
+		Log.d(TAG, "Start Facebook Authoriziation");
+
+        FBAuthoriziationListener listener = (FBAuthoriziationListener)getIntent().getSerializableExtra(AUTH_LISTENER);
+		APPermissionsType type = (APPermissionsType)getIntent().getSerializableExtra(AUTH_PERMISSIONS);
+		callbackManager = CallbackManager.Factory.create();
+		LoginManager.getInstance().registerCallback(callbackManager,new APFacebookCallback(this,mListener,type));
+
+		continueFacebookLogin();
 	}
 
-	private void onSuccefullyFinished(){
-		setResult(FACEBOOK_AUTH_RESULT);
-	    finish();
+
+	//start to
+	private void continueFacebookLogin() {
+		Log.d(TAG, "Start Facebook login,Basic permissions : " + BasicFBPermissions.getInstance().getBasicPermissions());
+		LoginManager.getInstance().logInWithReadPermissions(this, BasicFBPermissions.getInstance().getBasicPermissions());
 	}
-	
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Session.getActiveSession().onActivityResult(this, requestCode, resultCode,  data);
+		callbackManager.onActivityResult(requestCode, resultCode, data);
 	}
-	
 
-	
-	public  static void StartFacebookAuthenticationActivity(Activity activity){
-		Intent intent = new Intent(activity,FacebookAuthenticationActivity.class);
+
+	public static void launchAPFacebookAutherization(Activity context, FBAuthoriziationListener listener,APPermissionsType type){
+		Intent intent = new Intent(context,FacebookAuthenticationActivity.class);
+		mListener = listener;
+
+		intent.putExtra(AUTH_PERMISSIONS,type);
+
 		intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-		//context.startActivity(intent);
-		activity.startActivityForResult(intent, 0);
+		context.startActivity(intent);
 	}
 
-	//this is facebook session listener
-		private  class SessionStatusCallback implements Session.StatusCallback {
 
-			boolean hasPendingPublishPermissions = true;
-			
-			
-			@Override
-			public void call(Session session, SessionState state,Exception exception) {
 
-				switch (state) {
-				case OPENED:
-					Log.d(TAG,"session OPENED");
-					Log.d(TAG,"onComplete ");
-					Log.d(TAG,"permissions " + session.getPermissions());
+	private class APFacebookCallback implements FacebookCallback<LoginResult> {
 
-					
-					FacebookUtil.setFBAuthToken(FacebookAuthenticationActivity.this, session.getAccessToken());
-					Log.d(TAG,"access token is " + session.getAccessToken());
-					FacebookUtil.setFBTokenExpiration(FacebookAuthenticationActivity.this,session.getExpirationDate().getTime());
-					
-					;
-					if(hasPendingPublishPermissions && FacebookUtil.publishPermissionRequestHasChanged(session, FacebookUtil.getApplicationFBPermissions())){
-						session.requestNewPublishPermissions(new NewPermissionsRequest( FacebookAuthenticationActivity.this, FacebookUtil.PUBLISH_APP_PERMISSIONS));
-						hasPendingPublishPermissions = false;
-					}else{
-						onSuccefullyFinished();
-					}
-					
-					break;
+		Context context;
+		FBAuthoriziationListener listener;
 
-				case OPENED_TOKEN_UPDATED:
-					Log.d(TAG,"session OPENED_TOKEN_UPDATED");
-					Log.d(TAG," OPENED_TOKEN_UPDATED permissions " + session.getPermissions());
-					if( !hasPendingPublishPermissions){
-						onSuccefullyFinished();
-					}
-					else if(hasPendingPublishPermissions){
-						session.requestNewPublishPermissions(new NewPermissionsRequest(FacebookAuthenticationActivity.this, FacebookUtil.PUBLISH_APP_PERMISSIONS));
-						hasPendingPublishPermissions = false;
-					}
-				
+		boolean hasPendingPublishPermissions;
+		boolean hasPendingReadPermissions;
+		APFBPermissions permissions;
 
-					break;
-				case CLOSED:
-					Log.d(TAG,"session CLOSED");
-					break;
-				case CLOSED_LOGIN_FAILED:
-					Log.d(TAG,"CLOSED_LOGIN_FAILED state " + exception.getMessage());
-					
-					break;
-				case CREATED:
-					Log.d(TAG,"session CREATED");
-					break;
-				case CREATED_TOKEN_LOADED:
-					Log.d(TAG,"session CREATED_TOKEN_LOADED");
-					break;
-				case OPENING:
-					Log.d(TAG,"session OPENING");
-					break;
-
-				}
-
-			}
+		public APFacebookCallback(Context context, FBAuthoriziationListener listener,APPermissionsType type){
+			this.context = context;
+			this.listener = listener;
+			permissions =  FacebookUtil.getPermissionsByType(type);
+			hasPendingReadPermissions = permissions.getReadPermissions() != null;
+			hasPendingPublishPermissions = permissions.getPublishPermissions() != null;
 		}
+
+
+		@Override
+		public void onSuccess(LoginResult result) {
+			AccessToken token =  result.getAccessToken();
+			Log.d(TAG, "Facebook Authoriziation success, permissions: " + token.getPermissions().toString());
+
+			if(hasPendingPublishPermissions && FacebookUtil.publishPermissionRequestHasChanged(permissions) ){
+				Log.d(TAG, "Update Facebook Token ,with permissions : " + permissions.getPublishPermissions());
+				LoginManager.getInstance().logInWithPublishPermissions(FacebookAuthenticationActivity.this, permissions.getPublishPermissions());
+				hasPendingPublishPermissions = false;
+			}
+			else if(hasPendingReadPermissions && FacebookUtil.readPermissionRequestHasChanged( permissions) ){
+				Log.d(TAG, "Update Facebook Token ,with permissions : " + permissions.getReadPermissions());
+				LoginManager.getInstance().logInWithReadPermissions(FacebookAuthenticationActivity.this, permissions.getReadPermissions());
+				hasPendingReadPermissions = false;
+			}
+			else{
+				onFinishedSuccessfully();
+			}
+
+
+
+		}
+
+		@Override
+		public void onCancel() {
+			Log.d(TAG, "Facebook Authoriziation canceled ");
+
+			if(listener != null){
+				listener.onCancel();
+			}
+			closeActivity();
+		}
+
+		@Override
+		public void onError(FacebookException e) {
+			String errorMessage  = e.getMessage();
+			Log.d(TAG, "Facebook Authoriziation error: " + errorMessage);
+
+			if(listener != null){
+				listener.onError(e);
+			}
+			closeActivity();
+
+		}
+
+
+		private void onFinishedSuccessfully() {
+
+			if(listener != null){
+				listener.onSuccess();
+			}
+
+			closeActivity();
+		}
+
+
+
+
+
+		private void closeActivity() {
+			finish();
+		}
+	}
 }

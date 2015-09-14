@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -47,7 +48,7 @@ public class OSUtil {
 	public static int convertDPToPixels(float dp) {
 		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
 				CustomApplication.getAppContext().getResources()
-				.getDisplayMetrics());
+						.getDisplayMetrics());
 		return (int) px;
 	}
 
@@ -257,7 +258,15 @@ public class OSUtil {
 		i = new Intent(Intent.ACTION_VIEW, uri);
 		context.startActivity(i);
 	}
-	
-	
 
+
+	public static boolean isApplicationInstalled(String packageName) {
+		try{
+			ApplicationInfo info = CustomApplication.getAppContext().getPackageManager().
+					getApplicationInfo(packageName, 0 );
+			return true;
+		} catch( PackageManager.NameNotFoundException e ){
+			return false;
+		}
+	}
 }

@@ -10,6 +10,7 @@ import android.sax.StartElementListener;
 
 import com.application.bg.LocationUpdaterService;
 import com.application.utils.AppData;
+import com.facebook.FacebookSdk;
 
 public class CustomApplication  extends Application{
 	
@@ -25,6 +26,7 @@ public class CustomApplication  extends Application{
 	public static void onCreateBehaviour(Application context) {
 		CustomApplication.context = context.getApplicationContext();
 		AppData.loadProperties(context);
+		FacebookSdk.sdkInitialize(getAppContext());
 	}
 
 	@Override

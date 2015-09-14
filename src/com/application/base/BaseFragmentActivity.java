@@ -7,9 +7,8 @@ import com.application.interfaces.BaseActivityFacebookAuthoriziationI;
 import com.application.messagebroker.IAPBrokerListener;
 import com.application.utils.AppData;
 import com.application.utils.StringUtil;
-import com.facebook.Session;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.Session.StatusCallback;
+import com.facebook.CallbackManager;
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,9 +22,8 @@ public class BaseFragmentActivity extends FragmentActivity implements BaseActivi
 	
 	
 	
-	private static final String TAG = "BaseActivity";
-	protected UiLifecycleHelper facebookSessionLifeCycleHelper;
-	protected Session.StatusCallback facebookSessionCallback;
+	private static final String TAG = "BaseFragmentActivity";
+
 	protected APLocationListenr mLocationListenr = new APLocationListenr();
 	protected LocationManager mLocationManager ;
 	
@@ -90,30 +88,20 @@ public class BaseFragmentActivity extends FragmentActivity implements BaseActivi
 		BaseBehaviour.onActivityResult(this, requestCode, resultCode, data);
 	}
 	
-	@Override
-	public UiLifecycleHelper getFacebookSessionLifecycleHelper() {
-		String fbID = AppData.getFacebookAppId(this);
-		if(!StringUtil.isEmpty(fbID)){
-			if(facebookSessionLifeCycleHelper == null){
-				facebookSessionLifeCycleHelper = new UiLifecycleHelper(this, new FacebookUtil.SessionStatusCallback(this,  initFacebookSessionCallback()));
-			}
-		}else{
-			Log.e(TAG,"Facebook app ID can't be null, check if 'fb_app_id' decleared on strings");
-		}
-		return facebookSessionLifeCycleHelper;
-	}
 
-	@Override
-	public StatusCallback initFacebookSessionCallback() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	@Override
 	public void onBrokerEventOccurred(Integer eventType, Object eventParams) {
 		// TODO Auto-generated method stub
 		BaseBehaviour.onBrokerEventOccurred(eventType, eventParams);
 	}
-	
-	
+
+
+	protected CallbackManager mCallbackManager;
+	@Override
+	public CallbackManager getFBCallBackManager() {
+		if(mCallbackManager == null){
+			mCallbackManager = CallbackManager.Factory.create();
+		}
+		return mCallbackManager  ;
+	}
 }

@@ -18,61 +18,40 @@ import com.application.messagebroker.APMessageBroker;
 import com.application.messagebroker.IAPBrokerListener;
 import com.application.text.APConstant;
 import com.application.utils.AppData;
-import com.facebook.UiLifecycleHelper;
+import com.facebook.CallbackManager;
 import com.google.gson.Gson;
 
 public class BaseBehaviour {
 
 	public static void  onCreate(Activity activity, Bundle savedInstanceState){
 
-		if(activity instanceof BaseActivityFacebookAuthoriziationI){
-			UiLifecycleHelper facebookLifecycleHelper = getFacebookUiHelper((BaseActivityFacebookAuthoriziationI) activity);
-			if(facebookLifecycleHelper != null){
-				facebookLifecycleHelper.onCreate(savedInstanceState);
 
-			}
-		}
 		APMessageBroker.getInstance().addListener(APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION,(IAPBrokerListener) activity);
 	}
 
 	public static void onResume(Activity activity){
-		if(activity instanceof BaseActivityFacebookAuthoriziationI){
-			UiLifecycleHelper facebookLifecycleHelper =  getFacebookUiHelper((BaseActivityFacebookAuthoriziationI) activity);
-			if(facebookLifecycleHelper != null){
-				facebookLifecycleHelper.onResume();
-			}
-		}
+
 
 	}
 
 
 	public static void onPause(Activity activity){
-		if(activity instanceof BaseActivityFacebookAuthoriziationI){
-			UiLifecycleHelper facebookLifecycleHelper =  getFacebookUiHelper((BaseActivityFacebookAuthoriziationI) activity);
-			if(facebookLifecycleHelper != null){
-				facebookLifecycleHelper.onPause();
-			}
-		}
+
 	}
 
 	public static void onActivityResult(Activity activity,int requestCode, int resultCode, Intent data) {
 		if(activity instanceof BaseActivityFacebookAuthoriziationI){
-			UiLifecycleHelper facebookLifecycleHelper =  getFacebookUiHelper((BaseActivityFacebookAuthoriziationI) activity);
-			if(facebookLifecycleHelper != null){
-				facebookLifecycleHelper.onActivityResult(requestCode, resultCode, data);
-			}
+			//this call is to init the callback manager if needed
+
+			CallbackManager manager = getFBCallbackManager((BaseActivityFacebookAuthoriziationI) activity);
+			manager.onActivityResult(requestCode,resultCode,data);
 		}
 	}
-
+	private static CallbackManager getFBCallbackManager(BaseActivityFacebookAuthoriziationI activity) {
+		return activity.getFBCallBackManager();
+	}
 	public static void onSaveInstanceState(Activity activity,Bundle outState) {
 
-		if(activity instanceof BaseActivityFacebookAuthoriziationI){
-			UiLifecycleHelper facebookLifecycleHelper =  getFacebookUiHelper((BaseActivityFacebookAuthoriziationI) activity);
-			if(facebookLifecycleHelper != null){
-				facebookLifecycleHelper.onSaveInstanceState(outState);
-
-			}
-		}
 	}
 
 	public static void onStart(Activity activity,LocationManager locationManager,APLocationListenr locationListenr){
@@ -125,31 +104,12 @@ public class BaseBehaviour {
 	public static void onStop(Activity activity,LocationManager locationManager,APLocationListenr locationListenr){
 		stopLocationListener(locationManager, locationListenr);
 
-		if(activity instanceof BaseActivityFacebookAuthoriziationI){
-			UiLifecycleHelper facebookLifecycleHelper =  getFacebookUiHelper((BaseActivityFacebookAuthoriziationI) activity);
-			if(facebookLifecycleHelper != null){
-				facebookLifecycleHelper.onStop();
-
-			}
-		}
 	}
 
 	public static void onDestroy(Activity activity){
-		if(activity instanceof BaseActivityFacebookAuthoriziationI){
-			UiLifecycleHelper facebookLifecycleHelper =  getFacebookUiHelper((BaseActivityFacebookAuthoriziationI) activity);
-			if(facebookLifecycleHelper != null){
-				facebookLifecycleHelper.onDestroy();
-			}
-		}
-		APMessageBroker.getInstance().removeListener(APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION,(IAPBrokerListener) activity);
+
 	}
 
-
-
-
-	private static UiLifecycleHelper getFacebookUiHelper(BaseActivityFacebookAuthoriziationI baseActivity){
-		return baseActivity instanceof FacebookAuthenticationActivity ? null : baseActivity.getFacebookSessionLifecycleHelper();
-	}
 
 	public static void onBrokerEventOccurred(Integer eventType,Object eventParams) {
 		// TODO Auto-generated method stub

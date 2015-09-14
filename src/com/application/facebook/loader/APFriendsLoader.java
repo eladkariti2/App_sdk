@@ -6,13 +6,12 @@ import android.util.Log;
 import com.application.facebook.model.FBFriendsList;
 import com.application.facebook.model.FBModel;
 import com.application.listener.AsyncTaskListener;
+
+import com.facebook.AccessToken;
 import com.facebook.FacebookRequestError;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Request.Callback;
-import com.facebook.RequestAsyncTask;
-import com.facebook.Response;
-import com.facebook.Session;
 import com.google.gson.Gson;
 
 
@@ -25,36 +24,38 @@ public class APFriendsLoader {
 	private static final String FIELDS= "fields";
 	private String mQuery;
 	String identifier;
-	
+
 	public APFriendsLoader(AsyncTaskListener<FBModel> listener) {
 		identifier = "me/friends";
 		mListener = listener;
-		
+
 		StringBuilder queryUrl = new StringBuilder();
 		queryUrl.append(PAGE_FIELDS);
 		mQuery = queryUrl.toString();
 		Log.d(TAG, queryUrl.toString());
 	}
-	
-	
+
+
 	public void doQuery(){
 
 		Bundle params = new Bundle();
-		params.putString(FIELDS,  mQuery);
+		params.putString(FIELDS, mQuery);
 
-		Request request = new Request(Session.getActiveSession(), identifier, params,HttpMethod.GET, new Callback() {
+		AccessToken token = AccessToken.getCurrentAccessToken();
+
+		GraphRequest request  = new GraphRequest(token, identifier, params, HttpMethod.GET, new GraphRequest.Callback() {
 
 			@Override
-			public void onCompleted(Response response) {
+			public void onCompleted(GraphResponse response) {
 				FacebookRequestError error = response.getError();
 
 				// request succeeded
 				if(error == null){
-					String graphResponse = response.getGraphObject().getInnerJSONObject().toString();				
+					String graphResponse = response.getJSONObject().toString();
 					try {
 
 						Gson gson = new Gson();
-						FBFriendsList list = (FBFriendsList)gson.fromJson(graphResponse, FBFriendsList.class);	
+						FBFriendsList list = (FBFriendsList)gson.fromJson(graphResponse, FBFriendsList.class);
 
 						mListener.onTaskComplete((FBModel)list);
 					} catch (Exception e) {
@@ -69,9 +70,8 @@ public class APFriendsLoader {
 				}
 			}
 		});
+		request.executeAsync();
 
-		RequestAsyncTask task = new RequestAsyncTask(request);
-		task.execute();
 	}
-	
+
 }

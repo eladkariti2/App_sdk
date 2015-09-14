@@ -8,13 +8,11 @@ import com.application.facebook.model.FBModel;
 import com.application.facebook.model.FBProfilePic;
 import com.application.listener.AsyncTaskListener;
 import com.application.utils.StringUtil;
+import com.facebook.AccessToken;
 import com.facebook.FacebookRequestError;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Request.Callback;
-import com.facebook.RequestAsyncTask;
-import com.facebook.Response;
-import com.facebook.Session;
 import com.google.gson.Gson;
 
 public class APUserProfileRequest {
@@ -65,23 +63,24 @@ public class APUserProfileRequest {
 
 		Bundle params = new Bundle();
 	    params.putString(FIELDS, mQuery);
-	    
-		Request request = new Request(Session.getActiveSession(), mIdentifier, params,HttpMethod.GET, new Callback() {
+		AccessToken token = AccessToken.getCurrentAccessToken();
+
+		GraphRequest request  = new GraphRequest(token, mIdentifier, params, HttpMethod.GET, new GraphRequest.Callback() {
 
 			@Override
-			public void onCompleted(Response response) {
+			public void onCompleted(GraphResponse response) {
 				FacebookRequestError error = response.getError();
 
 				// request succeeded
 				if(error == null){
-					String graphResponse = response.getGraphObject().getInnerJSONObject().toString();				
+					String graphResponse = response.getJSONObject().toString();
 					try {
 
 						Gson gson = new Gson();
-						FBModel user = (FBModel)gson.fromJson(graphResponse, FBProfilePic.class);	
-						 
+						FBModel user = (FBModel)gson.fromJson(graphResponse, FBProfilePic.class);
+
 						Log.d(TAG, "graphResponse= "+graphResponse);
-						
+
 						mListener.onTaskComplete(user);
 					} catch (Exception e) {
 						//error parsing the response
@@ -95,9 +94,8 @@ public class APUserProfileRequest {
 				}
 			}
 		});
-
-		RequestAsyncTask task = new RequestAsyncTask(request);
-		task.execute();
+//
+		request.executeAsync();
 	}
 
 	public enum UserPictureSize{

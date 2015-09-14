@@ -29,6 +29,5 @@ public class ModelLoader {
 				userProfile.gebirthday(),location.getLatitude() + "",location.getLongitude() + "",100);
 		PostUserJsonAsyncTask loader = new PostUserJsonAsyncTask(accountLoaderListener, AccountModel.class);
 		loader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, modelCreator.getURL(""));
-		
 	}
 }

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.application.base.BaseActivity;
+import com.application.facebook.listener.FBAuthoriziationListener;
 import com.application.facebook.util.FacebookUtil;
 import com.application.utils.OSUtil;
 
@@ -33,8 +34,24 @@ public class FacebookLoginActivity extends BaseActivity {
 
 		@Override
 		public void onClick(View v) {
-			FacebookUtil.clearFBToken(FacebookLoginActivity.this);
-			FacebookUtil.loginTofacebook(FacebookLoginActivity.this);
+			FacebookUtil.clearToken();
+			FacebookUtil.loginTofacebook(FacebookLoginActivity.this, new FBAuthoriziationListener() {
+				@Override
+				public void onError(Exception error) {
+
+				}
+
+				@Override
+				public void onSuccess() {
+					setResult(FacebookAuthenticationActivity.FACEBOOK_AUTH_RESULT);
+					finish();
+				}
+
+				@Override
+				public void onCancel() {
+
+				}
+			});
 		}
 	};
 	
