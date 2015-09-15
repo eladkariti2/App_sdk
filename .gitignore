@@ -12,6 +12,7 @@
 bin/
 gen/
 build/
+ external projects/Android-ViewPagerIndicator/library/build/
 
 # Local configuration file (sdk path, etc)
 .metadata/
