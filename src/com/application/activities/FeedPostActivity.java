@@ -22,8 +22,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.application.base.BaseActivity;
+import com.application.facebook.listener.FBAuthoriziationListener;
 import com.application.facebook.loader.APPostToFeedRequest;
 import com.application.facebook.model.FBModel;
+import com.application.facebook.permissions.APPermissionsType;
+import com.application.facebook.permissions.FeedFBPermissions;
 import com.application.facebook.util.FacebookUtil;
 import com.application.listener.AsyncTaskListener;
 import com.application.text.APConstant;
@@ -122,9 +125,28 @@ public class FeedPostActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			// TODO Auto-generated method stub
-			postToFacebook(messageToPost,imageToPost);
-			postButton.setOnClickListener(null);
+			if(FacebookUtil.isTokenValid(FeedFBPermissions.getInstance())) {
+				postToFacebook(messageToPost, imageToPost);
+			}else{
+				FacebookUtil.loginTofacebook(FeedPostActivity.this, new FBAuthoriziationListener() {
+					@Override
+					public void onError(Exception error) {
+						mProgressBar.setVisibility(View.GONE);
+						postButton.setOnClickListener(postClickListener);
+					}
+
+					@Override
+					public void onSuccess() {
+						postToFacebook(messageToPost, imageToPost);
+					}
+
+					@Override
+					public void onCancel() {
+
+					}
+				}, APPermissionsType.Feed);
+			}
+
 		}
 	};
 	
@@ -136,6 +158,7 @@ public class FeedPostActivity extends BaseActivity {
 	}
 
 	private void postToFacebook(String message,Bitmap image) {
+		postButton.setOnClickListener(null);
 		mProgressBar.setVisibility(View.VISIBLE);
 		FacebookUtil.createPostToFeed(AppData.getAPAccount().getFBPageID(),message,image,new AsyncTaskListener<FBModel>() {
 

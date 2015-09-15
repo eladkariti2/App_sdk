@@ -145,8 +145,8 @@ public class FacebookUtil {
 		return true;
 	}
 
-	public static void loginTofacebook(Activity activity,FBAuthoriziationListener listener){
-		FacebookAuthenticationActivity.launchAPFacebookAutherization(activity, listener,APPermissionsType.Basic);
+	public static void loginTofacebook(Activity activity,FBAuthoriziationListener listener,APPermissionsType type){
+		FacebookAuthenticationActivity.launchAPFacebookAutherization(activity, listener,type);
 	}
 
 	public static boolean isFacebookAppInstalled(){

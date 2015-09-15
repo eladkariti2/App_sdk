@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.application.base.BaseActivity;
 import com.application.facebook.listener.FBAuthoriziationListener;
+import com.application.facebook.permissions.APPermissionsType;
 import com.application.facebook.util.FacebookUtil;
 import com.application.utils.OSUtil;
 
@@ -51,7 +52,7 @@ public class FacebookLoginActivity extends BaseActivity {
 				public void onCancel() {
 
 				}
-			});
+			}, APPermissionsType.Basic);
 		}
 	};
 	
