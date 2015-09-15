@@ -5,7 +5,7 @@ android {
     compileSdkVersion "Google Inc.:Google APIs:18"
     buildToolsVersion "22.0.1"
 
-    compileOptions.encoding = 'ISO-8859-1'
+    compileOptions.encoding = 'UTF-8'
 
     defaultConfig {
         minSdkVersion 16
