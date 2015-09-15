@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.application.facebook.util.FacebookUtil;
 import com.application.imageholders.ImageHolder;
 import com.application.imageholders.ImageHolderBuilder;
 import com.application.models.BeachModel;
@@ -73,7 +74,7 @@ public class StaticObjectHalper {
 	public static ArrayList<ImageHolder> getStaticUsers(){
 		ArrayList<ImageHolder> holders = new ArrayList<ImageHolder>();
 		for(int i = 0 ; i< 80; i++){
-			ImageHolder holder = new ImageHolder("629860287121815", "Elad kariti", "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xaf1/v/t1.0-1/c0.0.320.320/p320x320/10273794_582201381887706_2165682812399660997_n.jpg?oh=146e4a44739de6f2a1e99fa822dfee31&oe=55E0DBD4&__gda__=1436314007_b0c7ec228c153691f6d9fda2f03a3726");
+			ImageHolder holder = new ImageHolder("629860287121815", "Elad kariti",  FacebookUtil.getUserProfile().getUrl());
 			holder.addExtension(ImageHolderBuilder.IS_USER_FRIEND,i% 10 ==0 ? "true" : "false");
 			holders.add(holder);
 		}

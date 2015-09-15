@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.view.View;
 
 import com.application.CustomApplication;
 import com.application.activities.FacebookAuthenticationActivity;
@@ -319,7 +320,7 @@ public class FacebookUtil {
 	 * @param listener listener to call when request finished
 	 * @param isLiked if the user liked the post
 	 */
-	public static void  createLike(String identifier,AsyncTaskListener listener,boolean isLiked){
+	public static void  createLike(String identifier,APPermissionsType type,AsyncTaskListener listener,boolean isLiked){
 		APLikeRequest request = new APLikeRequest(identifier,listener,isLiked);
 		request.doQuery();;
 	}
@@ -330,9 +331,32 @@ public class FacebookUtil {
 	 * @param message the comment message
 	 * @param listener  listener to call when request finished
 	 */
-	public static void createComment(String identifier,String message,AsyncTaskListener<FBModel> listener) {
-		APPostCommentRequest request = new APPostCommentRequest(identifier,message,listener);
-		request.doQuery();
+	public static void createComment(Context context,final String identifier,final String message,APPermissionsType type,final AsyncTaskListener<FBModel> listener) {
+
+		if(FacebookUtil.isTokenValid(getPermissionsByType(type))) {
+			APPostCommentRequest request = new APPostCommentRequest(identifier,message,listener);
+			request.doQuery();
+		}else{
+			FacebookUtil.loginTofacebook((Activity)context, new FBAuthoriziationListener() {
+				@Override
+				public void onError(Exception error) {
+					listener.handleException(error);
+				}
+
+				@Override
+				public void onSuccess() {
+
+					APPostCommentRequest request = new APPostCommentRequest(identifier,message,listener);
+					request.doQuery();
+				}
+
+				@Override
+				public void onCancel() {
+
+				}
+			}, APPermissionsType.Feed);
+		}
+
 	}
 
 
@@ -343,9 +367,32 @@ public class FacebookUtil {
 	 * @param image image
 	 * @param listener listener to call when request finished
 	 */
-	public static void  createPostToFeed(String identifier, String postText, Bitmap image, AsyncTaskListener<FBModel> listener) {
-		APPostToFeedRequest request = new APPostToFeedRequest(identifier,postText,image,listener);
-		request.doQuery();
+	public static void  createPostToFeed(Context context,final String identifier,final String postText,final Bitmap image,APPermissionsType type,final AsyncTaskListener<FBModel> listener) {
+		if(FacebookUtil.isTokenValid(getPermissionsByType(type))) {
+			APPostToFeedRequest request = new APPostToFeedRequest(identifier,postText,image,listener);
+			request.doQuery();
+		}else{
+			FacebookUtil.loginTofacebook((Activity)context, new FBAuthoriziationListener() {
+				@Override
+				public void onError(Exception error) {
+					listener.handleException(error);
+				}
+
+				@Override
+				public void onSuccess() {
+
+					APPostToFeedRequest request = new APPostToFeedRequest(identifier,postText,image,listener);
+					request.doQuery();
+				}
+
+				@Override
+				public void onCancel() {
+
+				}
+			}, APPermissionsType.Feed);
+		}
+
+
 	}
 
 //	/**

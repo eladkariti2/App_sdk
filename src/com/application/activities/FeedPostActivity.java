@@ -125,27 +125,7 @@ public class FeedPostActivity extends BaseActivity {
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			if(FacebookUtil.isTokenValid(FeedFBPermissions.getInstance())) {
-				postToFacebook(messageToPost, imageToPost);
-			}else{
-				FacebookUtil.loginTofacebook(FeedPostActivity.this, new FBAuthoriziationListener() {
-					@Override
-					public void onError(Exception error) {
-						mProgressBar.setVisibility(View.GONE);
-						postButton.setOnClickListener(postClickListener);
-					}
-
-					@Override
-					public void onSuccess() {
-						postToFacebook(messageToPost, imageToPost);
-					}
-
-					@Override
-					public void onCancel() {
-
-					}
-				}, APPermissionsType.Feed);
-			}
+			postToFacebook(messageToPost, imageToPost);
 
 		}
 	};
@@ -160,7 +140,7 @@ public class FeedPostActivity extends BaseActivity {
 	private void postToFacebook(String message,Bitmap image) {
 		postButton.setOnClickListener(null);
 		mProgressBar.setVisibility(View.VISIBLE);
-		FacebookUtil.createPostToFeed(AppData.getAPAccount().getFBPageID(),message,image,new AsyncTaskListener<FBModel>() {
+		FacebookUtil.createPostToFeed(FeedPostActivity.this,AppData.getAPAccount().getFBPageID(),message,image,APPermissionsType.Feed,new AsyncTaskListener<FBModel>() {
 
 			@Override
 			public void onTaskStart() {
