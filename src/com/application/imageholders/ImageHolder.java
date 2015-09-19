@@ -14,6 +14,10 @@ public class ImageHolder {
 	private String mID;
 	HashMap<String, String> mExtension;
 
+	public ImageHolder(String url){
+		this("","",url);
+	}
+
 	public ImageHolder(String id,String title,String url){
 		this(id,title,"",url);
 	}
