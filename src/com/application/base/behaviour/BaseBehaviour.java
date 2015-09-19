@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.application.activities.FacebookAuthenticationActivity;
 import com.application.gps.listener.APLocationListenr;
@@ -25,7 +26,11 @@ public class BaseBehaviour {
 
 	public static void  onCreate(Activity activity, Bundle savedInstanceState){
 
+		registerTolistener(activity);
 
+	}
+
+	private static void registerTolistener(Activity activity) {
 		APMessageBroker.getInstance().addListener(APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION,(IAPBrokerListener) activity);
 	}
 
@@ -65,8 +70,8 @@ public class BaseBehaviour {
 		if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ){
 			buildAlertMessageNoGps(activity);
 		}
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 5 * 60 * 1000,locationListenr);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 5 * 60 * 1000,locationListenr);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,60*  1000,locationListenr);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 60* 1000,locationListenr);
 	}
 
 	public static void stopLocationListener(LocationManager locationManager,APLocationListenr locationListenr) {
@@ -116,6 +121,7 @@ public class BaseBehaviour {
 		switch (eventType) {
 		case APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION:
 			Location location = (Location)eventParams;
+			Log.d("BaseBehaviur","User location update - longitude = " + location.getLongitude()  +", Latitude = " + location.getLatitude());
 			AppData.saveUserLocation(location);
 			break;
 

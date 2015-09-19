@@ -74,6 +74,9 @@ public class StaticObjectHalper {
 	public static ArrayList<ImageHolder> getStaticUsers(){
 		ArrayList<ImageHolder> holders = new ArrayList<ImageHolder>();
 		for(int i = 0 ; i< 80; i++){
+			if(FacebookUtil.getUserProfile() == null){
+				FacebookUtil.getUserProfile();
+			}
 			ImageHolder holder = new ImageHolder("629860287121815", "Elad kariti",  FacebookUtil.getUserProfile().getUrl());
 			holder.addExtension(ImageHolderBuilder.IS_USER_FRIEND,i% 10 ==0 ? "true" : "false");
 			holders.add(holder);

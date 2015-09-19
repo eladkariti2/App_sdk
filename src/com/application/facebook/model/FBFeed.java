@@ -6,7 +6,7 @@ import java.util.List;
 public class FBFeed extends FBModel {
 
 	protected FBPostContainer feed;
-	
+
 	public List<FBPost> getPosts() {
 		List<FBPost> post = new ArrayList<FBPost>();
 		if(feed != null){

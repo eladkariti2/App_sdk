@@ -94,7 +94,7 @@ public class APFeedRequest {
 				if(error == null){
 
 					String graphResponse = response.getJSONObject().toString();
-					Log.i(TAG,"JSON error "+ graphResponse);
+					Log.i(TAG,"JSON response "+ graphResponse);
 					try {
 						Gson gson = new Gson();
 						FBFeed feed = (FBFeed)gson.fromJson(graphResponse, FBFeed.class);

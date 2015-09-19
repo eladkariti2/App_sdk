@@ -331,7 +331,7 @@ public class FacebookUtil {
 	 * @param message the comment message
 	 * @param listener  listener to call when request finished
 	 */
-	public static void createComment(Context context,final String identifier,final String message,APPermissionsType type,final AsyncTaskListener<FBModel> listener) {
+	public static void createComment(Context context,final                                                                                String identifier,final String message,APPermissionsType type,final AsyncTaskListener<FBModel> listener) {
 
 		if(FacebookUtil.isTokenValid(getPermissionsByType(type))) {
 			APPostCommentRequest request = new APPostCommentRequest(identifier,message,listener);
