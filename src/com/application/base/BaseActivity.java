@@ -97,6 +97,7 @@ public class BaseActivity extends Activity implements BaseActivityFacebookAuthor
 	}
 
 	protected CallbackManager mCallbackManager;
+
 	@Override
 	public CallbackManager getFBCallBackManager() {
 		if(mCallbackManager == null){

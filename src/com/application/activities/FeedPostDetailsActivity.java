@@ -29,6 +29,7 @@ import com.application.facebook.loader.APPostCommentRequest;
 import com.application.facebook.model.FBComment;
 import com.application.facebook.model.FBModel;
 import com.application.facebook.model.FBPost;
+import com.application.facebook.permissions.APPermissionsType;
 import com.application.facebook.util.FacebookUtil;
 import com.application.imageholders.FBPostHolder;
 import com.application.imageholders.ImageHolder;
@@ -87,14 +88,14 @@ public class FeedPostDetailsActivity extends BaseActivity {
 
 	private void postComment() {
 		// TODO Auto-generated method stub
-		APPostCommentRequest req = new APPostCommentRequest(holder.getID(), mPostTextMessage, new AsyncTaskListener<FBModel>() {
-			
+		FacebookUtil.createComment(this,holder.getID(),mPostTextMessage, APPermissionsType.Feed, new AsyncTaskListener<FBModel>() {
+
 			@Override
 			public void onTaskStart() {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void onTaskComplete(FBModel result) {
 				// TODO Auto-generated method stub
@@ -102,14 +103,15 @@ public class FeedPostDetailsActivity extends BaseActivity {
 				mPostTextMessage = "";
 				mPostText.setText("");
 			}
-			
+
 			@Override
 			public void handleException(Exception e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		req.doQuery();
+
+
 	}
 
 	private void loadCommentIfNeeded() {

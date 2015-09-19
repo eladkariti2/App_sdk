@@ -10,7 +10,7 @@ import java.util.List;
 public abstract class APFBPermissions {
 
 
-    public static final List<String> BASIC_PERMISSIONS = Arrays.asList(new String[]{"user_friends"});
+    public static final List<String> BASIC_PERMISSIONS = Arrays.asList(new String[]{"user_friends","email","user_birthday"});
     public static final List<String> PUBLISH_PERMISSIONS = Arrays.asList(new String[] {"publish_actions"});
     public static final List<String> EXTENDED_READ_PERMISSIONS = Arrays.asList(new String[] {});
 

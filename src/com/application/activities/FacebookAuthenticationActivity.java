@@ -29,7 +29,6 @@ public class FacebookAuthenticationActivity extends BaseActivity {
 	private static final String AUTH_LISTENER = "APFacebookAuthoriziationListener";
 	private static final String AUTH_PERMISSIONS = "AuthPermissions";
 
-	CallbackManager callbackManager;
 	static FBAuthoriziationListener mListener;
 
 	@Override
@@ -39,8 +38,8 @@ public class FacebookAuthenticationActivity extends BaseActivity {
 
         FBAuthoriziationListener listener = (FBAuthoriziationListener)getIntent().getSerializableExtra(AUTH_LISTENER);
 		APPermissionsType type = (APPermissionsType)getIntent().getSerializableExtra(AUTH_PERMISSIONS);
-		callbackManager = CallbackManager.Factory.create();
-		LoginManager.getInstance().registerCallback(callbackManager,new APFacebookCallback(this,mListener,type));
+		mCallbackManager = getFBCallBackManager();
+		LoginManager.getInstance().registerCallback(mCallbackManager,new APFacebookCallback(this,mListener,type));
 
 		continueFacebookLogin();
 	}
@@ -55,7 +54,7 @@ public class FacebookAuthenticationActivity extends BaseActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		callbackManager.onActivityResult(requestCode, resultCode, data);
+		mCallbackManager.onActivityResult(requestCode, resultCode, data);
 	}
 
 
