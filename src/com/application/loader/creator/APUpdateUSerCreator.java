@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class APUpdateUSerCreator extends APLoaderCreator {
 
-	public static final String USERS_URL_PREFIX = "User/";
+	public static final String USERS_URL_PREFIX = "User";
 	
 	public static final String USER_NAME = "UserName";
 	public static final String USER_BIRTHDAY = "birthday";
@@ -13,13 +13,13 @@ public class APUpdateUSerCreator extends APLoaderCreator {
 	
 	String mLatitue;
 	String mLongitue;
-	int mRaduis;
+	String mArea;
 	
 	String mUserName;
 	String mUserPhoto;
 	String mUserBirthday;
 	
-	public APUpdateUSerCreator(String name,String photo,String birthday,String latitue,String longitue,int raduis){
+	public APUpdateUSerCreator(String name,String photo,String birthday,String latitue,String longitue,String area){
 		mUserBirthday = birthday;
 		mUserName = name;
 		mUserPhoto = photo;

@@ -37,6 +37,7 @@ import com.application.utils.JsonUtil;
 import com.application.utils.OSUtil;
 import com.application.utils.PreferenceUtil;
 
+import com.application.utils.StringUtil;
 import com.facebook.AccessToken;
 import com.facebook.FacebookRequestError;
 import com.facebook.GraphRequest;
@@ -385,7 +386,7 @@ public class FacebookUtil {
 	 */
 	public static void  createPostToFeed(Activity activity,final String identifier,final String postText,final Bitmap image,APPermissionsType type,final AsyncTaskListener<FBModel> listener) {
 
-		loginIfNeeded(activity,type, new FBAuthoriziationListener() {
+		loginIfNeeded(activity, type, new FBAuthoriziationListener() {
 			@Override
 			public void onError(Exception error) {
 				listener.handleException(error);
@@ -393,7 +394,7 @@ public class FacebookUtil {
 
 			@Override
 			public void onSuccess() {
-				APPostToFeedRequest request = new APPostToFeedRequest(identifier,postText,image,listener);
+				APPostToFeedRequest request = new APPostToFeedRequest(identifier, postText, image, listener);
 				request.doQuery();
 			}
 
@@ -445,6 +446,10 @@ public class FacebookUtil {
 
 	public static FBProfilePic getUserProfile(){
 		String user = AppData.getProperty(APConstant.USER_FACEBOOK_PROFILE);
+		if(StringUtil.isEmpty(user)){
+			Log.d("ELAD","user is null");
+			Log.d("ELAD","Properties =  " + AppData.getProperties());
+		}
 		FBProfilePic model = (FBProfilePic)JsonUtil.serialize(user, FBProfilePic.class);
 		return model;
 	}

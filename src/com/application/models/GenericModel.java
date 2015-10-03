@@ -9,8 +9,6 @@ public class GenericModel {
 	private String name;
 	private int score ;
 	private String image;
-	private int likes;
-	private int comments;
 	private String description;
 	private String attractionsDescription;//will be object
 	private String parkingLot;//will be object
@@ -68,22 +66,7 @@ public class GenericModel {
 		this.image = mImage;
 
 	}
-
-	public int getLikes() {
-		return likes;
-	}
 	
-	public void setLikes(int mLikes) {
-		this.likes = mLikes;
-	}
-	
-	public int getComments() {
-		return comments;
-	}
-
-	public void setComments(int mComments) {
-		this.comments = mComments;
-	}
 	
 	public String getDescription() {
 		return description;
