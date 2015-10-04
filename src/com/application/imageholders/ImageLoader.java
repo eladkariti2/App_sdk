@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Looper;
 import android.support.v4.util.LruCache;
@@ -18,7 +17,7 @@ import com.android.volley.toolbox.Volley;
 import com.android.volley.toolbox.ImageLoader.ImageCache;
 import com.android.volley.toolbox.ImageLoader.ImageContainer;
 import com.android.volley.toolbox.ImageLoader.ImageListener;
-import com.application.CustomApplication;
+import com.application.app.CustomApplication;
 import com.application.listener.AsyncTaskListener;
 
 

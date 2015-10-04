@@ -1,14 +1,11 @@
-package com.application;
+package com.application.app;
 
 import java.util.Locale;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.sax.StartElementListener;
 
-import com.application.bg.LocationUpdaterService;
 import com.application.utils.AppData;
 import com.facebook.FacebookSdk;
 

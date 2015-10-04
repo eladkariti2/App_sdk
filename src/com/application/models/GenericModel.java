@@ -4,12 +4,12 @@ import java.util.List;
 
 public class GenericModel {
 
-	private String id;
+	private String Id;
 	private List<String> areaPoints;
-	private String name;
-	private int score ;
-	private String image;
-	private String description;
+	private String Name;
+	private int Score;
+	private String ImagesJson;
+	private String Description;
 	private String attractionsDescription;//will be object
 	private String parkingLot;//will be object
 	
@@ -26,11 +26,11 @@ public class GenericModel {
 	
 	
 	public String getid() {
-		return id;
+		return Id;
 	}
 	
 	public void setid(String mID) {
-		this.id = mID;
+		this.Id = mID;
 	}
 	
 	public List<String> getAreaPoints() {
@@ -43,37 +43,37 @@ public class GenericModel {
 	}
 
 	public String getName() {
-		return name;
+		return Name;
 	}
 	
 	public void setName(String mName) {
-		this.name = mName;
+		this.Name = mName;
 	}
 	
 	public int getScore() {
-		return score;
+		return Score;
 	}
 
 	public void setScore(int mScore) {
-		this.score = mScore;
+		this.Score = mScore;
 	}
 	
 	public String getImage() {
-		return image;
+		return ImagesJson;
 	}
 	
 	public void setImage(String mImage) {
-		this.image = mImage;
+		this.ImagesJson = mImage;
 
 	}
 
 	
 	public String getDescription() {
-		return description;
+		return Description;
 	}
 	
 	public void setDescription(String mDescription) {
-		this.description = mDescription;
+		this.Description = mDescription;
 	}
 	
 	public String getAttractionsDescription() {

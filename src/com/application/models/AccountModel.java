@@ -4,64 +4,64 @@ import java.util.List;
 
 public class AccountModel  {
 	
-	private String mID;
-	private String mFbPageID;
-	private String mVersionNumber;
-	private String mDepracatedText;
-	private String mAdLink;
-	private String mAdProvider;
+	private String Id;
+	private String FacebookPageId;
+	private String VersionNumber;
+	private String DepracatedText;
+	private String AdLink;
+	private String AdProvider;
 	private String mBaanerAd;
-	private String mGameLink;
-	private List<BeachModel> mBeaches;
+	private String GameLink;
+	private List<BeachModel> BeachesList;
 
 
 	
 	public String getID() {
-		return mID;
+		return Id;
 	}
 	
 	public void setID(String id) {
-		this.mID = mID;
+		this.Id = Id;
 	}
 
 
 	public String getFBPageID() {
 		// TODO Auto-generated method stub
 		//String id = "515881818544964"; // temp
-		return mFbPageID;
+		return FacebookPageId;
 	}
 
 
 	public String getVersionNumber() {
-		return mVersionNumber;
+		return VersionNumber;
 	}
 
 	public void setVersionNumber(String mVersionNumber) {
-		this.mVersionNumber = mVersionNumber;
+		this.VersionNumber = mVersionNumber;
 	}
 
 	public String getDepracatedText() {
-		return mDepracatedText;
+		return DepracatedText;
 	}
 
 	public void setDepracatedText(String mDepracatedText) {
-		this.mDepracatedText = mDepracatedText;
+		this.DepracatedText = mDepracatedText;
 	}
 
 	public String getAdLink() {
-		return mAdLink;
+		return AdLink;
 	}
 
 	public void setAdLink(String mAdLink) {
-		this.mAdLink = mAdLink;
+		this.AdLink = mAdLink;
 	}
 
 	public String getAdProvider() {
-		return mAdProvider;
+		return AdProvider;
 	}
 
 	public void setAdProvider(String mAdProvider) {
-		this.mAdProvider = mAdProvider;
+		this.AdProvider = mAdProvider;
 	}
 
 	public String getmBaanerAd() {
@@ -73,18 +73,18 @@ public class AccountModel  {
 	}
 
 	public String getGameLink() {
-		return mGameLink;
+		return GameLink;
 	}
 
 	public void setGameLink(String mGameLink) {
-		this.mGameLink = mGameLink;
+		this.GameLink = mGameLink;
 	}
 
 	public List<BeachModel> getBeaches() {
-		return mBeaches;
+		return BeachesList;
 	}
 
 	public void setBeaches(List<BeachModel> mBeaches) {
-		this.mBeaches = mBeaches;
+		this.BeachesList = mBeaches;
 	}
 }

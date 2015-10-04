@@ -3,7 +3,6 @@ package com.application.utils;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
-import com.application.CustomApplication;
 import com.application.imageholders.ImageHolder;
 import com.application.imageholders.ImageLoader;
 import com.application.interfaces.OnCustomImageLoaderListener;

@@ -3,35 +3,35 @@ package com.application.models;
 public class BeachModel extends GenericModel {
 
 	private Whether whether;
-	private int womenNumber;
-	private int mensNumber;
-	private double entryFee;
+	private int WomensNumber;
+	private int MensNumber;
+	private double EntryFee;
 	
 
 	public int getWomenNumber() {
-		return womenNumber;
+		return WomensNumber;
 	}
 	
 	public void setWomenNumber(int mWomenNumber) {
-		this.womenNumber = mWomenNumber;
+		this.WomensNumber = mWomenNumber;
 	}
 	
 	public int getMensNumber() {
-		return mensNumber;
+		return MensNumber;
 	}
 
 	public void setMensNumber(int mMensNumber) {
-		this.mensNumber = mMensNumber;
+		this.MensNumber = mMensNumber;
 	}
 
 	
 	public double getEntryFee() {
-		return entryFee;
+		return EntryFee;
 	
 	}
 	
 	public void setEntryFee(double mEntryFee) {
-		this.entryFee = mEntryFee;
+		this.EntryFee = mEntryFee;
 	}
 
 	public Whether getWhether() {

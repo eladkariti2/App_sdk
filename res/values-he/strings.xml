@@ -1,4 +1,7 @@
 <resources>
 
     <string name="first_to_post_comment">תהיה הראשון להגיב ...</string>
+
+    <string name="deprecation_error_message_title">Depracation Title</string>
+    <string name="deprecation_error_message">Depracation message </string>
 </resources>

@@ -3,7 +3,7 @@ package com.application.utils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.application.CustomApplication;
+import com.application.app.CustomApplication;
 
 public class PreferenceUtil {
 	 private static PreferenceUtil instance;

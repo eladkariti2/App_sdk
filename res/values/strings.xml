@@ -9,7 +9,10 @@
       <string name="converted_view_custom_tag">converted view tag</string>
     
     <string name="first_to_post_comment">Be the first to comment ...</string>
-      
+
+    <string name="deprecation_error_message_title">Depracation Title</string>
+    <string name="deprecation_error_message">Depracation message </string>
+
         <!--  Font References -->    
     <string name="font_name_regular"></string>
     <string name="font_name_light"></string>

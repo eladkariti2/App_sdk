@@ -1,19 +1,14 @@
 package com.application.facebook.util;
 
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
-import android.view.View;
 
-import com.application.CustomApplication;
+import com.application.app.CustomApplication;
 import com.application.activities.FacebookAuthenticationActivity;
-import com.application.facebook.FacebookPermissions;
 import com.application.facebook.listener.FBAuthoriziationListener;
 import com.application.facebook.loader.APCommentsRequest;
 import com.application.facebook.loader.APFeedRequest;
@@ -35,7 +30,6 @@ import com.application.text.APConstant;
 import com.application.utils.AppData;
 import com.application.utils.JsonUtil;
 import com.application.utils.OSUtil;
-import com.application.utils.PreferenceUtil;
 
 import com.application.utils.StringUtil;
 import com.facebook.AccessToken;
@@ -44,9 +38,6 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
-import com.google.gson.Gson;
-
-
 
 
 public class FacebookUtil {

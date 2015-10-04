@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +18,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
 
-import com.application.CustomApplication;
+import com.application.app.CustomApplication;
 import com.google.android.maps.GeoPoint;
 
 public class StringUtil {

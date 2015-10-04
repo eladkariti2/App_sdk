@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.application.CustomApplication;
+import com.application.app.CustomApplication;
 import com.application.utils.OSUtil;
 
 
