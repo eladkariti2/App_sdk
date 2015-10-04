@@ -38,11 +38,11 @@ public class APLoaderCreator {
 		 int timeStamp = (int) ((new Date().getTime())/1000);
 			
 		 params.put(TIMESTAMP_KEY, "" + timeStamp);
-		 params.put(DEVICE_ID_KEY, OSUtil.getDeviceIdentifier(CustomApplication.getAppContext()));	
+//		 params.put(DEVICE_ID_KEY, OSUtil.getDeviceIdentifier(CustomApplication.getAppContext()));
 		 params.put(BUNDLE_KEY, OSUtil.getBundleId());	
-		 params.put(OS_TYPE_KEY,OS_TYPE_VALUE );
-		 params.put(OS_VERSION_KEY,"" + OSUtil.getAPIVersion());
-		 params.put(DEVICE_MODEL_KEY,OSUtil.getDeviceModel() );		
+//		 params.put(OS_TYPE_KEY,OS_TYPE_VALUE );
+//		 params.put(OS_VERSION_KEY,"" + OSUtil.getAPIVersion());
+//		 params.put(DEVICE_MODEL_KEY,OSUtil.getDeviceModel() );
 		 params.put(APP_VERSION,OSUtil.getAppVersion(CustomApplication.getAppContext()) );
 		 params.put(LANG,CustomApplication.getApplicationLocale().getLanguage());
 		 params.put(LATITUDE,latitue);

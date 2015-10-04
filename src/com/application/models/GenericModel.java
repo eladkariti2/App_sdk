@@ -66,7 +66,7 @@ public class GenericModel {
 		this.image = mImage;
 
 	}
-	
+
 	
 	public String getDescription() {
 		return description;

@@ -54,11 +54,8 @@ public class StaticObjectHalper {
 		model.setName(name);
 		model.setDescription(desciption);
 		model.setEntryFee(entryFee);
-		model.setLikes(likes);
 		model.setMensNumber(mensNum);
 		model.setWomenNumber(WomenNum);
-		model.setComments(comments);
-		model.setLikes(likes);
 		model.setImage(image);
 		model.setWhether(whether);
 		model.setAttractionsDescription("בתי קפה, פאבים, סירות מנועת טיולים מאורגנים ועוד");

@@ -1,5 +1,7 @@
 package com.application.loader.creator;
 
+import com.application.models.AreaType;
+
 import java.util.Map;
 
 public class APUpdateUSerCreator extends APLoaderCreator {
@@ -7,25 +9,27 @@ public class APUpdateUSerCreator extends APLoaderCreator {
 	public static final String USERS_URL_PREFIX = "User";
 	
 	public static final String USER_NAME = "UserName";
-	public static final String USER_BIRTHDAY = "birthday";
-	public static final String USER_PHOTO = "Photo";
-	public static final String RADIUS = "Radius";
+	public static final String USER_BIRTHDAY = "UserBirthday";
+	public static final String USER_PHOTO = "UserPhoto";
+	public static final String AREA = "UserArea";
+	public static final String USER_ID = "UserID";
 	
 	String mLatitue;
 	String mLongitue;
-	String mArea;
+	AreaType mArea;
 	
 	String mUserName;
 	String mUserPhoto;
 	String mUserBirthday;
-	
-	public APUpdateUSerCreator(String name,String photo,String birthday,String latitue,String longitue,String area){
+	String mUserID;
+	public APUpdateUSerCreator(String userId,String name,String photo,String birthday,String latitue,String longitue,AreaType area){
 		mUserBirthday = birthday;
 		mUserName = name;
 		mUserPhoto = photo;
-		mRaduis = raduis;
+		mArea = area;
 		mLatitue = latitue;
 		mLongitue = longitue;
+		mUserID = userId;
 	}
 	
 	public String getURL(String accountId){
@@ -39,8 +43,8 @@ public class APUpdateUSerCreator extends APLoaderCreator {
 	
 	public  Map<String,String>  getBaseParams(){
 		 Map<String,String> params = super.getBaseParams(mLatitue,mLongitue);
-		
-		 params.put(RADIUS, "" + mRaduis);
+		params.put(USER_ID, "" + mUserID);
+		 params.put(AREA, "" + mArea.toString());
 		 params.put(USER_BIRTHDAY, "" + mUserBirthday);
 		 params.put(USER_NAME, "" + mUserName);
 		 params.put(USER_PHOTO, "" + mUserPhoto);
