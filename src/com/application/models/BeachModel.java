@@ -2,11 +2,10 @@ package com.application.models;
 
 public class BeachModel extends GenericModel {
 
-	private Whether whether;
+	private BeachStatus beachStatus;
 	private int WomensNumber;
 	private int MensNumber;
 	private double EntryFee;
-	
 
 	public int getWomenNumber() {
 		return WomensNumber;
@@ -34,12 +33,12 @@ public class BeachModel extends GenericModel {
 		this.EntryFee = mEntryFee;
 	}
 
-	public Whether getWhether() {
-		return whether;
+	public BeachStatus getBeachStatus() {
+		return beachStatus;
 	}
 
-	public void setWhether(Whether whether) {
-		this.whether = whether;
+	public void setBeachStatus(BeachStatus beachStatus) {
+		this.beachStatus = beachStatus;
 	}
 	
 	

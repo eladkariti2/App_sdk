@@ -1,6 +1,7 @@
 <resources>
-
-    
+    <!-- Exceptions -->
+    <string name="no_connection">In order to use the application, internet connection is needed.</string>
+    <string name="general_error">Problem loading the application, please try again later</string>
 
           <string name="app_name">AppSDK</string>
     <string name="fb_app_id"></string>

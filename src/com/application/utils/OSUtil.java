@@ -9,6 +9,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -278,4 +280,15 @@ public class OSUtil {
 			Log.e("LaunchBrowser", "Failed to open "+ url);
 		}
 	}
+
+	public static boolean hasNetworkConnection(Context context) {
+		ConnectivityManager conectivityManager = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = conectivityManager == null ? null
+				: conectivityManager.getActiveNetworkInfo();
+		boolean connected = networkInfo != null
+				&& NetworkInfo.State.CONNECTED.equals(networkInfo.getState());
+		return connected;
+	}
+
 }

@@ -1,5 +1,10 @@
 <resources>
 
+    <!-- Exceptions -->
+    <string name="no_connection">In order to use the application, internet connection is needed.</string>
+    <string name="general_error">Problem loading the application, please try again later</string>
+
+
     <string name="first_to_post_comment">תהיה הראשון להגיב ...</string>
 
     <string name="deprecation_error_message_title">Depracation Title</string>

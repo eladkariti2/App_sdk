@@ -57,7 +57,6 @@ public class StaticObjectHalper {
 		model.setMensNumber(mensNum);
 		model.setWomenNumber(WomenNum);
 		model.setImage(image);
-		model.setWhether(whether);
 		model.setAttractionsDescription("בתי קפה, פאבים, סירות מנועת טיולים מאורגנים ועוד");
 
 
