@@ -2,7 +2,7 @@ package com.application.models;
 
 public class BeachModel extends GenericModel {
 
-	private BeachStatus beachStatus;
+	private BeachStatus BeachStatus;
 	private int WomensNumber;
 	private int MensNumber;
 	private double EntryFee;
@@ -34,11 +34,11 @@ public class BeachModel extends GenericModel {
 	}
 
 	public BeachStatus getBeachStatus() {
-		return beachStatus;
+		return BeachStatus;
 	}
 
 	public void setBeachStatus(BeachStatus beachStatus) {
-		this.beachStatus = beachStatus;
+		this.BeachStatus = beachStatus;
 	}
 	
 	

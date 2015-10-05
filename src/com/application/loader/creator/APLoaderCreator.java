@@ -73,4 +73,7 @@ public class APLoaderCreator {
 		return result.toString();
 	}
 
+	public Map<String, String> getBaseParams() {
+		return getBaseParams("","");
+	}
 }

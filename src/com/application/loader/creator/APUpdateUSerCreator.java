@@ -11,7 +11,6 @@ public class APUpdateUSerCreator extends APLoaderCreator {
 	public static final String USER_NAME = "UserName";
 	public static final String USER_BIRTHDAY = "UserBirthday";
 	public static final String USER_PHOTO = "UserPhoto";
-	public static final String AREA = "UserArea";
 	public static final String USER_ID = "UserID";
 	
 	String mLatitue;
@@ -44,7 +43,6 @@ public class APUpdateUSerCreator extends APLoaderCreator {
 	public  Map<String,String>  getBaseParams(){
 		 Map<String,String> params = super.getBaseParams(mLatitue,mLongitue);
 		params.put(USER_ID, "" + mUserID);
-		 params.put(AREA, "" + mArea.toString());
 		 params.put(USER_BIRTHDAY, "" + mUserBirthday);
 		 params.put(USER_NAME, "" + mUserName);
 		 params.put(USER_PHOTO, "" + mUserPhoto);

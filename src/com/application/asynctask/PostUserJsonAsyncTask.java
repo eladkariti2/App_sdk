@@ -42,15 +42,7 @@ public class PostUserJsonAsyncTask extends AsyncTask<String, Void, AccountModel>
 			Log.d(TAG, "Exeption: can't load account and create user, message: " + e.getMessage() );
 			mException = e;
 		}
-		
-		//For now i dont have server so create static models.
-//		if(StringUtil.isEmpty(json)){
-//			List<BeachModel> models = StaticObjectHalper.createStaticBeachList();
-//			account.setmID("1");
-//			account.setList(models);
-//			json = JsonUtil.deserialize(account,mLoadedClass);
-//		}
-		
+
 		account = (AccountModel)JsonUtil.serialize(json,mLoadedClass);
 		
 		return account;
