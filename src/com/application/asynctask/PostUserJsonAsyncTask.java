@@ -1,21 +1,13 @@
 package com.application.asynctask;
 
-import java.util.List;
-
-import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.application.helper.StaticObjectHalper;
 import com.application.listener.AsyncTaskListener;
 import com.application.models.AccountModel;
-import com.application.models.BeachModel;
-import com.application.models.GenericModel;
-import com.application.utils.JsonUtil;
 import com.application.utils.ServerUtil;
-import com.application.utils.StringUtil;
 
-public class PostUserJsonAsyncTask extends AsyncTask<String, Void, AccountModel> {
+public class PostUserJsonAsyncTask extends AsyncTask<String, Void, Void> {
 
 	private static final String TAG = "PostUserJsonAsyncTask";
 	Class<AccountModel> mLoadedClass;
@@ -30,11 +22,10 @@ public class PostUserJsonAsyncTask extends AsyncTask<String, Void, AccountModel>
 	}
 	
 	@Override
-	protected AccountModel doInBackground(String... params) {
+	protected Void doInBackground(String... params) {
+		mListener.onTaskStart();
 		String url = params[0];
 		String json = null;
-		AccountModel account = new AccountModel();
-		
 		try {
 			Log.d(TAG, "url");
 			 json = ServerUtil.doGet(url);
@@ -43,18 +34,16 @@ public class PostUserJsonAsyncTask extends AsyncTask<String, Void, AccountModel>
 			mException = e;
 		}
 
-		account = (AccountModel)JsonUtil.serialize(json,mLoadedClass);
-		
-		return account;
+		return null;
 	}
 	
-	protected void onPostExecute(AccountModel model) 
+	protected void onPostExecute()
 	{	
 		if(mException != null){
 			mListener.handleException(mException);				
 		}
 		else{
-			mListener.onTaskComplete(model);
+			mListener.onTaskComplete(null);
 		}
 	}
 

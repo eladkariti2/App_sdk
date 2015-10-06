@@ -10,8 +10,19 @@
     <application
    >
 
-
-
+        <activity
+            android:name="com.application.activities.FeedPostDetailsActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" >
+        </activity>
+        <activity
+            android:name="com.application.activities.FeedPostActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" >
+        </activity>
         <activity
             android:name="com.application.activities.FacebookAuthenticationActivity"
             android:configChanges="orientation|screenSize"
@@ -31,15 +42,16 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name" />
 
-        <receiver android:name="com.application.bg.ConectivityReciver" >
+        <receiver android:name="com.application.bg.ConectivityReciver"  >
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="com.application.bolayam.START_LOCATION_SERVICE" />
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+                <action android:name="com.application.app.LOCATION_RECIVER" />
             </intent-filter>
         </receiver>
 
         <service android:name="com.application.bg.LocationUpdaterService" >
         </service>
+
 
         <uses-library
             android:name="com.google.android.maps"

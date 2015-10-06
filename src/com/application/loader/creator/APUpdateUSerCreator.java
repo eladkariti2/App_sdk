@@ -15,17 +15,15 @@ public class APUpdateUSerCreator extends APLoaderCreator {
 	
 	String mLatitue;
 	String mLongitue;
-	AreaType mArea;
-	
+
 	String mUserName;
 	String mUserPhoto;
 	String mUserBirthday;
 	String mUserID;
-	public APUpdateUSerCreator(String userId,String name,String photo,String birthday,String latitue,String longitue,AreaType area){
+	public APUpdateUSerCreator(String userId,String name,String photo,String birthday,String latitue,String longitue){
 		mUserBirthday = birthday;
 		mUserName = name;
 		mUserPhoto = photo;
-		mArea = area;
 		mLatitue = latitue;
 		mLongitue = longitue;
 		mUserID = userId;

@@ -10,6 +10,8 @@ import android.net.NetworkInfo;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.application.utils.OSUtil;
+
 public class ConectivityReciver extends BroadcastReceiver {
 
 	private static final String TAG = "ConectivityReciver";
@@ -20,7 +22,7 @@ public class ConectivityReciver extends BroadcastReceiver {
 		 Log.d(TAG, "action: " + intent.getAction());
 		 final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 	     final PendingIntent wakeupIntent = PendingIntent.getService(context, 0,new Intent(context, LocationUpdaterService.class), PendingIntent.FLAG_UPDATE_CURRENT);
-		 boolean isNetworkAvailable = haveNetworkConnection(context);
+		 boolean isNetworkAvailable = OSUtil.hasNetworkConnection(context);
 		 Log.d(TAG, "isNetworkAvailable: " + "" + isNetworkAvailable );
 		 if (isNetworkAvailable) {
 	            // start service now for doing once
@@ -36,20 +38,5 @@ public class ConectivityReciver extends BroadcastReceiver {
 	
 	}
 
-	  private boolean haveNetworkConnection(Context context) {
-		    boolean haveConnectedWifi = false;
-		    boolean haveConnectedMobile = false;
 
-		    ConnectivityManager cm = (ConnectivityManager)   context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		    NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-		    for (NetworkInfo ni : netInfo) {
-		        if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-		            if (ni.isConnected())
-		                haveConnectedWifi = true;
-		        if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-		            if (ni.isConnected())
-		                haveConnectedMobile = true;
-		    }
-		    return haveConnectedWifi || haveConnectedMobile;
-		}
 }

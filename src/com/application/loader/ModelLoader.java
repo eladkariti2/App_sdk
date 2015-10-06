@@ -8,6 +8,7 @@ import com.application.asynctask.PostUserJsonAsyncTask;
 import com.application.facebook.model.FBProfilePic;
 import com.application.facebook.util.FacebookUtil;
 import com.application.listener.AccountLoaderListener;
+import com.application.listener.UpdateLocationListener;
 import com.application.loader.creator.APAccountLoaderCreator;
 import com.application.loader.creator.APUpdateUSerCreator;
 import com.application.models.AccountModel;
@@ -23,12 +24,12 @@ public class ModelLoader {
 		loader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, modelCreator.getURL(""));
 	}
 	
-	public static void updateOrCreateUser(AccountLoaderListener accountLoaderListener) {
+	public static void updateOrCreateUser(UpdateLocationListener updateLocationListener) {
 		FBProfilePic userProfile = FacebookUtil.getUserProfile();
 		Location location = AppData.getUserLocation();
 		APUpdateUSerCreator  modelCreator = new APUpdateUSerCreator(userProfile.getId(),userProfile.getName(),userProfile.getUrl(),
-				userProfile.gebirthday(),location.getLatitude() + "",location.getLongitude() + "", AreaType.Center);
-		PostUserJsonAsyncTask loader = new PostUserJsonAsyncTask(accountLoaderListener, AccountModel.class);
+				userProfile.gebirthday(),location.getLatitude() + "",location.getLongitude() + "");
+		PostUserJsonAsyncTask loader = new PostUserJsonAsyncTask(updateLocationListener, AccountModel.class);
 		loader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, modelCreator.getURL(""));
 	}
 }

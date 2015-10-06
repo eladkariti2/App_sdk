@@ -5,6 +5,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.os.Bundle;
@@ -12,11 +13,14 @@ import android.widget.ImageView;
 
 import com.application.base.BaseActivity;
 import com.application.base.behaviour.BaseBehaviour;
+import com.application.bg.ConectivityReciver;
 import com.application.facebook.loader.APUserProfileRequest;
 import com.application.facebook.model.FBModel;
 import com.application.facebook.util.FacebookUtil;
 import com.application.interfaces.AccountLoadI;
 import com.application.listener.AsyncTaskListener;
+import com.application.listener.UpdateLocationListener;
+import com.application.loader.ModelLoader;
 import com.application.messagebroker.APBrokerNotificationTypes;
 import com.application.messagebroker.APMessageBroker;
 import com.application.models.AccountModel;
@@ -44,16 +48,6 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		timer = new Timer();
-//		timer.schedule(new TimerTask() {
-//
-//			@Override
-//			public void run() {
-//				// TODO Auto-generated method stub
-//				APMessageBroker.getInstance().fireNotificationsByType(APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION,new Location(""));
-//			}
-//		}, 2000);
-		
 	}
 
 	@Override
@@ -61,8 +55,6 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 		// TODO Auto-generated method stub
 		super.onStop();
 	}
-
-	Timer timer;
 
 	@Override
 	public abstract void onAccountLoaded(AccountModel account);
@@ -80,6 +72,8 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 			//and this activity still get called when the event raised.
 			APMessageBroker.getInstance().removeListener(APBrokerNotificationTypes.AP_BROKER_UPDATE_LOCATION, BaseSplashActivity.this);
 			BaseBehaviour.stopLocationListener(mLocationManager, mLocationListenr);
+
+			startUpdateLocationService();
 			boolean isConnected =  FacebookUtil.isTokenValid();
 			if(isConnected){
 				continueFlowUserConnected() ;
@@ -94,6 +88,15 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 		}
 	}
 
+	private void startUpdateLocationService() {
+		Intent i = new Intent();
+		i.setAction("com.application.app.LOCATION_RECIVER");
+		sendBroadcast(i);
+		Location location = AppData.getUserLocation();
+	//	ModelLoader.updateOrCreateUser(new UpdateLocationListener(this,location.getLatitude() + "",location.getLongitude() +""));
+	}
+
+
 	private void connectToFacebook() {
 		// TODO Auto-generated method stub
 		Intent i = new Intent(this,FacebookLoginActivity.class);
@@ -103,7 +106,7 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 	private void continueFlowUserConnected() {
 		// TODO Auto-generated method stub
 		runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
@@ -115,7 +118,7 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 
 	private void loadUserProfile() {
 
-		FacebookUtil.loadUserInfo( new AsyncTaskListener<FBModel>() {
+		FacebookUtil.loadUserInfo(new AsyncTaskListener<FBModel>() {
 
 			@Override
 			public void onTaskStart() {
@@ -146,5 +149,7 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 			continueFlowUserConnected();
 		}
 	}
+
+
 
 }
