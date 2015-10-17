@@ -92,8 +92,6 @@ public abstract class BaseSplashActivity extends BaseActivity implements Account
 		Intent i = new Intent();
 		i.setAction("com.application.app.LOCATION_RECIVER");
 		sendBroadcast(i);
-		Location location = AppData.getUserLocation();
-	//	ModelLoader.updateOrCreateUser(new UpdateLocationListener(this,location.getLatitude() + "",location.getLongitude() +""));
 	}
 
 

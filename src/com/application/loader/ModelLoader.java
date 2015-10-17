@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.application.asynctask.GetAccountAsyncTask;
 import com.application.asynctask.PostUserJsonAsyncTask;
+import com.application.bg.LocationUpdaterService;
 import com.application.facebook.model.FBProfilePic;
 import com.application.facebook.util.FacebookUtil;
 import com.application.listener.AccountLoaderListener;
@@ -27,6 +28,15 @@ public class ModelLoader {
 	public static void updateOrCreateUser(UpdateLocationListener updateLocationListener) {
 		FBProfilePic userProfile = FacebookUtil.getUserProfile();
 		Location location = AppData.getUserLocation();
+		APUpdateUSerCreator  modelCreator = new APUpdateUSerCreator(userProfile.getId(),userProfile.getName(),userProfile.getUrl(),
+				userProfile.gebirthday(),location.getLatitude() + "",location.getLongitude() + "");
+		PostUserJsonAsyncTask loader = new PostUserJsonAsyncTask(updateLocationListener, AccountModel.class);
+		loader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, modelCreator.getURL(""));
+	}
+
+	public static void updateOrCreateUser(LocationUpdaterService.UpdateServiceLocationListener updateLocationListener,Location location,FBProfilePic userProfile) {
+//		FBProfilePic userProfile = FacebookUtil.getUserProfile();
+//		Location location = AppData.getUserLocation();
 		APUpdateUSerCreator  modelCreator = new APUpdateUSerCreator(userProfile.getId(),userProfile.getName(),userProfile.getUrl(),
 				userProfile.gebirthday(),location.getLatitude() + "",location.getLongitude() + "");
 		PostUserJsonAsyncTask loader = new PostUserJsonAsyncTask(updateLocationListener, AccountModel.class);

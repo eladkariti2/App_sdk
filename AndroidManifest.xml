@@ -46,6 +46,7 @@
             <intent-filter>
                 <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
                 <action android:name="com.application.app.LOCATION_RECIVER" />
+                <action android:name="com.application.app.STOP_LOCATION_RECIVER" />
             </intent-filter>
         </receiver>
 

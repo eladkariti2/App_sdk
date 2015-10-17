@@ -7,7 +7,7 @@ import com.application.listener.AsyncTaskListener;
 import com.application.models.AccountModel;
 import com.application.utils.ServerUtil;
 
-public class PostUserJsonAsyncTask extends AsyncTask<String, Void, Void> {
+public class PostUserJsonAsyncTask extends AsyncTask<String, Void, String> {
 
 	private static final String TAG = "PostUserJsonAsyncTask";
 	Class<AccountModel> mLoadedClass;
@@ -22,7 +22,7 @@ public class PostUserJsonAsyncTask extends AsyncTask<String, Void, Void> {
 	}
 	
 	@Override
-	protected Void doInBackground(String... params) {
+	protected String doInBackground(String... params) {
 		mListener.onTaskStart();
 		String url = params[0];
 		String json = null;
@@ -34,10 +34,10 @@ public class PostUserJsonAsyncTask extends AsyncTask<String, Void, Void> {
 			mException = e;
 		}
 
-		return null;
+		return json;
 	}
 	
-	protected void onPostExecute()
+	protected void onPostExecute(String json)
 	{	
 		if(mException != null){
 			mListener.handleException(mException);				

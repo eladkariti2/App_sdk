@@ -8,6 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.application.app.CustomApplication;
 import com.application.base.behaviour.BaseBehaviour;
 import com.application.facebook.util.FacebookUtil;
 import com.application.gps.listener.APLocationListenr;
@@ -40,7 +41,8 @@ public class BaseActivity extends Activity implements BaseActivityFacebookAuthor
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		BaseBehaviour.onStart(this,mLocationManager,mLocationListenr);
+		BaseBehaviour.onStart(this, mLocationManager, mLocationListenr);
+
 	}
 	
 	@Override

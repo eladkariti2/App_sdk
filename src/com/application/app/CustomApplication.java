@@ -5,6 +5,7 @@ import java.util.Locale;
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.util.Log;
 
 import com.application.utils.AppData;
 import com.facebook.FacebookSdk;
@@ -55,14 +56,19 @@ public class CustomApplication  extends Application{
 	}
 
 	public static boolean isActivityVisible() {
+
 		return activityVisible;
 	}
 
 	public static void activityResumed() {
+
+		Log.d("CustomApplction","activityResumed");
 		activityVisible = true;
 	}
 
 	public static void activityPaused() {
+
+		Log.d("CustomApplction","activityPaused");
 		activityVisible = false;
 	}
 

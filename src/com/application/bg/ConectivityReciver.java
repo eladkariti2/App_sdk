@@ -24,18 +24,25 @@ public class ConectivityReciver extends BroadcastReceiver {
 	     final PendingIntent wakeupIntent = PendingIntent.getService(context, 0,new Intent(context, LocationUpdaterService.class), PendingIntent.FLAG_UPDATE_CURRENT);
 		 boolean isNetworkAvailable = OSUtil.hasNetworkConnection(context);
 		 Log.d(TAG, "isNetworkAvailable: " + "" + isNetworkAvailable );
-		 if (isNetworkAvailable) {
+		 if (isNetworkAvailable && checkAction(intent)) {
 	            // start service now for doing once
 	            context.startService(new Intent(context, LocationUpdaterService.class));
 
 	            // schedule service for every 15 minutes
-	            alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-	                    SystemClock.elapsedRealtime() + 10000,
-	                    10000, wakeupIntent);
+	            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+	                    SystemClock.elapsedRealtime() + 500,
+	                    500, wakeupIntent);
 	        } else {
 	            alarmManager.cancel(wakeupIntent);
 	        }
 	
+	}
+
+	private boolean checkAction(Intent intent) {
+		if("com.application.app.LOCATION_RECIVER".equals(intent.getAction())){
+			return true;
+		}
+		return false;
 	}
 
 

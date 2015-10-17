@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.application.activities.FacebookAuthenticationActivity;
+import com.application.app.CustomApplication;
 import com.application.gps.listener.APLocationListenr;
 import com.application.interfaces.BaseActivityFacebookAuthoriziationI;
 import com.application.messagebroker.APBrokerNotificationTypes;
@@ -35,13 +36,13 @@ public class BaseBehaviour {
 	}
 
 	public static void onResume(Activity activity){
-
+		CustomApplication.activityResumed();
 
 	}
 
 
 	public static void onPause(Activity activity){
-
+		CustomApplication.activityPaused();
 	}
 
 	public static void onActivityResult(Activity activity,int requestCode, int resultCode, Intent data) {
@@ -61,7 +62,7 @@ public class BaseBehaviour {
 
 	public static void onStart(Activity activity,LocationManager locationManager,APLocationListenr locationListenr){
 		//locationListenr = new APLocationListenr();
-		startLocationListener(activity,locationManager,locationListenr);
+		startLocationListener(activity, locationManager, locationListenr);
 
 	}
 
